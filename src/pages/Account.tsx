@@ -1,6 +1,7 @@
 import Login from "../components/Login";
 import Register from "../components/Register";
 import { useParams } from "react-router-dom";
+import ForgetPassword from "../components/ForgetPassword";
 
 const Account: React.FC = () => {
 	const { code } = useParams();
@@ -10,7 +11,8 @@ const Account: React.FC = () => {
 			return <Login />;
 		} else if (code === "register") {
 			return <Register />;
-			//TODO add a forget password
+		} else if (code === "forgetpassword") {
+			return <ForgetPassword />;
 		} else {
 			return <Login />;
 		}

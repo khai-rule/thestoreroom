@@ -3,13 +3,10 @@ import { useNavigate } from "react-router-dom";
 const Homepage: React.FC = () => {
     const navigate = useNavigate();
 
-    const handleClick = () => {
-        navigate("/account/login")
-    }
 
     return (
         <>
-            <button onClick={handleClick}>Login</button>
+            <h1>Home</h1>
             <h2>Show this only if logged in</h2>
         </>
     );
