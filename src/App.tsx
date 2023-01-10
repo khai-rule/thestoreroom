@@ -1,14 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Account from "./pages/Account";
+import Homepage from './pages/Home';
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className="App">
-    </div>
-  )
+	return (
+		<div className="App">
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Homepage />} />
+					<Route path="/account/:code" element={<Account />} />
+				</Routes>
+			</BrowserRouter>
+		</div>
+	);
 }
 
-export default App
+export default App;
