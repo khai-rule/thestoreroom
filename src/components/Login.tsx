@@ -35,6 +35,7 @@ const Login: React.FC = () => {
 			password,
 			session_duration_minutes: 60,
 		});
+		navigate("/")
 	};
 
 	return (

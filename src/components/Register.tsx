@@ -7,13 +7,13 @@ const Register: React.FC = () => {
 	const stytchClient = useStytch();
 
 	const initialValues = {
-		firstName: "",
-		lastName: "",
 		email: "",
 		password: "",
+		confirmPassword: "",
 	};
 
 	const [values, setValues] = useState(initialValues);
+	const [msg, setMsg] = useState("messages");
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -43,6 +43,7 @@ const Register: React.FC = () => {
 			password,
 			session_duration_minutes: 60,
 		});
+		navigate("/account/profileinfo")
 	};
 
 	return (
@@ -51,18 +52,6 @@ const Register: React.FC = () => {
 
 			<form onSubmit={handleSubmit}>
 				<label>
-					<input
-						value={values.firstName}
-						onChange={handleInputChange}
-						name="firstName"
-						placeholder="First Name"
-					/>
-					<input
-						value={values.lastName}
-						onChange={handleInputChange}
-						name="lastName"
-						placeholder="Last Name"
-					/>
 					<input
 						value={values.email}
 						onChange={handleInputChange}
@@ -79,7 +68,7 @@ const Register: React.FC = () => {
 
 				<input type="submit" value="submit" />
 			</form>
-
+				{msg}
 			<p>
 				Have an account?
 				<a onClick={() => navigate("/account/login")}>Sign In</a>
