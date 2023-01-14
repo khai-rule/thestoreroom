@@ -1,24 +1,83 @@
-import { useStytch } from '@stytch/react';
-import { StytchUIClient } from '@stytch/vanilla-js';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 
-const Profile: React.FC = () => {
-    const navigate = useNavigate();
-	const stytchClient = useStytch
-    const stytch = new StytchUIClient(
-        "public-token-test-736493f4-1ae4-437e-b06b-d7a20bda9083"
-    );
-
-    const handleLogout = () => {
-        stytch.session.revoke();
-        navigate("/")
-    }
-
-    return (
-        <>
-            <button onClick={handleLogout}>Log Out</button>
-        </>
-    );
+interface User {
+	name: string;
+	email: string;
+	password: string;
+	profilePicture: any;
 }
- 
+interface Props {
+	handleCreateUser: (user: User) => void;
+}
+
+const Profile: React.FC<Props> = ({ handleCreateUser }) => {
+	const [user, setUser] = useState<User>({
+		name: "",
+		email: "",
+		password: "",
+		profilePicture: null,
+	});
+
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = event.target;
+		setUser({ ...user, [name]: value });
+	};
+
+	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setUser({ ...user, profilePicture: event.target.files?.[0] });
+	};
+
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		handleCreateUser(user);
+	};
+
+	return (
+		<>
+			<form onSubmit={handleSubmit}>
+				<label>
+					Name:
+					<input
+						type="text"
+						name="name"
+						value={user.name}
+						onChange={handleInputChange}
+						required
+					/>
+				</label>
+				<label>
+					Email:
+					<input
+						type="email"
+						name="email"
+						value={user.email}
+						onChange={handleInputChange}
+						required
+					/>
+				</label>
+				<label>
+					Password:
+					<input
+						type="password"
+						name="password"
+						value={user.password}
+						onChange={handleInputChange}
+						required
+					/>
+				</label>
+				<label>
+					Profile Picture:
+					<input
+						type="file"
+						name="profilePicture"
+						onChange={handleFileChange}
+						required
+					/>
+				</label>
+				<button type="submit">Create User</button>
+			</form>
+		</>
+	);
+};
+
 export default Profile;

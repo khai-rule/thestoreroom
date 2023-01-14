@@ -3,6 +3,8 @@ import { Stytch } from "@stytch/stytch-react";
 import { SDKProductTypes } from "@stytch/stytch-react";
 import { useState } from "react";
 import { useStytch } from "@stytch/react";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
@@ -35,7 +37,7 @@ const Login: React.FC = () => {
 			password,
 			session_duration_minutes: 60,
 		});
-		navigate("/")
+		navigate("/");
 	};
 
 	return (

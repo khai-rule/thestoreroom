@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useStytch } from "@stytch/react";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Register: React.FC = () => {
 	const navigate = useNavigate();
+
 	const stytchClient = useStytch();
 
 	const initialValues = {
@@ -43,7 +46,7 @@ const Register: React.FC = () => {
 			password,
 			session_duration_minutes: 60,
 		});
-		navigate("/account/profileinfo")
+		navigate("/account/profileinfo");
 	};
 
 	return (
@@ -68,7 +71,7 @@ const Register: React.FC = () => {
 
 				<input type="submit" value="submit" />
 			</form>
-				{msg}
+			{msg}
 			<p>
 				Have an account?
 				<a onClick={() => navigate("/account/login")}>Sign In</a>
