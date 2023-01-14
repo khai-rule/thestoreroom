@@ -3,7 +3,6 @@ import { AuthContext } from "../App";
 import { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useStytch } from "@stytch/react";
 import { StytchUIClient } from "@stytch/vanilla-js";
 
 const Navbar: React.FC = () => {

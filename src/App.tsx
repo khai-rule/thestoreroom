@@ -11,7 +11,7 @@ export const AuthContext = createContext<string>(undefined!);
 
 function App() {
 
-	const [state, setState] = useState("");
+	const [auth, setAuth] = useState("");
 
 	useEffect(() => {
 		const checkAuth = () => {
@@ -23,7 +23,7 @@ function App() {
 			if (sessions) {
 				const user = sessions?.user;
 				console.log("Logged In", user);
-				setState(user);
+				setAuth(user);
 			} else return "Not Logged In";
 		};
 		checkAuth()
@@ -31,7 +31,7 @@ function App() {
 
 	return (
 		<>
-			<AuthContext.Provider value={state}>
+			<AuthContext.Provider value={auth}>
 				<BrowserRouter>
 					<Navbar />
 

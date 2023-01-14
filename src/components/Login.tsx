@@ -18,6 +18,7 @@ const Login: React.FC = () => {
 	};
 
 	const [values, setValues] = useState(initialValues);
+	const [msg, setMsg] = useState("");
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -32,12 +33,22 @@ const Login: React.FC = () => {
 
 	const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		stytchClient.passwords.authenticate({
+
+		const response = stytchClient.passwords.authenticate({
 			email,
 			password,
 			session_duration_minutes: 60,
 		});
-		navigate("/");
+		response
+			.then((value) => {
+				console.log(value.user);
+				navigate("/");
+			})
+			.catch((error) => {
+				const errorString = JSON.stringify(error.message);
+				const errorArray = errorString.split("\\n");
+				setMsg(errorArray[1]);
+			});
 	};
 
 	return (
@@ -63,9 +74,15 @@ const Login: React.FC = () => {
 				<input type="submit" value="Login" />
 			</form>
 
-			<a onClick={() => navigate("/account/forgetpassword")}>
-				Forgot your password?
-			</a>
+			<p>{msg}</p>
+
+			{msg === "Unauthorized credentials." ? (
+				<a onClick={() => navigate("/account/forgetpassword")}>
+					Forgot your password?
+				</a>
+			) : (
+				<></>
+			)}
 			<p>
 				Don't have an account yet?
 				<a onClick={() => navigate("/account/register")}>Create Account</a>

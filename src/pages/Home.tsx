@@ -11,11 +11,13 @@ const Homepage: React.FC = () => {
 
     useEffect(() => {
         if (user === null) {
-          console.log("logged out")
+          console.log("home logged out")
         } else {
-            console.log("logged in")
+            console.log("home logged in")
         }
       }, [user]);
+
+	  console.log("alabama", user === null)
 
 	const secret = useCallback(() => {
 		if (user !== null) {
