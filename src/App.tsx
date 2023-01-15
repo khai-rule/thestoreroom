@@ -5,7 +5,7 @@ import Homepage from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { useState } from "react";
 import { createContext } from "react";
-import { useEffect } from "react";
+import Register from "./pages/Register";
 
 interface LoginDataContext {
     loginData: object;
@@ -27,7 +27,9 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Homepage />} />
 						<Route path="/account/:code/*" element={<Account handleUpdateLoginData={setLoginData} />} />
+						<Route path="/register/:code" element={<Register />} />
 					</Routes>
+
 				</BrowserRouter>
 			</LoginDataContext.Provider>
 		</>

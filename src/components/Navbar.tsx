@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
 
 	useEffect(() => {
 		if (!session) {
-			navigate("/");
+			// navigate("/");
 		}
 	  }, [session]);
 

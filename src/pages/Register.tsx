@@ -5,13 +5,18 @@ import { useParams } from "react-router-dom";
 
 const Register: React.FC = () => {
 	const navigate = useNavigate();
-	const params = useParams();
-	console.log(params)
+	const { code } = useParams();
+
+	let emailParams = code + ".com";
+
+	if (code === "*") {
+		emailParams = "";
+	}
 
 	const stytchClient = useStytch();
 
 	const initialValues = {
-		email: "",
+		email: emailParams,
 		password: "",
 		confirmPassword: "",
 	};
@@ -74,6 +79,19 @@ const Register: React.FC = () => {
 		<>
 			<h1>Create Account</h1>
 
+			<p>
+				Welcome to The Storeroom! We're dedicated to showcasing the best creative
+				talent out there, and to do that, we carefully curate our community. If
+				you're a visual artist or photographer looking to share your work with a
+				discerning audience, we'd love to have you on board. To join, you have
+				several options: Submit your portfolio through our application form. One
+				of our team members will review your work and get back to you within a
+				week. If your application is approved, you'll be able to create your
+				account and start uploading your work right away. Join by referral from
+				one of our existing members. If you know an existing member on our
+				platform, ask them to refer you and we'll fast track your application.
+			</p>
+
 			<form onSubmit={handleSubmit}>
 				<label>
 					<input
@@ -104,6 +122,7 @@ const Register: React.FC = () => {
 				Have an account?
 				<a onClick={() => navigate("/account/login")}>Sign In</a>
 			</p>
+
 		</>
 	);
 };

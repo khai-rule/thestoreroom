@@ -95,7 +95,7 @@ const Login: React.FC<LoginProps> = ({ handleUpdateLoginData }) => {
 			)}
 			<p>
 				Don't have an account yet?
-				<a onClick={() => navigate("/account/register")}>Create Account</a>
+				<a onClick={() => navigate("/register/*")}>Create Account</a>
 			</p>
 		</>
 	);
