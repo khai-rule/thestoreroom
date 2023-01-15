@@ -7,40 +7,29 @@ import { useState } from "react";
 import { createContext } from "react";
 import { useEffect } from "react";
 
-export const AuthContext = createContext<string>(undefined!);
+interface LoginDataContext {
+    loginData: object;
+    setLoginData: (updatedLoginData: object) => void;
+}
+
+export const LoginDataContext = createContext<LoginDataContext | any>(undefined);
 
 function App() {
+	const [loginData, setLoginData] = useState<object>({});
 
-	const [auth, setAuth] = useState("");
-
-	useEffect(() => {
-		const checkAuth = () => {
-			const sessions = JSON.parse(
-				localStorage.getItem(
-					"stytch_sdk_state_public-token-test-736493f4-1ae4-437e-b06b-d7a20bda9083"
-				) || "false"
-			);
-			if (sessions) {
-				const user = sessions?.user;
-				console.log("Logged In", user);
-				setAuth(user);
-			} else return "Not Logged In";
-		};
-		checkAuth()
-      }, []);
 
 	return (
 		<>
-			<AuthContext.Provider value={auth}>
+			<LoginDataContext.Provider value={{ loginData, setLoginData }}>
 				<BrowserRouter>
 					<Navbar />
 
 					<Routes>
 						<Route path="/" element={<Homepage />} />
-						<Route path="/account/:code/*" element={<Account />} />
+						<Route path="/account/:code/*" element={<Account handleUpdateLoginData={setLoginData} />} />
 					</Routes>
 				</BrowserRouter>
-			</AuthContext.Provider>
+			</LoginDataContext.Provider>
 		</>
 	);
 }

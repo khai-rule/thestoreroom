@@ -1,30 +1,34 @@
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+// import { AuthContext } from "../App";
 import { useContext } from "react";
 import React, { useCallback } from "react";
 import { useStytch } from "@stytch/react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useStytchSession } from "@stytch/react";
+import { useStytchUser } from '@stytch/react';
 
 const ProfileInfo: React.FC = () => {
 	const navigate = useNavigate();
 	const stytchClient = useStytch();
-	const user = useContext(AuthContext);
 
-    useEffect(() => {
-        if (user === null) {
-          navigate("/");
-        }
-      }, [user]);
+	const { session } = useStytchSession();
+	const { user } = useStytchUser();
+
+	useEffect(() => {
+		if (!session) {
+			navigate("/")
+		}
+	}, [session]);
 
 	const initialValues = {
-		firstName: "",
-		lastName: "",
-		artistName: "",
+		firstName: user?.name.first_name,
+		lastName: user?.name.last_name,
+		artistName: user?.name.middle_name,
 	};
 
 	const [values, setValues] = useState(initialValues);
-	const [msg, setMsg] = useState("messages");
+	const [msg, setMsg] = useState("");
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -37,23 +41,26 @@ const ProfileInfo: React.FC = () => {
 	const firstName = values.firstName;
 	const lastName = values.lastName;
 	const artistName = values.artistName;
-    console.log("asd", firstName)
 
-    const name = "hello"
+	const name = "hello";
 
-    const handleSubmit = useCallback((e: React.SyntheticEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        stytchClient.user.update({
-          name: {
-            first_name: firstName,
-            last_name: lastName,
-            middle_name: artistName
-          },
-          untrusted_metadata: {
-            display_theme: 'DARK_MODE',
-          }
-        });
-      }, [stytchClient, values]);
+	const handleSubmit = useCallback(
+		(e: React.SyntheticEvent<HTMLFormElement>) => {
+			e.preventDefault();
+			const response = stytchClient.user.update({
+				name: {
+					first_name: firstName,
+					last_name: lastName,
+					middle_name: artistName,
+				},
+				untrusted_metadata: {
+					display_theme: "DARK_MODE",
+				},
+			});
+			setMsg("Profile updated successfully")
+		},
+		[stytchClient, values]
+	);
 
 	return (
 		<>
@@ -83,7 +90,6 @@ const ProfileInfo: React.FC = () => {
 				<input type="submit" value="submit" />
 			</form>
 			{msg}
-
 		</>
 	);
 };

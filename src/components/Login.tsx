@@ -1,14 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { Stytch } from "@stytch/stytch-react";
 import { SDKProductTypes } from "@stytch/stytch-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useStytch } from "@stytch/react";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { LoginDataContext } from "../App";
 
-const Login: React.FC = () => {
+interface LoginProps {
+    handleUpdateLoginData: (updatedLoginData: object) => void;
+}
+ 
+const Login: React.FC<LoginProps> = ({ handleUpdateLoginData }) => {
 	const navigate = useNavigate();
 	const stytchClient = useStytch();
+
+	const { setLoginData } = useContext(LoginDataContext);
 
 	const initialValues = {
 		firstName: "",
@@ -16,6 +23,7 @@ const Login: React.FC = () => {
 		email: "",
 		password: "",
 	};
+	
 
 	const [values, setValues] = useState(initialValues);
 	const [msg, setMsg] = useState("");
@@ -41,8 +49,10 @@ const Login: React.FC = () => {
 		});
 		response
 			.then((value) => {
-				console.log(value.user);
+				setLoginData(value.user)
+				handleUpdateLoginData(value.user)
 				navigate("/");
+				console.log("value", value.user)
 			})
 			.catch((error) => {
 				const errorString = JSON.stringify(error.message);

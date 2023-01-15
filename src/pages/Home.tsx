@@ -1,29 +1,36 @@
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+import { LoginDataContext } from "../App";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
 
+import { useStytchSession } from "@stytch/react";
+
 const Homepage: React.FC = () => {
-	const navigate = useNavigate();
 
-	const user = useContext(AuthContext);
 
-    useEffect(() => {
-        if (user === null) {
-          console.log("home logged out")
-        } else {
-            console.log("home logged in")
-        }
-      }, [user]);
 
-	  console.log("alabama", user === null)
+	const { session } = useStytchSession();
+
+  useEffect(() => {
+    if (!session) {
+		console.log("in", session)
+    }
+  }, [session]);
+
+
+
+
+
+
+
+
 
 	const secret = useCallback(() => {
-		if (user !== null) {
+		if (session) {
 			return <h2>Show this only if logged in</h2>;
 		}
-	}, [user]);
+	}, [session]);
 
 	return (
 		<>

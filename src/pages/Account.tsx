@@ -3,28 +3,31 @@ import Register from "../components/Register";
 import { useParams } from "react-router-dom";
 import ForgetPassword from "../components/ForgetPassword";
 import ResetPassword from "../components/ResetPassword";
-import ProfileInfo from "../components/ProfileInfo";
+import Profile from "../components/Profile";
+import { LoginDataContext } from "../App";
+import { useContext } from "react";
+interface LoginProps {
+	handleUpdateLoginData: (updatedLoginData: object) => void;
+}
 
-const Account: React.FC = () => {
+const Account: React.FC<LoginProps> = ({ handleUpdateLoginData }) => {
 	const { code } = useParams();
 
 	const display = () => {
 		if (code === "login") {
-			return <Login />;
+			return <Login handleUpdateLoginData={handleUpdateLoginData} />;
 		} else if (code === "register") {
 			return <Register />;
 		} else if (code === "forgetpassword") {
 			return <ForgetPassword />;
 		} else if (code === "resetpassword") {
 			return <ResetPassword />;
-		} else if (code === "profileinfo") {
-			return <ProfileInfo />;
+		} else if (code === "profile") {
+			return <Profile />;
 		} else {
-			return <Login />;
+			return <Login handleUpdateLoginData={handleUpdateLoginData} />;
 		}
 	};
-
-	console.log(code);
 
 	return <>{display()}</>;
 };

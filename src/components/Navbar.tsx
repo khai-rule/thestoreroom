@@ -1,12 +1,14 @@
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../App";
+// import { AuthContext } from "../App";
 import { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StytchUIClient } from "@stytch/vanilla-js";
+import { useStytchSession } from "@stytch/react";
+import { useEffect } from "react";
 
 const Navbar: React.FC = () => {
-	const user = useContext(AuthContext);
+	// const user = useContext(AuthContext);
 	const [nav, setNav] = useState(false);
 
 	const navigate = useNavigate();
@@ -23,16 +25,25 @@ const Navbar: React.FC = () => {
 		navigate("/");
 	};
 
+	const { session } = useStytchSession();
+
+	useEffect(() => {
+		if (!session) {
+			navigate("/");
+		}
+	  }, [session]);
+
+
 	const navbar = () => {
 		return (
 			<nav>
 				<NavLink to="/">Home</NavLink>
-				{user === null ? (
+				{!session ? (
 					<></>
 				) : (
 					<NavLink to="/account/profile">Profile</NavLink>
 				)}
-				{user === null ? (
+				{!session ? (
 					<NavLink to="/account/login">Login</NavLink>
 				) : (
 					<a onClick={handleLogout}>Log Out</a>
