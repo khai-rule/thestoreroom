@@ -8,7 +8,6 @@ const Homepage: React.FC = () => {
 
 	useEffect(() => {
 		if (!session) {
-			console.log("in", session);
 		}
 	}, [session]);
 
@@ -17,6 +16,7 @@ const Homepage: React.FC = () => {
 			return <h2>Show this only if logged in</h2>;
 		}
 	}, [session]);
+
 
 	return (
 		<>

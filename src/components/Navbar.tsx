@@ -31,30 +31,47 @@ const Navbar: React.FC = () => {
 		if (!session) {
 			// navigate("/");
 		}
-	  }, [session]);
-
+	}, [session]);
 
 	const navbar = () => {
 		return (
-			<nav>
-				<NavLink to="/">Home</NavLink>
-				{!session ? (
-					<></>
-				) : (
-					<NavLink to="/account/profile">Profile</NavLink>
-				)}
-				{!session ? (
-					<NavLink to="/account/login">Login</NavLink>
-				) : (
-					<a onClick={handleLogout}>Log Out</a>
-				)}
-			</nav>
+			<div className="fixed inset-0 z-1 bg-main bg-opacity-75 flex justify-center items-center z-40">
+				<div onClick={handleClick}>
+					<NavLink to="/">
+						<h2 className="hover:underline">Home</h2>
+					</NavLink>
+					{!session ? (
+						<></>
+					) : (
+						<NavLink to="/account/profile">
+							<h2 className="hover:underline">Profile</h2>
+						</NavLink>
+					)}
+					{!session ? (
+						<NavLink to="/account/login">
+							<h2 className="hover:underline">Login</h2>
+						</NavLink>
+					) : (
+						<a onClick={handleLogout}>
+							<h2 className="hover:underline">Logout</h2>
+						</a>
+					)}
+				</div>
+			</div>
 		);
 	};
 
 	return (
 		<>
-			<a onClick={handleClick}>{nav ? "Close" : "Menu"}</a>
+			<nav className="sticky top-4 flex justify-between mx-4">
+				<h3 className="hover:cursor-pointer" onClick={() => navigate("/")}>Logo</h3>
+				<a
+					className="relative hover:cursor-pointer hover:underline z-50"
+					onClick={handleClick}
+				>
+					{nav ? "Close" : "Menu"}
+				</a>
+			</nav>
 			{nav ? navbar() : <></>}
 		</>
 	);

@@ -1,4 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Karla&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    color: #33403c;
+    font-family: "Karla", "sans-serif";
+  }
+}
+
+h1 {
+  font-family: "EB Garamond";
+  font-size: 56px;
+}
+
+h2 {
+  font-family: "EB Garamond";
+  font-size: 40px;
+}
+
+h3 {
+  font-family: "EB Garamond";
+  font-size: 24px;
+}
+
+h4 {
+  font-family: "Karla";
+  font-size: 16px;
+}
+
+p {
+  font-family: "Karla";
+  font-size: 14px;
+}
+
+@media only screen and (max-width: 767px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  h4 {
+    font-family: "Karla";
+    font-size: 14px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
