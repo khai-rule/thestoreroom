@@ -18,9 +18,6 @@ export const LoginDataContext = createContext<LoginDataContext | any>(
 	undefined
 );
 
-// interface ICreator{
-
-// }
 
 function App() {
 	const [loginData, setLoginData] = useState<object>({});
