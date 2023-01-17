@@ -1,10 +1,9 @@
 import { createClient } from "contentful";
 
 const useContentful = () => {
-	//TODO store token in env
 	const client = createClient({
-		space: "94snklam6irp",
-		accessToken: "dTG2qI-VcavHdE0tOqs6MsVvQR1EV_-WR5huPpawUKA",
+		space: process.env.CONTENTFUL_SPACE_ID as string,
+		accessToken: process.env.CONTENTFUL_ACCESS_TOKEN as string,
 		host: "preview.contentful.com",
 	});
 

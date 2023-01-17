@@ -3,3 +3,7 @@ export interface Creator {
 		email: string;
 	};
 }
+
+export interface ModalProps {
+	closeModal: () => void;
+}

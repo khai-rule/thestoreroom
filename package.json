@@ -14,8 +14,10 @@
     "@stytch/vanilla-js": "^0.5.4",
     "@types/lodash": "^4.14.191",
     "contentful": "^9.2.15",
+    "dotenv": "^16.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-router-dom": "^6.6.2"
   },
   "devDependencies": {

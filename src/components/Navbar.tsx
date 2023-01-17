@@ -6,17 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { StytchUIClient } from "@stytch/vanilla-js";
 import { useStytchSession } from "@stytch/react";
 import { useEffect } from "react";
+import CreatePost from "./CreatePost";
 
 const Navbar: React.FC = () => {
-	// const user = useContext(AuthContext);
 	const [nav, setNav] = useState(false);
+	const [create, setCreate] = useState(false)
 
 	const navigate = useNavigate();
 	const stytch = new StytchUIClient(
 		"public-token-test-736493f4-1ae4-437e-b06b-d7a20bda9083"
 	);
 
-	const handleClick = () => {
+	const toggleNav = () => {
 		nav ? setNav(false) : setNav(true);
 	};
 
@@ -33,14 +34,14 @@ const Navbar: React.FC = () => {
 		}
 	}, [session]);
 
-	const uploadModal = () => {
-		
-	}
+	const createPostModal = () => {
+		create ? setCreate(false) : setCreate(true)
+	};
 
 	const navbar = () => {
 		return (
-			<div className="fixed inset-0 z-1 bg-main bg-opacity-75 flex justify-center items-center z-40 text-center">
-				<div onClick={handleClick}>
+			<div className="fixed inset-0 z-1 bg-primary flex justify-center items-center z-40 text-center">
+				<div onClick={toggleNav}>
 					<NavLink to="/">
 						<h2 className="hover:underline">Home</h2>
 					</NavLink>
@@ -51,7 +52,9 @@ const Navbar: React.FC = () => {
 							<h2 className="hover:underline">Profile</h2>
 						</NavLink>
 					)}
-					<h2 onClick={uploadModal}>Create</h2>
+					<h2 className="hover:underline" onClick={createPostModal}>
+						Create
+					</h2>
 					{!session ? (
 						<NavLink to="/account/login">
 							<h2 className="hover:underline">Login</h2>
@@ -68,11 +71,14 @@ const Navbar: React.FC = () => {
 
 	return (
 		<>
+			{create ? <CreatePost closeModal={() => setCreate(false)} /> : <></>}
 			<nav className="sticky top-4 flex justify-between mx-4">
-				<h3 className="hover:cursor-pointer" onClick={() => navigate("/")}>Logo</h3>
+				<h3 className="hover:cursor-pointer" onClick={() => navigate("/")}>
+					Logo
+				</h3>
 				<a
 					className="relative hover:cursor-pointer hover:underline z-50"
-					onClick={handleClick}
+					onClick={toggleNav}
 				>
 					{nav ? "Close" : "Menu"}
 				</a>
