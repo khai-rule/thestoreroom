@@ -9,18 +9,9 @@ import Register from "./pages/Register";
 import useContentful from "./useContentful";
 import { useEffect } from "react";
 
-interface LoginDataContext {
-	loginData: object;
-	setLoginData: (updatedLoginData: object) => void;
-}
-
-export const LoginDataContext = createContext<LoginDataContext | any>(
-	undefined
-);
-
+export const LoginDataContext = createContext<any>(undefined);
 
 function App() {
-	const [loginData, setLoginData] = useState<object>({});
 	const [creators, setCreators] = useState([] as any);
 
 	const { getCreators } = useContentful();
@@ -33,16 +24,13 @@ function App() {
 
 	return (
 		<>
-			<LoginDataContext.Provider value={{ loginData, setLoginData, creators }}>
+			<LoginDataContext.Provider value={{ creators }}>
 				<BrowserRouter>
 					<Navbar />
 
 					<Routes>
 						<Route path="/" element={<Homepage />} />
-						<Route
-							path="/account/:code/*"
-							element={<Account handleUpdateLoginData={setLoginData} />}
-						/>
+						<Route path="/account/:code/*" element={<Account />} />
 						<Route path="/register/:code" element={<Register />} />
 					</Routes>
 				</BrowserRouter>

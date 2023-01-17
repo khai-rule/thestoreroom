@@ -4,7 +4,7 @@ import { useStytch } from "@stytch/react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useStytchSession } from "@stytch/react";
-import { useStytchUser } from '@stytch/react';
+import { useStytchUser } from "@stytch/react";
 
 const ProfileInfo: React.FC = () => {
 	const navigate = useNavigate();
@@ -15,7 +15,7 @@ const ProfileInfo: React.FC = () => {
 
 	useEffect(() => {
 		if (!session) {
-			navigate("/")
+			navigate("/");
 		}
 	}, [session]);
 
@@ -55,7 +55,7 @@ const ProfileInfo: React.FC = () => {
 					display_theme: "DARK_MODE",
 				},
 			});
-			setMsg("Profile updated successfully")
+			setMsg("Profile updated successfully");
 		},
 		[stytchClient, values]
 	);

@@ -11,8 +11,6 @@ const ResetPassword: React.FC = () => {
 			<input placeholder="New Password" />
 
 			<button>Submit</button>
-
-
 		</>
 	);
 };

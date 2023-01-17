@@ -33,9 +33,13 @@ const Navbar: React.FC = () => {
 		}
 	}, [session]);
 
+	const uploadModal = () => {
+		
+	}
+
 	const navbar = () => {
 		return (
-			<div className="fixed inset-0 z-1 bg-main bg-opacity-75 flex justify-center items-center z-40">
+			<div className="fixed inset-0 z-1 bg-main bg-opacity-75 flex justify-center items-center z-40 text-center">
 				<div onClick={handleClick}>
 					<NavLink to="/">
 						<h2 className="hover:underline">Home</h2>
@@ -47,6 +51,7 @@ const Navbar: React.FC = () => {
 							<h2 className="hover:underline">Profile</h2>
 						</NavLink>
 					)}
+					<h2 onClick={uploadModal}>Create</h2>
 					{!session ? (
 						<NavLink to="/account/login">
 							<h2 className="hover:underline">Login</h2>

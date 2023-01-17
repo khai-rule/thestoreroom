@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 const ResetPassword: React.FC = () => {
 	const navigate = useNavigate();
 	return (
@@ -10,9 +11,7 @@ const ResetPassword: React.FC = () => {
 
 			<button>Submit</button>
 
-			<a onClick={() => navigate("/account/login")}>
-				Cancel
-			</a>
+			<a onClick={() => navigate("/account/login")}>Cancel</a>
 			<p>
 				Don't have an account yet?
 				<a onClick={() => navigate("/account/register")}>Create Account</a>

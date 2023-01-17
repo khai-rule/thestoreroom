@@ -5,11 +5,7 @@ import _ from "lodash";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStytchSession } from "@stytch/react";
-interface Creator {
-	creator: {
-		email: string;
-	};
-}
+import { Creator } from "../interface";
 
 const Profile: React.FC = () => {
 	const navigate = useNavigate();
@@ -54,7 +50,7 @@ const Profile: React.FC = () => {
 			} else {
 				return (
 					<>
-						<img className="w-2/6 mx-4" src={url} alt={title} key={title} />
+						<img className="w-3/6 mx-4" src={url} alt={title} key={title} />
 					</>
 				);
 			}
