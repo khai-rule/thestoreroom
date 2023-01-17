@@ -8,23 +8,34 @@ import { createContext } from "react";
 import Register from "./pages/Register";
 import useContentful from "./useContentful";
 import { useEffect } from "react";
+import { useStytchUser } from "@stytch/react";
+import Loading from "./components/Loading";
 
-export const LoginDataContext = createContext<any>(undefined);
+export const CreatorsContext = createContext<any>(undefined);
 
 function App() {
+	const { user } = useStytchUser();
+
 	const [creators, setCreators] = useState([] as any);
+	const [loggedInCreator, setLoggedInCreator] = useState({} as any);
+	const [status, setStatus] = useState("idle");
 
 	const { getCreators } = useContentful();
 
 	useEffect(() => {
 		getCreators().then((response) => {
 			setCreators(response);
+			setLoggedInCreator(user);
+			setStatus("done");
 		});
+		setStatus("loading");
 	}, []);
+
+	if (status === "loading") return <Loading />;
 
 	return (
 		<>
-			<LoginDataContext.Provider value={{ creators }}>
+			<CreatorsContext.Provider value={{ creators, loggedInCreator }}>
 				<BrowserRouter>
 					<Navbar />
 
@@ -34,7 +45,7 @@ function App() {
 						<Route path="/register/:code" element={<Register />} />
 					</Routes>
 				</BrowserRouter>
-			</LoginDataContext.Provider>
+			</CreatorsContext.Provider>
 		</>
 	);
 }

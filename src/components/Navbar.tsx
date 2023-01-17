@@ -10,7 +10,7 @@ import CreatePost from "./CreatePost";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
-	const [create, setCreate] = useState(false)
+	const [create, setCreate] = useState(false);
 
 	const navigate = useNavigate();
 	const stytch = new StytchUIClient(
@@ -35,12 +35,12 @@ const Navbar: React.FC = () => {
 	}, [session]);
 
 	const createPostModal = () => {
-		create ? setCreate(false) : setCreate(true)
+		create ? setCreate(false) : setCreate(true);
 	};
 
 	const navbar = () => {
 		return (
-			<div className="fixed inset-0 z-1 bg-primary flex justify-center items-center z-40 text-center">
+			<div className="fixed inset-0 z-1 bg-primary flex justify-center items-center z-40 text-center text-white">
 				<div onClick={toggleNav}>
 					<NavLink to="/">
 						<h2 className="hover:underline">Home</h2>
@@ -52,18 +52,23 @@ const Navbar: React.FC = () => {
 							<h2 className="hover:underline">Profile</h2>
 						</NavLink>
 					)}
-					<h2 className="hover:underline" onClick={createPostModal}>
-						Create
-					</h2>
+					{!session ? (
+						<></>
+					) : (
+						<h2 className="hover:underline cursor-pointer" onClick={createPostModal}>
+							Create
+						</h2>
+					)}
 					{!session ? (
 						<NavLink to="/account/login">
-							<h2 className="hover:underline">Login</h2>
+							<h2 className="hover:underline cursor-pointer">Login</h2>
 						</NavLink>
 					) : (
 						<a onClick={handleLogout}>
-							<h2 className="hover:underline">Logout</h2>
+							<h2 className="hover:underline cursor-pointer">Logout</h2>
 						</a>
 					)}
+					<h2 className="hover:underline cursor-pointer">About</h2>
 				</div>
 			</div>
 		);

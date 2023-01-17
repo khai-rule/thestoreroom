@@ -1,5 +1,4 @@
-import { useStytchUser } from "@stytch/react";
-import { LoginDataContext } from "../App";
+import { CreatorsContext } from "../App";
 import { useContext } from "react";
 import _ from "lodash";
 import { useEffect } from "react";
@@ -10,8 +9,7 @@ import { Creator } from "../interface";
 const Profile: React.FC = () => {
 	const navigate = useNavigate();
 	const { session } = useStytchSession();
-	const { user } = useStytchUser();
-	const { creators } = useContext(LoginDataContext);
+	const { creators, loggedInCreator } = useContext(CreatorsContext);
 
 	useEffect(() => {
 		if (!session) {
@@ -19,10 +17,10 @@ const Profile: React.FC = () => {
 		}
 	}, [session]);
 
-	const userEmail = _.lowerCase(user?.emails[0].email);
+	const userEmail = _.lowerCase(loggedInCreator?.emails?.[0]?.email);
 
 	const creator = creators.find(
-		(creator: Creator) => _.lowerCase(creator.creator.email) === userEmail
+		(creator: Creator) => _.lowerCase(creator?.creator?.email) === userEmail
 	);
 
 	const name = `${creator?.creator.firstName} "${creator?.creator.artistName}" ${creator?.creator.lastName}`;
