@@ -39,25 +39,18 @@ const Profile: React.FC = () => {
 		const caption = post.fields.caption;
 		const images = post.fields.images.map((image: any, index: number) => {
 			const url = image?.fields.file.url;
-			if (index % 2 !== 0) {
+	
 				return (
 					<>
-						<img className="w-3/6 mx-4" src={url} alt={title} key={title} />
+						<img className={index % 2 !== 0 ? "w-3/6 mx-4" : "w-5/6 mx-4"} src={url} alt={title} key={title} />
 					</>
-				);
-			} else {
-				return (
-					<>
-						<img className="w-3/6 mx-4" src={url} alt={title} key={title} />
-					</>
-				);
-			}
+				)
 		});
 		return (
-			<div>
+			<div className="mt-40">
 				<h3>{title}</h3>
 				<p>{caption}</p>
-				<div className="flex overflow-x-scroll">{images}</div>
+				<div className="grid grid-cols-2 place-items-center">{images}</div>
 			</div>
 		);
 	});

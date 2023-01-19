@@ -26,7 +26,26 @@ const useContentful = () => {
 		}
 	};
 
-	return { getCreators };
+	const getPosts = async () => {
+		try {
+			const entries = await client.getEntries({
+				content_type: "posts",
+				select: "fields",
+			});
+
+			const sanitisedEntries = entries.items.map((item) => {
+				const post = item.fields
+
+				return { post };
+			});
+
+			return sanitisedEntries;
+		} catch (error) {
+			console.log("Error catching creators: " + error);
+		}
+	};
+
+	return { getCreators, getPosts };
 };
 
 export default useContentful;

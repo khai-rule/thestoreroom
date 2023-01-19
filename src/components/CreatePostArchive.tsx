@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { IFormInputs } from "../interface";
 import { ImageFilesProps } from "../interface";
 import { createClient } from "contentful-management";
-import _ from "lodash";
 
 const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 	const client = createClient({
@@ -68,58 +67,43 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 
 		console.log(imageFiles);
 
-		client
-			.getSpace("94snklam6irp")
-			.then((space) => space.getEnvironment("master"))
-			.then((environment) =>
-				environment.createEntry("posts", {
-					fields: {
-						title: {
-							"en-US": title,
-						},
-						caption: {
-							"en-US": caption,
-						},
-						tags: {
-							"en-US": tags,
-						},
-					},
-				})
-			)
-			.then((entry) => console.log(entry))
-			.catch(console.error);
+		requestResource();
+		console.log("hi", requestResource());
 
-		// client
-		// 	.getSpace("94snklam6irp")
-		// 	.then((space) => space.getEnvironment("master"))
-		// 	.then((environment) =>
-		// 		environment.createEntryWithId("posts", "5KsDBWseXY6QegucYAoacS", {
-		// 			fields: {
-		// 				title: {
-		// 					"en-US": "title",
-		// 				},
-		// caption: {
-		// 	"en-US": "caption",
-		// },
-		// 			},
-		// 		})
-		// 	)
-		// 	.then((entry) => console.log(entry))
-		// 	.catch(console.error);
-	};
+		const uploadToContentful = () => {
+			client
+				.getSpace("94snklam6irp")
+				.then((space) => space.getEnvironment("master"))
+				.then((environment) =>
+					environment.createEntryWithId("posts", "5KsDBWseXY6QegucYAoacS", {
+						fields: {
+							title: {
+								"en-US": title,
+							},
+							caption: {
+								"en-US": caption,
+							},
+							file: {
+								"en-US": {
+									contentType: imageFiles[0].type,
+									fileName: imageFiles[0].name,
+									uploadFrom: {
+										sys: {
+											type: "Link",
+											linkType: "Upload",
+											id: "sysID",
+										},
+									},
+								},
+							},
+						},
+					})
+				)
+				.then((entry) => console.log(entry))
+				.catch(console.error);
 
-	const tags = ["outdoor", "indoor", "still life"];
-
-	const displayTags = () => {
-		const getTags = tags.map((tag: string) => {
-			return (
-				<div className="flex">
-					<input value={tag} type="checkbox" {...register("tags")} />
-					<p>{_.startCase(_.camelCase(tag))}</p>
-				</div>
-			);
-		});
-		return getTags;
+		};
+		uploadToContentful();
 	};
 
 	return (
@@ -133,7 +117,14 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 			<p>{errors.caption?.message}</p>
 
 			<label htmlFor="tags">Tags</label>
-			<div className="flex">{displayTags()}</div>
+			<div>
+				<input value="outdoor" type="checkbox" {...register("tags")} />
+				Outdoor
+				<input value="indoor" type="checkbox" {...register("tags")} />
+				Indoor
+				<input value="still life" type="checkbox" {...register("tags")} />
+				Still Life
+			</div>
 			<p>{errors.tags?.message}</p>
 
 			<input type="submit" />

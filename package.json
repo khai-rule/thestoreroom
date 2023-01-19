@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "contentful-typescript-codegen": "contentful-typescript-codegen --output @types/generated/contentful.d.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
@@ -15,6 +16,8 @@
     "@stytch/vanilla-js": "^0.5.4",
     "@types/lodash": "^4.14.191",
     "contentful": "^9.2.15",
+    "contentful-management": "^10.26.0",
+    "contentful-typescript-codegen": "^3.4.0",
     "dotenv": "^16.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

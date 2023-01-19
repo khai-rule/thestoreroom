@@ -1,16 +1,13 @@
 import React, { useState } from "react";
+import { ImagePreviewsProps } from "../interface";
 
-interface Props {
-	imagePreviews: string[];
-}
-
-const Carousel: React.FC<Props> = ({ imagePreviews }) => {
+const Carousel: React.FC<ImagePreviewsProps> = ({ imagePreviews }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	return (
 		<div>
 			<img src={imagePreviews[currentIndex]} alt="" />
-			{imagePreviews.length !== 0 ? (
+			{imagePreviews.length > 1 ? (
 				<>
 					<button onClick={() => setCurrentIndex(currentIndex - 1)}>
 						Previous

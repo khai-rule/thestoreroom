@@ -10,6 +10,7 @@ import useContentful from "./useContentful";
 import { useEffect } from "react";
 import { useStytchUser } from "@stytch/react";
 import Loading from "./components/Loading";
+import Post from "./pages/Post";
 
 export const CreatorsContext = createContext<any>(undefined);
 
@@ -19,8 +20,9 @@ function App() {
 	const [creators, setCreators] = useState([] as any);
 	const [loggedInCreator, setLoggedInCreator] = useState({} as any);
 	const [status, setStatus] = useState("idle");
+	const [post, setPost] = useState()
 
-	const { getCreators } = useContentful();
+	const { getCreators, getPosts } = useContentful();
 
 	useEffect(() => {
 		getCreators().then((response) => {
@@ -29,7 +31,9 @@ function App() {
 			setStatus("done");
 		});
 		setStatus("loading");
-	}, []);
+	}, [loggedInCreator]);
+
+
 
 	if (status === "loading") return <Loading />;
 
@@ -43,6 +47,7 @@ function App() {
 						<Route path="/" element={<Homepage />} />
 						<Route path="/account/:code/*" element={<Account />} />
 						<Route path="/register/:code" element={<Register />} />
+						<Route path="/post/:code" element={<Post />} />
 					</Routes>
 				</BrowserRouter>
 			</CreatorsContext.Provider>

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import ForgetPassword from "../components/ForgetPassword";
 import ResetPassword from "../components/ResetPassword";
 import ProfileInfo from "../components/ProfileInfo";
-import Profile from "../components/Profile";
+import Profile from "./Profile";
 
 const Account: React.FC = () => {
 	const { code } = useParams();

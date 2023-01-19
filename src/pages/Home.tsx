@@ -1,27 +1,37 @@
+import HomeFeed from "../components/HomeFeed";
+import useContentful from "../useContentful";
 import { useEffect } from "react";
-import { useCallback } from "react";
-
-import { useStytchSession } from "@stytch/react";
+import { useState } from "react";
+import Loading from "../components/Loading";
+import HomeSideNav from "../components/HomeSideNav";
+import { CreatorsContext } from "../App";
+import { useContext } from "react";
 
 const Homepage: React.FC = () => {
-	const { session } = useStytchSession();
+	const { creators, loggedInCreator } = useContext(CreatorsContext);
+	const [posts, setPosts] = useState([] as any);
+	const [status, setStatus] = useState<string>("idle");
+	const [display, setDisplay] = useState<string>("none");
+
+	const { getPosts } = useContentful();
 
 	useEffect(() => {
-		if (!session) {
-		}
-	}, [session]);
+		getPosts().then((response) => {
+			setPosts(response);
+			setStatus("done");
+		});
+		setStatus("loading");
+	}, [loggedInCreator]);
 
-	const secret = useCallback(() => {
-		if (session) {
-			return <h2>Show this only if logged in</h2>;
-		}
-	}, [session]);
-
+	if (status === "loading") return <Loading />;
 
 	return (
 		<>
-			<h1>Home</h1>
-			{secret()}
+			<h3 className="fixed left-1/2 transform -translate-x-1/2 top-4">{` Discover ${
+				display === "none" ? "" : display
+			}`}</h3>
+			<HomeSideNav display={display} setDisplay={setDisplay} />
+			<HomeFeed posts={posts} display={display} setDisplay={setDisplay} />
 		</>
 	);
 };
