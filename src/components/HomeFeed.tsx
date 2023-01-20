@@ -1,6 +1,6 @@
 import { HomeFeedProps } from "../interface";
 import { useNavigate } from "react-router-dom";
-import _ from "lodash"
+import _ from "lodash";
 import { ImageFields } from "../interface";
 
 const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
@@ -32,32 +32,34 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 		const matchingPost = posts.find((post) =>
 			post.post.images?.find((image: any) => image.sys.id === id)
 		);
-		const {
-			firstName,
-			artistName,
-			lastName,
-            title
-		} = matchingPost?.post.creator.fields;
-		const name = `${firstName} "${artistName}" ${lastName}`;
+		if (matchingPost) {
+			const {
+				firstName,
+				artistName,
+				lastName,
+				title,
+			} = matchingPost?.post?.creator?.fields;
+			const name = `${firstName} "${artistName}" ${lastName}`;
 
-		const url = image?.fields?.file?.url;
-		return (
-			<div className={` my-20 ${i % 3 === 0 ? "w-11/12" : "w-9/12"}`}>
-				<img
-					className="cursor-pointer"
-					onClick={() => viewPost(id)}
-					src={url}
-					alt={title}
-					key={url}
-				/>
-				<p
-					className="mx-auto my-2 hover:underline cursor-pointer"
-					onClick={() => viewProfile(id)}
-				>
-					{name}
-				</p>
-			</div>
-		);
+			const url = image?.fields?.file?.url;
+			return (
+				<div className={` my-20 ${i % 3 === 0 ? "w-11/12" : "w-9/12"}`}>
+					<img
+						className="cursor-pointer"
+						onClick={() => viewPost(id)}
+						src={url}
+						alt={title}
+						key={url}
+					/>
+					<p
+						className="mx-auto my-2 hover:underline cursor-pointer"
+						onClick={() => viewProfile(id)}
+					>
+						{name}
+					</p>
+				</div>
+			);
+		}
 	});
 
 	return (

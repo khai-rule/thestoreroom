@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { IFormInputs } from "../interface";
 import { ImageFilesProps } from "../interface";
 import { createClient } from "contentful-management";
-import _ from "lodash";
+import _ from "lodash"
 
 const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 	const client = createClient({
@@ -23,41 +23,6 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 	} = useForm<IFormInputs>({
 		resolver: yupResolver(CreatePostFormSchema),
 	});
-
-	//! Request Resource
-
-	const requestResource = () => {
-		client
-			.getSpace("94snklam6irp")
-			.then((space) => space.getEnvironment("master"))
-			.then((environment) =>
-				environment.createAssetFromFiles({
-					fields: {
-						title: {
-							"en-US": imageFiles[0].name,
-						},
-						description: {
-							"en-US": imageFiles[0].name,
-						},
-						file: {
-							"en-US": {
-								contentType: imageFiles[0].type,
-								fileName: imageFiles[0].name,
-								file: imageFiles[0].name,
-							},
-						},
-					},
-				})
-			)
-			.then((asset) => asset.processForAllLocales())
-			.then((asset) => {
-				asset.publish();
-				return asset.sys.id;
-			})
-			.catch(console.error);
-	};
-
-	//! Upload
 
 	//! On Submit
 
@@ -80,32 +45,49 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 						caption: {
 							"en-US": caption,
 						},
+						// file: {
+						// 	"en-US": {
+						// 		contentType: "image/png",
+						// 		fileName: "cute_cat.png",
+						// 		uploadFrom: {
+						// 			sys: {
+						// 				type: "Link",
+						// 				linkType: "Upload",
+						// 				id: "<use sys.id of an upload resource response here>",
+						// 			},
+						// 		},
+						// 	},
+						// },
 						tags: {
 							"en-US": tags,
+						},
+						creator: {
+							"en-US": {
+								sys: {
+									type: "Link",
+									linkType: "Entry",
+									id: creatorID,
+								},
+							},
 						},
 					},
 				})
 			)
-			.then((entry) => console.log(entry))
+			//! Publish
+			.then((entry) => {
+				console.log(entry)
+				const entryID = entry?.sys.id;
+				console.log(entryID);
+				client
+					.getSpace("94snklam6irp")
+					.then((space) => space.getEnvironment("master"))
+					.then((environment) => environment.getEntry(entryID))
+					.then((entry) => entry.publish())
+					.then((entry) => console.log(`Entry ${entry.sys.id} published.`))
+					.catch(console.error);
+			})
+			
 			.catch(console.error);
-
-		// client
-		// 	.getSpace("94snklam6irp")
-		// 	.then((space) => space.getEnvironment("master"))
-		// 	.then((environment) =>
-		// 		environment.createEntryWithId("posts", "5KsDBWseXY6QegucYAoacS", {
-		// 			fields: {
-		// 				title: {
-		// 					"en-US": "title",
-		// 				},
-		// caption: {
-		// 	"en-US": "caption",
-		// },
-		// 			},
-		// 		})
-		// 	)
-		// 	.then((entry) => console.log(entry))
-		// 	.catch(console.error);
 	};
 
 	const tags = ["outdoor", "indoor", "still life"];
@@ -136,7 +118,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 			<div className="flex">{displayTags()}</div>
 			<p>{errors.tags?.message}</p>
 
-			<input type="submit" />
+			<input className="cursor-pointer" type="submit" value="Upload" />
 		</form>
 	);
 };

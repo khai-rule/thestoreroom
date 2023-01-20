@@ -66,7 +66,7 @@ const Login: React.FC = () => {
 					/>
 				</label>
 
-				<input type="submit" value="Login" />
+				<input className="cursor-pointer" type="submit" value="Login" />
 			</form>
 
 			<p>{msg}</p>

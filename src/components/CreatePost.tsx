@@ -5,6 +5,8 @@ import Carousel from "./Carousel";
 import { ChangeEvent } from "react";
 import { createClient } from "contentful-management";
 import { createReadStream } from "fs";
+import internal, { Stream } from "stream";
+
 
 const CreatePost = ({ closeModal }: ModalProps) => {
 	const client = createClient({
@@ -29,33 +31,48 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 		console.log("file", imageFiles);
 	};
 
-	//!
 
 	const handleUpload = async () => {
 		console.log("preview", imagePreview);
-		console.log("file", imageFiles);
+		console.log("file", imageFiles[0]);
 	
-		const space = await client.getSpace("94snklam6irp");
-		const environment = await space!.getEnvironment("master");
-		const file = imageFiles[0];
-	
-		const asset =  environment.createAsset({
-			fields: {
+		try {
+			//Contentful API Call
+			const MClient = createClient({
+			  //Fetch access token from environment variables
+			  accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw",
+			});
+			//API call that requests the specified space
+			const space = await MClient.getSpace(
+			  "94snklam6irp"
+			);
+			const environment = await space.getEnvironment(
+			  "master"
+			);
+		  
+			const file: any = imageFiles[0];
+			const contentType = file.type;
+			const fileName = file.name;
+			let asset = await environment.createAssetFromFiles({
+			  fields: {
 				title: {
-					"en-US": "My Image",
+				  "en-US": fileName,
 				},
 				file: {
-					"en-US": {
-						contentType: file.type,
-						fileName: file.name,
-						// file,
-					},
+				  "en-US": {
+					contentType,
+					fileName,
+					file,
+				  },
 				},
-			},
-		})
-		.then((asset) => asset.processForAllLocales())
-		.then((asset) => asset.publish())
-		.catch(console.error);
+			  },
+			});
+			asset = await asset.processForAllLocales();
+			asset.publish();
+			console.log(asset)
+		  } catch(error) {
+			console.log(error);
+		  }				
 	};
 
 	// const handleUpload = async () => {
@@ -234,7 +251,7 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 								min={1}
 							/>
 						)}
-						<button onClick={handleUpload}>Upload</button>
+						<button onClick={handleUpload}>Next</button>
 					</div>
 				</div>
 			</div>
