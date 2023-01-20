@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CreatePostFormSchema } from "./CreatePostFormSchema";
+import { CreatePostFormSchema } from "../utilities/YUPvalidations";
 import { CreatorsContext } from "../App";
 import { useContext } from "react";
-import { IFormInputs } from "../interface";
-import { ImageFilesProps } from "../interface";
+import { IFormInputs } from "../utilities/interface";
+import { ImageFilesProps } from "../utilities/interface";
 import { createClient } from "contentful-management";
 
 const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {

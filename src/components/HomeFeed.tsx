@@ -1,7 +1,7 @@
-import { HomeFeedProps } from "../interface";
+import { HomeFeedProps } from "../utilities/interface";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
-import { ImageFields } from "../interface";
+import { ImageFields } from "../utilities/interface";
 
 const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 	const navigate = useNavigate();

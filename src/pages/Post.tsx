@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import Loading from "../components/Loading";
 import { useState } from "react";
 import PostsGallery from "../components/PostsGallery";
+import PostsDetails from "../components/PostsDetails";
 
 const Post: React.FC = () => {
 	const navigate = useNavigate();
@@ -24,14 +25,17 @@ const Post: React.FC = () => {
 
 	if (status === "loading") return <Loading />;
 
-  const matchingPost = posts.find((post: any) =>
-  post.post.images?.find((image: any) => image.sys.id === code))
+	const matchingPost = posts.find((post: any) =>
+		post.post.images?.find((image: any) => image.sys.id === code)
+	);
 
 	return (
 		<>
-			<div>Post</div>
-			<button onClick={() => navigate(-1)}>Back</button>
-      <PostsGallery matchingPost={matchingPost} code={code}/>
+			<button className="fixed right-12" onClick={() => navigate(-1)}>Back</button>
+			<div className="flex my-16">
+				<PostsDetails matchingPost={matchingPost} code={code} />
+				<PostsGallery matchingPost={matchingPost} code={code} />
+			</div>
 		</>
 	);
 };

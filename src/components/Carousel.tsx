@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ImagePreviewsProps } from "../interface";
+import { ImagePreviewsProps } from "../utilities/interface";
 
 const Carousel: React.FC<ImagePreviewsProps> = ({ imagePreviews }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);

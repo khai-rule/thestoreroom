@@ -4,7 +4,7 @@ import _ from "lodash";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStytchSession } from "@stytch/react";
-import { Creator } from "../interface";
+import { Creator } from "../utilities/interface";
 
 const Profile: React.FC = () => {
 	const navigate = useNavigate();

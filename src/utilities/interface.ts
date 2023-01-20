@@ -47,3 +47,7 @@ export interface ImageFields {
 		title:string
     }
 }
+
+export interface CommentsForm {
+	comment: string;
+}

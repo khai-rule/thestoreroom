@@ -11,7 +11,11 @@ module.exports = {
 			black: "#000000",
 			white: "#FFFFFF",
 		},
-		extend: {},
+		extend: {
+			width: {
+				"128": "28rem",
+			},
+		},
 	},
 	plugins: [require("tw-elements/dist/plugin")],
 };

@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const CreatePostFormSchema = yup
+export const createPostFormSchema = yup
 	.object({
 		title: yup
 			.string()
@@ -19,3 +19,11 @@ export const CreatePostFormSchema = yup
 			),
 	})
 	.required();
+
+
+	export const commentsSchema = yup.object().shape({
+		comment: yup
+		  .string()
+		  .required("Please enter your message")
+		  .max(100, "Your message should have a maximum of 100 characters")
+	  });

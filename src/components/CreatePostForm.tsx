@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CreatePostFormSchema } from "./CreatePostFormSchema";
+import { createPostFormSchema } from "../utilities/YUPvalidations";
 import { CreatorsContext } from "../App";
 import { useContext } from "react";
-import { IFormInputs } from "../interface";
-import { ImageFilesProps } from "../interface";
+import { IFormInputs } from "../utilities/interface";
+import { ImageFilesProps } from "../utilities/interface";
 import { createClient } from "contentful-management";
 import _ from "lodash"
 
@@ -21,22 +21,35 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<IFormInputs>({
-		resolver: yupResolver(CreatePostFormSchema),
+		resolver: yupResolver(createPostFormSchema),
 	});
 
 	//! On Submit
 
 	const onSubmit = (data: IFormInputs) => {
 		const { title, caption, tags } = data;
-
-		const creatorID = loggedInCreator?.user_id;
-
-		console.log(imageFiles);
+		console.log("tags", tags)
+		const creatorID = loggedInCreator
+console.log("creator ID", creatorID)
+		console.log("image file", imageFiles);
 
 		client
+
+		//? image successfully upload to media
+		//TODO how to upload image from media to content
+		// .getSpace("94snklam6irp")
+		// .then((space) => space.getEnvironment("master"))
+		// .then((environment) => {
+		//   environment.createAssetWithId(imageFile, "image/jpeg", {
+		// 	title: {
+		// 	  "en-US": "My Image"
+		// 	}
+		//   }).then((asset) => {
+
 			.getSpace("94snklam6irp")
 			.then((space) => space.getEnvironment("master"))
 			.then((environment) =>
+			
 				environment.createEntry("posts", {
 					fields: {
 						title: {
@@ -45,19 +58,19 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 						caption: {
 							"en-US": caption,
 						},
-						// file: {
-						// 	"en-US": {
-						// 		contentType: "image/png",
-						// 		fileName: "cute_cat.png",
-						// 		uploadFrom: {
-						// 			sys: {
-						// 				type: "Link",
-						// 				linkType: "Upload",
-						// 				id: "<use sys.id of an upload resource response here>",
-						// 			},
-						// 		},
-						// 	},
-						// },
+						images: {
+							"en-US": {
+								contentType: "image/jpeg",
+								fileName: "0008_17 2.jpg",
+								uploadFrom: {
+									sys: {
+										type: "Link",
+										linkType: "Upload",
+										id: "3Ow6CqCBvm5hhm37iGPP9P",
+									},
+								},
+							},
+						},
 						tags: {
 							"en-US": tags,
 						},
@@ -66,7 +79,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 								sys: {
 									type: "Link",
 									linkType: "Entry",
-									id: creatorID,
+									id: "5eJyt09O0Mn1KAdnjLZvIu",
 								},
 							},
 						},
@@ -75,9 +88,9 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 			)
 			//! Publish
 			.then((entry) => {
-				console.log(entry)
+				console.log("entry", entry)
 				const entryID = entry?.sys.id;
-				console.log(entryID);
+				console.log("entry id", entryID);
 				client
 					.getSpace("94snklam6irp")
 					.then((space) => space.getEnvironment("master"))

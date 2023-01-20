@@ -1,5 +1,5 @@
 import { useStytchSession } from "@stytch/react";
-import { HomeDisplayProps } from "../interface";
+import { HomeDisplayProps } from "../utilities/interface";
 
 const HomeSideNav: React.FC<HomeDisplayProps> = ({ display, setDisplay }) => {
 	const { session } = useStytchSession();

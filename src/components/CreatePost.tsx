@@ -1,4 +1,4 @@
-import { ModalProps } from "../interface";
+import { ModalProps } from "../utilities/interface";
 import { useState } from "react";
 import CreatePostForm from "./CreatePostForm";
 import Carousel from "./Carousel";
