@@ -4,9 +4,7 @@ import CreatePostForm from "./CreatePostForm";
 import Carousel from "./Carousel";
 import { ChangeEvent } from "react";
 import { createClient } from "contentful-management";
-import { createReadStream } from "fs";
-import internal, { Stream } from "stream";
-
+import { File } from "../utilities/interface";
 
 const CreatePost = ({ closeModal }: ModalProps) => {
 	const client = createClient({
@@ -31,200 +29,89 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 		console.log("file", imageFiles);
 	};
 
-
 	const handleUpload = async () => {
-		console.log("preview", imagePreview);
-		console.log("file", imageFiles[0]);
-	
 		try {
 			//Contentful API Call
 			const MClient = createClient({
-			  //Fetch access token from environment variables
-			  accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw",
+				//Fetch access token from environment variables
+				accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw",
 			});
 			//API call that requests the specified space
-			const space = await MClient.getSpace(
-			  "94snklam6irp"
-			);
-			const environment = await space.getEnvironment(
-			  "master"
-			);
-		  
-			const file: any = imageFiles[0];
-			const contentType = file.type;
-			const fileName = file.name;
-			let asset = await environment.createAssetFromFiles({
-			  fields: {
-				title: {
-				  "en-US": fileName,
-				},
-				file: {
-				  "en-US": {
-					contentType,
-					fileName,
-					file,
-				  },
-				},
-			  },
+			const space = await MClient.getSpace("94snklam6irp");
+			const environment = await space.getEnvironment("master");
+
+			// Create an array of Promises to upload multiple images in parallel
+			const uploadPromises = imageFiles.map(async (file: File) => {
+				const contentType = file.type;
+				const fileName = file.name;
+				let asset = await environment.createAssetFromFiles({
+					fields: {
+						title: {
+							"en-US": fileName,
+						},
+						file: {
+							"en-US": {
+								contentType,
+								fileName,
+								file,
+							},
+						},
+					},
+				});
+				asset = await asset.processForAllLocales();
+				asset.publish();
+				return asset;
 			});
-			asset = await asset.processForAllLocales();
-			asset.publish();
-			console.log(asset)
-		  } catch(error) {
+
+			// Wait for all the uploads to complete
+			const assets = await Promise.all(uploadPromises);
+			console.log(assets);
+		} catch (error) {
 			console.log(error);
-		  }				
+		}
 	};
 
 	// const handleUpload = async () => {
 	// 	console.log("preview", imagePreview);
-	// 	console.log("file", imageFiles);
+	// 	console.log("file", imageFiles[0]);
 
-	// 	const space = await client.getSpace("94snklam6irp");
-	// 	const environment = await space!.getEnvironment("master");
-	// 	const file = imageFiles[0];
+	// 	try {
+	// 		//Contentful API Call
+	// 		const MClient = createClient({
+	// 		  //Fetch access token from environment variables
+	// 		  accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw",
+	// 		});
+	// 		//API call that requests the specified space
+	// 		const space = await MClient.getSpace(
+	// 		  "94snklam6irp"
+	// 		);
+	// 		const environment = await space.getEnvironment(
+	// 		  "master"
+	// 		);
 
-	// 	const asset =  environment.createAsset({
-	// 		fields: {
+	// 		const file: File = imageFiles[0];
+	// 		const contentType = file.type;
+	// 		const fileName = file.name;
+	// 		let asset : any = await environment.createAssetFromFiles({
+	// 		  fields: {
 	// 			title: {
-	// 				"en-US": "My Image",
+	// 			  "en-US": fileName,
 	// 			},
 	// 			file: {
-	// 				"en-US": {
-	// 					contentType: file.type,
-	// 					fileName: file.name,
-	// 					file,
-	// 				},
+	// 			  "en-US": {
+	// 				contentType,
+	// 				fileName,
+	// 				file,
+	// 			  },
 	// 			},
-	// 		},
-	// 	});
-	// 	.then((asset) => asset.processForAllLocales())
-	// 	.then((asset) => asset.publish())
-	// 	.catch(console.error);
-
-		// try {
-		//   if (!space) {
-		// 	const s = await client.getSpace("94snklam6irp");
-		// 	setSpace(s);
-		//   }
-
-		// 	const space = await client.getSpace("94snklam6irp");
-
-		// const environment = await space!.getEnvironment("master");
-
-		// 	for (let i = 0; i < imageFiles.length; i++) {
-		// 		const asset = await environment.createAsset({
-		// 			fields: {
-		// 				title: {
-		// 					"en-US": `Asset ${i}`,
-		// 				},
-		// 				file: {
-		// 					"en-US": {
-		// 						contentType: imageFiles[i].type,
-		// 						fileName: imageFiles[i].name,
-		// 						upload: "https://i0.wp.com/post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/03/GettyImages-1092658864_hero-1024x575.jpg?w=1155&h=1528",
-		// 					},
-		// 				},
-		// 			},
-
-		// 		});
-		// 		console.log(imageFiles)
-		// 		console.log(imagePreview)
-		// 		await asset.processForAllLocales();
-		// 		await asset.publish();
-		// 	}
-
-		// 	alert("Upload complete!");
-		// } catch (err) {
-		// 	console.error(err);
-		// }
-
-		// client
-		// 	.getSpace("94snklam6irp")
-		// 	.then((space) => space.getEnvironment("master"))
-		// 	.then((environment) => {
-		// 		const fileData = {
-		// 			fields: {
-		// 				title: {
-		// 					"en-US": "Berlin",
-		// 				},
-		// 				file: {
-		// 					"en-US": {
-		// 						contentType: "image/jpeg",
-		// 						fileName: "berlin_english.jpg",
-		// 						upload:
-		// 						imagePreview[0],
-		// 					},
-		// 				},
-		// 			},
-		// 		};
-
-		// 		environment.createAsset(fileData).then(function(asset: any) {
-		// 			asset.processForAllLocales().then(function(processedAsset: any) {
-		// 				processedAsset.publish().then(function(publishedAsset: any) {
-		// 					console.log(publishedAsset);
-		// 				});
-		// 			});
-		// 		});
-		// 	});
- //!
-		// const fileName = 'myFile.svg'
-		// const fileToUpload = __dirname + '/' + fileName
-
-		// // UPLOAD/CREATE ASSET PORTION
-		// const space = client.getSpace("94snklam6irp")
-		// const uploadedAsset = space
-		// 	.then((space) => {
-		// 		return space.createAssetFromFiles({ // this first posts the asset to 'uploads', then finally posts the asset to 'assets'
-		// 			fields: {
-		// 				title: {
-		// 					'en-US': 'my file'
-		// 				},
-		// 				description: {
-		// 					'en-US': 'file description'
-		// 				},
-		// 				file: {
-		// 					'en-US': {
-		// 						contentType: 'image/svg+xml',
-		// 						fileName: fileName,
-		// 						file: fs.createReadStream(fileToUpload)
-		// 					}
-		// 				}
-		// 			}
-		// 		})
-		// 		.then((asset: any) => {
-		// 			return asset.processForAllLocales() // this is the processing part
-		// 				.then((asset : any) => asset.publish()) // this is what actually publishes the asset created
-		// 		})
-		// 	})
-		// 	.catch(console.error)
-
-		// // ASSET CREATION/UPLOAD ASSOCIATION PORTION
-		// Promise.all([space, uploadedAsset])
-		// 	.then(([space, assetToAttach]) => {
-		// 		space.createAsset({ // a direct call to post the asset to 'assets' rather than uploads first
-		// 				fields: {
-		// 					title: {
-		// 						'en-US': 'asset name'
-		// 					},
-		// 					file: {
-		// 						'en-US': {
-		// 							contentType: 'image/svg+xml',
-		// 							fileName: fileName,
-		// 							uploadFrom: {
-		// 								'sys': {
-		// 									'type': 'Link',
-		// 									'linkType': 'Upload',
-		// 									'id': assetToAttach.sys.id
-		// 								}
-		// 							}
-		// 						}
-		// 					}
-		// 				}
-		// 			})
-		// 			.then((asset: any) => asset.processForAllLocales()) // im not publishing the asset like i did in the previous example
-		// 			.then((asset: any) => console.log(asset))
-		// 			.catch(console.error)
-		// 	})
+	// 		  },
+	// 		});
+	// 		asset = await asset.processForAllLocales();
+	// 		asset.publish();
+	// 		console.log(asset)
+	// 	  } catch(error) {
+	// 		console.log(error);
+	// 	  }
 	// };
 
 	return (

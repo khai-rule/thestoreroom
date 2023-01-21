@@ -34,20 +34,37 @@ export interface HomeDisplayProps {
 }
 
 export interface PostsGalleryProps {
-    matchingPost: string | any,
-	code: string | undefined
-
+	matchingPost: string | any;
+	code: string | undefined;
 }
 
 export interface ImageFields {
-    fields: {
-        file: {
-            url: string;
-        },
-		title:string
-    }
+	fields: {
+		file: {
+			url: string;
+		};
+		title: string;
+	};
 }
 
 export interface CommentsForm {
 	comment: string;
+}
+
+export interface Comments {
+	fields: {
+		comment: string;
+		creator: {
+			fields: {
+				firstName: string;
+				artistName: string;
+				lastName: string;
+			};
+		};
+	};
+}
+
+export interface File {
+	type: string;
+	name: string;
 }

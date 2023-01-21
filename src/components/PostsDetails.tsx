@@ -3,6 +3,9 @@ import { commentsSchema } from "../utilities/YUPvalidations";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CommentsForm } from "../utilities/interface";
+import { Comments } from "../utilities/interface";
+
+
 
 const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 	const postsDetails = () => {
@@ -11,7 +14,7 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 			const { firstName, artistName, lastName, email } = creator?.fields;
 			const name = `${firstName} "${artistName}" ${lastName}`;
 
-			const displayComments = comments?.map((comment: string) => {
+			const displayComments = comments?.map((comment: Comments) => {
 				const theComment = comment.fields.comment;
 				const {
 					firstName,
