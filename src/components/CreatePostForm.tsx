@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { IFormInputs } from "../utilities/interface";
 import { ImageFilesProps } from "../utilities/interface";
 import { createClient } from "contentful-management";
-import _ from "lodash"
+import _ from "lodash";
 
 const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 	const client = createClient({
@@ -28,28 +28,16 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 
 	const onSubmit = (data: IFormInputs) => {
 		const { title, caption, tags } = data;
-		console.log("tags", tags)
-		const creatorID = loggedInCreator
-console.log("creator ID", creatorID)
+		console.log("tags", tags);
+		const creatorID = loggedInCreator;
+		console.log("creator ID", creatorID);
 		console.log("image file", imageFiles);
 
+
 		client
-
-		//? image successfully upload to media
-		//TODO how to upload image from media to content
-		// .getSpace("94snklam6irp")
-		// .then((space) => space.getEnvironment("master"))
-		// .then((environment) => {
-		//   environment.createAssetWithId(imageFile, "image/jpeg", {
-		// 	title: {
-		// 	  "en-US": "My Image"
-		// 	}
-		//   }).then((asset) => {
-
 			.getSpace("94snklam6irp")
 			.then((space) => space.getEnvironment("master"))
 			.then((environment) =>
-			
 				environment.createEntry("posts", {
 					fields: {
 						title: {
@@ -61,7 +49,6 @@ console.log("creator ID", creatorID)
 						images: {
 							"en-US": [
 								{
-						
 									sys: {
 										type: "Link",
 										linkType: "Asset",
@@ -87,7 +74,7 @@ console.log("creator ID", creatorID)
 			)
 			//! Publish
 			.then((entry) => {
-				console.log("entry", entry)
+				console.log("entry", entry);
 				const entryID = entry?.sys.id;
 				console.log("entry id", entryID);
 				client
@@ -98,7 +85,7 @@ console.log("creator ID", creatorID)
 					.then((entry) => console.log(`Entry ${entry.sys.id} published.`))
 					.catch(console.error);
 			})
-			
+
 			.catch(console.error);
 	};
 

@@ -16,8 +16,9 @@ const useContentful = () => {
 
 			const sanitisedEntries = entries.items.map((item) => {
 				const creator = item.fields
+				const sys = item.sys
 
-				return { creator };
+				return { creator, sys };
 			});
 
 			return sanitisedEntries;

@@ -1,5 +1,5 @@
 import HomeFeed from "../components/HomeFeed";
-import useContentful from "../useContentful";
+import useContentful from "../utilities/useContentful";
 import { useEffect } from "react";
 import { useState } from "react";
 import Loading from "../components/Loading";

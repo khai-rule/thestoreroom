@@ -6,11 +6,12 @@ import Navbar from "./components/Navbar";
 import { useState } from "react";
 import { createContext } from "react";
 import Register from "./pages/Register";
-import useContentful from "./useContentful";
+import useContentful from "./utilities/useContentful";
 import { useEffect } from "react";
 import { useStytchUser } from "@stytch/react";
 import Loading from "./components/Loading";
 import Post from "./pages/Post";
+import Profile from './pages/Profile';
 
 export const CreatorsContext = createContext<any>(undefined);
 
@@ -48,6 +49,7 @@ function App() {
 						<Route path="/account/:code/*" element={<Account />} />
 						<Route path="/register/:code" element={<Register />} />
 						<Route path="/post/:code" element={<Post />} />
+						<Route path="/profile/:code" element={<Profile />} />
 					</Routes>
 				</BrowserRouter>
 			</CreatorsContext.Provider>

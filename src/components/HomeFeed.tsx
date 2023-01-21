@@ -1,7 +1,8 @@
 import { HomeFeedProps } from "../utilities/interface";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
-import { ImageFields } from "../utilities/interface";
+import { Image } from "../utilities/interface";
+import { allImage } from "../utilities/interface";
 
 const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 	const navigate = useNavigate();
@@ -19,18 +20,17 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 	};
 
 	const viewProfile = (id: string) => {
-		console.log(id);
-
 		const matchingPost = posts.find((post) =>
-			post.post.images?.find((image: any) => image.sys.id === id)
+			post.post.images?.find((image: Image) => image.sys.id === id)
 		);
-		console.log(matchingPost);
+		const creatorID = matchingPost?.post.creator.sys.id
+		navigate(`/profile/${creatorID}`);
 	};
 
-	const displayImages = allImages.map((image: any, i: number) => {
+	const displayImages = allImages.map((image: allImage, i: number) => {
 		const id = image?.sys.id;
 		const matchingPost = posts.find((post) =>
-			post.post.images?.find((image: any) => image.sys.id === id)
+			post.post.images?.find((image: Image) => image.sys.id === id)
 		);
 		if (matchingPost) {
 			const {

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import useContentful from "../useContentful";
+import useContentful from "../utilities/useContentful";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
 import { useState } from "react";

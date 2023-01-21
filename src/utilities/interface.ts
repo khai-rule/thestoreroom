@@ -38,12 +38,20 @@ export interface PostsGalleryProps {
 	code: string | undefined;
 }
 
-export interface ImageFields {
+export interface Image {
+	sys: {
+		id: string;
+	};
+}
+
+export interface allImage {
+	sys: {
+		id: string;
+	};
 	fields: {
 		file: {
 			url: string;
 		};
-		title: string;
 	};
 }
 

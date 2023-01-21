@@ -1,50 +1,67 @@
-import { CreatorsContext } from "../App";
-import { useContext } from "react";
 import _ from "lodash";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useStytchSession } from "@stytch/react";
-import { Creator } from "../utilities/interface";
+import useContentful from "../utilities/useContentful";
+import { useState } from "react";
+import Loading from "../components/Loading";
+import { useParams } from "react-router-dom";
 
 const Profile: React.FC = () => {
-	const navigate = useNavigate();
-	const { session } = useStytchSession();
-	const { creators, loggedInCreator } = useContext(CreatorsContext);
+	const { code } = useParams();
+	const [status, setStatus] = useState<string>("idle");
+	const [creators, setCreators] = useState([] as any);
+
+	const { getCreators } = useContentful();
 
 	useEffect(() => {
-		if (!session) {
-			navigate("/");
-		}
-	}, [session]);
+		getCreators().then((response) => {
+			setCreators(response);
+			setStatus("done");
+		});
+		setStatus("loading");
+	}, []);
 
-	const userEmail = _.lowerCase(loggedInCreator?.emails?.[0]?.email);
+	if (status === "loading") return <Loading />;
 
-	const creator = creators.find(
-		(creator: Creator) => _.lowerCase(creator?.creator?.email) === userEmail
+	const matchingCreator = creators.find((creator: any) =>
+		creator.sys.id === code
 	);
 
-	const name = `${creator?.creator.firstName} "${creator?.creator.artistName}" ${creator?.creator.lastName}`;
-	const title = creator?.creator.title;
-	const bio = creator?.creator.bio;
-	const website = creator?.creator.website;
+	const userEmail = (matchingCreator?.creator.email);
+
+	console.log(userEmail)
+	// const creator = creators.find(
+	// 	(creator: Creator) => _.lowerCase(creator?.creator?.email) === userEmail
+	// );
+
+	const name = `${matchingCreator?.creator.firstName} "${matchingCreator?.creator.artistName}" ${matchingCreator?.creator.lastName}`;
+	const title = matchingCreator?.creator.title;
+	const bio = matchingCreator?.creator.bio;
+	const website = matchingCreator?.creator.website;
 	const formatWebsite = website
 		?.replace(/^https?:\/\//, "")
 		?.replace(/^www./, "");
-	const instagram = creator?.creator.instagram;
+	const instagram = matchingCreator?.creator.instagram;
 	const instagramLink = `https://www.instagram.com/${instagram}/?hl=en`;
 
+
 	//TODO change "any"
-	const posts = creator?.creator.posts.map((post: any) => {
+	const posts = matchingCreator?.creator.posts.map((post: any) => {
 		const title = post.fields.title;
 		const caption = post.fields.caption;
 		const images = post.fields.images.map((image: any, index: number) => {
 			const url = image?.fields.file.url;
-	
-				return (
-					<>
-						<img className={index % 2 !== 0 ? "w-3/6 mx-4" : "w-5/6 mx-4"} src={url} alt={title} key={title} />
-					</>
-				)
+
+			return (
+				<>
+					<img
+						className={index % 2 !== 0 ? "w-3/6 mx-4" : "w-5/6 mx-4"}
+						src={url}
+						alt={title}
+						key={title}
+					/>
+				</>
+			);
 		});
 		return (
 			<div className="mt-40">
@@ -62,10 +79,10 @@ const Profile: React.FC = () => {
 			<p>{bio}</p>
 			<div>
 				<a className="mx-4" href={website} target="_blank">
-					{formatWebsite}
+					{formatWebsite ? formatWebsite : ""}
 				</a>
 				<a className="mx-4" href={instagramLink} target="_blank">
-					@{instagram}
+					{ instagram ? `@${instagram}` : ""}
 				</a>
 			</div>
 			{posts}
