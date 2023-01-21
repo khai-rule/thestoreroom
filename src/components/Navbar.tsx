@@ -10,7 +10,7 @@ import CreatePost from "./CreatePost";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
-	const [create, setCreate] = useState(false);
+	const [create, setCreate] = useState(true);
 
 	const navigate = useNavigate();
 	const stytch = new StytchUIClient(
@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
 					{!session ? (
 						<></>
 					) : (
-						<NavLink to="/account/profile">
+						<NavLink to="/profile">
 							<h2 className="hover:underline">Profile</h2>
 						</NavLink>
 					)}
@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
 					Logo
 				</h3>
 				<a
-					className="relative hover:cursor-pointer hover:underline z-50"
+					className="relative hover:cursor-pointer hover:underline z-50 decoration-primary"
 					onClick={toggleNav}
 				>
 					{nav ? "Close" : "Menu"}

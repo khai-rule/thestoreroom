@@ -33,7 +33,6 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 		console.log("creator ID", creatorID);
 		console.log("image file", imageFiles);
 
-
 		client
 			.getSpace("94snklam6irp")
 			.then((space) => space.getEnvironment("master"))
@@ -104,21 +103,23 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
-			<label htmlFor="title">Title</label>
-			<input className="text-black" {...register("title")} />
-			<p>{errors.title?.message}</p>
+		<div className="relative grid-item bg-primary w-2/6 aspect-square rounded-br-3xl">
+			<form className="m-6" onSubmit={handleSubmit(onSubmit)}>
+				<label htmlFor="title">Title</label>
+				<input className="text-black" {...register("title")} />
+				<p>{errors.title?.message}</p>
 
-			<label htmlFor="caption">Caption</label>
-			<input className="text-black" {...register("caption")} />
-			<p>{errors.caption?.message}</p>
+				<label htmlFor="caption">Caption</label>
+				<input className="text-black" {...register("caption")} />
+				<p>{errors.caption?.message}</p>
 
-			<label htmlFor="tags">Tags</label>
-			<div className="flex">{displayTags()}</div>
-			<p>{errors.tags?.message}</p>
+				<label htmlFor="tags">Tags</label>
+				<div className="flex">{displayTags()}</div>
+				<p>{errors.tags?.message}</p>
 
-			<input className="cursor-pointer" type="submit" value="Upload" />
-		</form>
+				<input className="cursor-pointer" type="submit" value="Upload" />
+			</form>
+		</div>
 	);
 };
 

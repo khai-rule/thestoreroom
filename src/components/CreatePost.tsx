@@ -14,7 +14,6 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [imagePreview, setImagePreview] = useState<string[]>([]);
-	const [space, setSpace] = useState(null);
 
 	const handleImageChange = (event: ChangeEvent<HTMLInputElement>): void => {
 		const files = event.target.files;
@@ -122,26 +121,47 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 			>
 				Close
 			</button>
-			<div className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0 w-9/12 h-4/6 bg-primary">
-				<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-					<div className="flex">
-						<Carousel imagePreviews={imagePreview} />
-						{imageFiles.length !== 0 ? (
-							<CreatePostForm imageFiles={imageFiles} />
-						) : (
-							<input
-								type="file"
-								multiple
-								onChange={handleImageChange}
-								accept="image/*"
-								max={8}
-								min={1}
-							/>
-						)}
-						<button onClick={handleUpload}>Next</button>
+			{imageFiles.length !== 0 ? (
+				<></>
+			) : (
+				<div className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0 w-9/12 h-4/6 bg-primary grid grid-flow-col rounded-3xl">
+					<input
+						className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+						type="file"
+						multiple
+						onChange={handleImageChange}
+						accept="image/*"
+						max={8}
+						min={1}
+					/>
+				</div>
+			)}
+
+			{/* If there is image */}
+
+			{imageFiles.length !== 0 ? (
+				<div className="relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0">
+					<div className="relative grid-item bg-white w-9/12 left-1/2 -translate-x-1/2 rounded-t-3xl">
+						<div className="flex justify-between">
+							<h4 className="py-2 mx-5 text-black">Back</h4>
+							<h4 className="py-2 mx-5 text-primary font-semibold">Share</h4>
+						</div>
+					</div>
+					<div className="flex align-middle justify-center">
+						<div className="relative grid-item bg-white w-5/12 aspect-square rounded-bl-3xl object-contain">
+							<Carousel imagePreviews={imagePreview} />
+						</div>
+
+						<CreatePostForm imageFiles={imageFiles} />
 					</div>
 				</div>
-			</div>
+			) : (
+				<></>
+			)}
+
+			<button className="absolute" onClick={handleUpload}>
+				Next
+			</button>
 		</div>
 	);
 };

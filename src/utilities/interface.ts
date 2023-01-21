@@ -76,3 +76,39 @@ export interface File {
 	type: string;
 	name: string;
 }
+
+export interface Post {
+	fields: {
+		title: string;
+		caption: string;
+		images: [];
+	};
+}
+
+export interface ProfilePostsProps {
+	matchingCreator: {
+		creator: {
+			posts: [];
+		};
+		sys: object;
+	};
+}
+
+export interface ProfileHeadProps {
+	matchingCreator: {
+		creator: {
+			email: string;
+			firstName: string;
+			artistName: string;
+			lastName: string;
+			title: string;
+			bio: string;
+			website: string;
+			instagram: string;
+		};
+	};
+}
+
+export interface UseRef {
+	current: HTMLElement | null;
+	}

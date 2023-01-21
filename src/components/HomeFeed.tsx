@@ -12,10 +12,6 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 		.sort(() => Math.random() - 0.5);
 
 	const viewPost = (id: string) => {
-		const matchingPost = posts.find((post) =>
-			post.post.images?.find((image: any) => image.sys.id === id)
-		);
-		const title = matchingPost?.post.title;
 		navigate(`/post/${id}`);
 	};
 
@@ -43,7 +39,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 
 			const url = image?.fields?.file?.url;
 			return (
-				<div className={` my-20 ${i % 3 === 0 ? "w-11/12" : "w-9/12"}`}>
+				<div className={` my-12 ${i % 3 === 0 ? "w-11/12" : "w-9/12"}`}>
 					<img
 						className="cursor-pointer"
 						onClick={() => viewPost(id)}
@@ -52,7 +48,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 						key={url}
 					/>
 					<p
-						className="mx-auto my-2 hover:underline cursor-pointer"
+						className="mx-auto my-2 hover:underline cursor-pointer decoration-primary"
 						onClick={() => viewProfile(id)}
 					>
 						{name}
