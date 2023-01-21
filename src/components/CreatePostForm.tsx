@@ -59,17 +59,16 @@ console.log("creator ID", creatorID)
 							"en-US": caption,
 						},
 						images: {
-							"en-US": {
-								contentType: "image/jpeg",
-								fileName: "0008_17 2.jpg",
-								uploadFrom: {
+							"en-US": [
+								{
+						
 									sys: {
 										type: "Link",
-										linkType: "Upload",
+										linkType: "Asset",
 										id: "3Ow6CqCBvm5hhm37iGPP9P",
 									},
 								},
-							},
+							],
 						},
 						tags: {
 							"en-US": tags,
