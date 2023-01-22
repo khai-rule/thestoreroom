@@ -73,8 +73,7 @@ export interface Comments {
 }
 
 export interface File {
-	type: string;
-	name: string;
+//TODO 
 }
 
 export interface Post {

@@ -40,11 +40,14 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 			const environment = await space.getEnvironment("master");
 
 			// Create an array of Promises to upload multiple images in parallel
-			const uploadPromises = imageFiles.map(async (file: File) => {
+			const uploadPromises = imageFiles.map(async (file: any | File) => {
 				const contentType = file.type;
 				const fileName = file.name;
 				let asset = await environment.createAssetFromFiles({
 					fields: {
+						description: {
+							"en-US": fileName,
+						},
 						title: {
 							"en-US": fileName,
 						},

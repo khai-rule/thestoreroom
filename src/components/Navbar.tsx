@@ -10,7 +10,7 @@ import CreatePost from "./CreatePost";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
-	const [create, setCreate] = useState(true);
+	const [create, setCreate] = useState(false);
 
 	const navigate = useNavigate();
 	const stytch = new StytchUIClient(
