@@ -18,6 +18,15 @@ export interface ImageFilesProps {
 	imageFiles: File[];
 }
 
+export interface ImageFields {
+	fields: {
+		title: string;
+		file: {
+			url: string
+		}
+	}
+}
+
 export interface ImagePreviewsProps {
 	imagePreviews: string[];
 }
@@ -54,6 +63,8 @@ export interface allImage {
 		};
 	};
 }
+
+
 
 export interface CommentsForm {
 	comment: string;
