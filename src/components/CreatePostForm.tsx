@@ -1,20 +1,23 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createPostFormSchema } from "../utilities/YUPvalidations";
-import { CreatorsContext } from "../App";
 import { useContext } from "react";
 import { IFormInputs } from "../utilities/interface";
 import { ImageFilesProps } from "../utilities/interface";
 import { createClient } from "contentful-management";
 import _ from "lodash";
+import { CreatorsContext } from "../utilities/context";
+import { useNavigate } from "react-router-dom";
 
 const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
+	const navigate = useNavigate();
+
 	const client = createClient({
 		space: "94snklam6irp",
 		accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw", // contentful management
 	});
 
-	const { loggedInCreator } = useContext(CreatorsContext);
+	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
 	const {
 		register,
@@ -24,15 +27,18 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 		resolver: yupResolver(createPostFormSchema),
 	});
 
-	//! On Submit
+
+
+	console.log("creator ID", loggedInCreatorContentful?.sys.id);
 
 	const onSubmit = (data: IFormInputs) => {
 		const { title, caption, tags } = data;
 		console.log("tags", tags);
-		const creatorID = loggedInCreator;
+		const creatorID = loggedInCreatorContentful?.sys.id;
 		console.log("creator ID", creatorID);
 		console.log("image file", imageFiles);
 
+		//!Create new post
 		client
 			.getSpace("94snklam6irp")
 			.then((space) => space.getEnvironment("master"))
@@ -64,14 +70,14 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 								sys: {
 									type: "Link",
 									linkType: "Entry",
-									id: "5eJyt09O0Mn1KAdnjLZvIu",
+									id: creatorID,
 								},
 							},
 						},
 					},
 				})
 			)
-			//! Publish
+			//! Publish the new post
 			.then((entry) => {
 				console.log("entry", entry);
 				const entryID = entry?.sys.id;
@@ -81,7 +87,31 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 					.then((space) => space.getEnvironment("master"))
 					.then((environment) => environment.getEntry(entryID))
 					.then((entry) => entry.publish())
-					.then((entry) => console.log(`Entry ${entry.sys.id} published.`))
+					.then((entry) => {
+						//! Update creator to add the new post in
+						console.log(`Entry ${entry.sys.id} published.`);
+						const newPostID = entry.sys.id;
+						client
+							.getSpace("94snklam6irp")
+							.then((space) => space.getEnvironment("master"))
+							.then((environment) => environment.getEntry(creatorID))
+							.then((entry) => {
+								entry.fields.posts["en-US"].push({
+									sys: {
+										type: "Link",
+										linkType: "Entry",
+										id: newPostID,
+									},
+								});
+								return entry.update();
+							})
+							.then((entry) => {
+								console.log(`Entry ${entry.sys.id} updated.`);
+								entry.publish();
+								navigate(`/profile/${creatorID}`)
+							})
+							.catch(console.error);
+					})
 					.catch(console.error);
 			})
 

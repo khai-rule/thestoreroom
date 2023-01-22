@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Loading from "../components/Loading";
 import HomeSideNav from "../components/HomeSideNav";
-import { CreatorsContext } from "../App";
+import { CreatorsContext } from "../utilities/context";
 import { useContext } from "react";
 
 const Homepage: React.FC = () => {
-	const { creators, loggedInCreator } = useContext(CreatorsContext);
+	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 	const [posts, setPosts] = useState([] as any);
 	const [status, setStatus] = useState<string>("idle");
 	const [display, setDisplay] = useState<string>("none");
@@ -21,7 +21,7 @@ const Homepage: React.FC = () => {
 			setStatus("done");
 		});
 		setStatus("loading");
-	}, [loggedInCreator]);
+	}, []);
 
 	if (status === "loading") return <Loading />;
 

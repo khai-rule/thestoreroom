@@ -1,4 +1,5 @@
 import "./App.css";
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Account from "./pages/Account";
 import Homepage from "./pages/Home";
@@ -11,17 +12,22 @@ import { useEffect } from "react";
 import { useStytchUser } from "@stytch/react";
 import Loading from "./components/Loading";
 import Post from "./pages/Post";
-import Profile from './pages/Profile';
-
-export const CreatorsContext = createContext<any>(undefined);
+import Profile from "./pages/Profile";
+import _ from "lodash";
+import { CreatorsContext } from "./utilities/context";
+import { useStytchSession } from "@stytch/react";
 
 function App() {
 	const { user } = useStytchUser();
+	const { session } = useStytchSession();
 
 	const [creators, setCreators] = useState([] as any);
 	const [loggedInCreator, setLoggedInCreator] = useState({} as any);
 	const [status, setStatus] = useState("idle");
-	const [post, setPost] = useState()
+	const [loggedInCreatorContentful, setLoggedInCreatorContentful] = useState(
+		{} as any
+	);
+	const [post, setPost] = useState();
 
 	const { getCreators, getPosts } = useContentful();
 
@@ -29,10 +35,20 @@ function App() {
 		getCreators().then((response) => {
 			setCreators(response);
 			setLoggedInCreator(user);
+			const loggedInEmailFromStytch = loggedInCreator?.emails?.[0].email;
+
+			const matchingCreator = creators.find(
+				(creator: any) =>
+					_.lowerCase(creator.creator.email) ===
+					_.lowerCase(loggedInEmailFromStytch)
+			);
+
+			setLoggedInCreatorContentful(matchingCreator);
 			setStatus("done");
 		});
 		setStatus("loading");
-	}, [loggedInCreator]);
+	}, [session, loggedInCreator]);
+
 
 
 
@@ -40,7 +56,9 @@ function App() {
 
 	return (
 		<>
-			<CreatorsContext.Provider value={{ creators, loggedInCreator }}>
+			<CreatorsContext.Provider
+				value={{ creators, loggedInCreator, loggedInCreatorContentful }}
+			>
 				<BrowserRouter>
 					<Navbar />
 

@@ -7,10 +7,10 @@ import Loading from "../components/Loading";
 import { useParams } from "react-router-dom";
 import ProfileBody from "../components/ProfileBody";
 import ProfileHead from "../components/ProfileHead";
-
+import { ToastContainer, toast } from "react-toastify";
+import { Slide } from "react-toastify";
 
 const Profile: React.FC = () => {
-	
 	const { code } = useParams();
 	const [status, setStatus] = useState<string>("idle");
 	const [creators, setCreators] = useState([] as any);
@@ -31,13 +31,22 @@ const Profile: React.FC = () => {
 		(creator: any) => creator.sys.id === code
 	);
 
-
-	
-
-
-
 	return (
 		<div>
+			<ToastContainer
+				position="bottom-center"
+				autoClose={3000}
+				limit={1}
+				hideProgressBar
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable={false}
+				pauseOnHover={false}
+				theme="colored"
+				transition={Slide}
+			/>
 			<div>
 				<ProfileHead matchingCreator={matchingCreator} />
 			</div>

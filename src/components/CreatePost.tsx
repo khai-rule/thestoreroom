@@ -30,16 +30,12 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 
 	const handleUpload = async () => {
 		try {
-			//Contentful API Call
 			const MClient = createClient({
-				//Fetch access token from environment variables
 				accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw",
 			});
-			//API call that requests the specified space
 			const space = await MClient.getSpace("94snklam6irp");
 			const environment = await space.getEnvironment("master");
 
-			// Create an array of Promises to upload multiple images in parallel
 			const uploadPromises = imageFiles.map(async (file: any | File) => {
 				const contentType = file.type;
 				const fileName = file.name;
@@ -65,57 +61,22 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 				return asset;
 			});
 
-			// Wait for all the uploads to complete
 			const assets = await Promise.all(uploadPromises);
 			console.log(assets);
+			const sanitisedSys = assets.map((asset) => {
+				return {
+					sys: {
+						type: "Link",
+						linkType: "Asset",
+						id: asset.sys.id,
+					},
+				};
+			});
+			console.log(sanitisedSys);
 		} catch (error) {
 			console.log(error);
 		}
 	};
-
-	// const handleUpload = async () => {
-	// 	console.log("preview", imagePreview);
-	// 	console.log("file", imageFiles[0]);
-
-	// 	try {
-	// 		//Contentful API Call
-	// 		const MClient = createClient({
-	// 		  //Fetch access token from environment variables
-	// 		  accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw",
-	// 		});
-	// 		//API call that requests the specified space
-	// 		const space = await MClient.getSpace(
-	// 		  "94snklam6irp"
-	// 		);
-	// 		const environment = await space.getEnvironment(
-	// 		  "master"
-	// 		);
-
-	// 		const file: File = imageFiles[0];
-	// 		const contentType = file.type;
-	// 		const fileName = file.name;
-	// 		let asset : any = await environment.createAssetFromFiles({
-	// 		  fields: {
-	// 			title: {
-	// 			  "en-US": fileName,
-	// 			},
-	// 			file: {
-	// 			  "en-US": {
-	// 				contentType,
-	// 				fileName,
-	// 				file,
-	// 			  },
-	// 			},
-	// 		  },
-	// 		});
-	// 		asset = await asset.processForAllLocales();
-	// 		asset.publish();
-	// 		console.log(asset)
-	// 	  } catch(error) {
-	// 		console.log(error);
-	// 	  }
-	// };
-
 	return (
 		<div className="fixed h-screen w-screen inset-0 z-50 bg-black bg-opacity-50 md:overflow-auto text-white">
 			<button
@@ -147,7 +108,12 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 					<div className="relative grid-item bg-white w-9/12 left-1/2 -translate-x-1/2 rounded-t-3xl">
 						<div className="flex justify-between">
 							<h4 className="py-2 mx-5 text-black">Back</h4>
-							<h4 className="py-2 mx-5 text-primary font-semibold">Share</h4>
+							<h4
+								onClick={handleUpload}
+								className="py-2 mx-5 text-primary font-semibold cursor-pointer"
+							>
+								Share
+							</h4>
 						</div>
 					</div>
 					<div className="flex align-middle justify-center">
@@ -161,10 +127,6 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 			) : (
 				<></>
 			)}
-
-			<button className="absolute" onClick={handleUpload}>
-				Next
-			</button>
 		</div>
 	);
 };

@@ -22,9 +22,9 @@ export interface ImageFields {
 	fields: {
 		title: string;
 		file: {
-			url: string
-		}
-	}
+			url: string;
+		};
+	};
 }
 
 export interface ImagePreviewsProps {
@@ -64,8 +64,6 @@ export interface allImage {
 	};
 }
 
-
-
 export interface CommentsForm {
 	comment: string;
 }
@@ -84,7 +82,7 @@ export interface Comments {
 }
 
 export interface File {
-//TODO 
+	//TODO
 }
 
 export interface Post {
@@ -121,4 +119,9 @@ export interface ProfileHeadProps {
 
 export interface UseRef {
 	current: HTMLElement | null;
-	}
+}
+
+export interface MoreOptionsProps {
+    isOpen: boolean
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}

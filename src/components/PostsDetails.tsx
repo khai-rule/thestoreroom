@@ -4,11 +4,15 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CommentsForm } from "../utilities/interface";
 import { Comments } from "../utilities/interface";
-
-
+import { useState } from "react";
+import PostsDetailsMoreOptions from "./PostsDetailsMoreOptions";
+import { useNavigate } from "react-router-dom";
 
 const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 	const postsDetails = () => {
+		const navigate = useNavigate();
+		const [isOpen, setOpen] = useState<boolean>(false);
+
 		if (matchingPost) {
 			const { caption, creator, title, comments } = matchingPost?.post;
 			const { firstName, artistName, lastName, email } = creator?.fields;
@@ -42,18 +46,47 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 				console.log(data);
 			};
 
+			const moreOptionsIcon = (
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.8"
+					stroke="currentColor"
+					className="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+					/>
+				</svg>
+			);
+
+			const viewProfile = () => {
+				const creatorID = matchingPost.post.creator.sys.id;
+				navigate(`/profile/${creatorID}`);
+			};
+
 			return (
 				<div className="mx-12 flex flex-col justify-between">
 					<div>
-						<p className="cursor-pointer text-primary font-semibold">{name}</p>
+						<p
+							className="cursor-pointer text-primary font-semibold"
+							onClick={viewProfile}
+						>
+							{name}
+						</p>
 						<div className="flex justify-between items-center">
 							<h2>{title}</h2>
-							<p>options</p>
+							<button onClick={() => setOpen(true)}>{moreOptionsIcon}</button>
 						</div>
 						<p className="my-4">{caption}</p>
 						<hr className="my-8 w-128 border-black" />
 						{displayComments}
 					</div>
+
+					<PostsDetailsMoreOptions isOpen={isOpen} setOpen={setOpen} />
 
 					<div>
 						<form
