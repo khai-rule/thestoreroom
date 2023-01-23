@@ -16,7 +16,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 		return (
 			<>
 				<h4 className="cursor-pointer my-2" onClick={scrollToPost}>
-					{post.fields.title}
+					{post?.fields?.title}
 				</h4>
 			</>
 		);
@@ -33,9 +33,9 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 
 
 	const posts = matchingCreator?.creator.posts.map((post: Post) => {
-		const title = post.fields.title;
-		const images = post.fields.images.map((image: allImage, index: number) => {
-			const url = image?.fields.file.url;
+		const title = post?.fields?.title;
+		const images = post?.fields?.images.map((image: allImage, index: number) => {
+			const url = image?.fields?.file.url;
 			const id = image?.sys.id;
 
 			return (

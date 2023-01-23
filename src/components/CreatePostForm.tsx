@@ -8,10 +8,15 @@ import { createClient } from "contentful-management";
 import _ from "lodash";
 import { CreatorsContext } from "../utilities/context";
 import { useNavigate } from "react-router-dom";
-import CreatePost from "./CreatePost";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
-const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles, formRef }) => {
+const CreatePostForm: React.FC<ImageFilesProps> = ({
+	imageFiles,
+	formRef,
+	setStatus,
+	setCreate
+}) => {
 	const navigate = useNavigate();
 
 	const client = createClient({
@@ -38,6 +43,11 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles, formRef }) => {
 
 	const onSubmit = (data: IFormInputs, sanitisedSys: any) => {
 		const { title, caption, tags } = data;
+		if (!title || !tags) {
+			console.log("hi");
+			setStatus("idle");
+			return;
+		}
 		console.log("tags", tags);
 		const creatorID = loggedInCreatorContentful?.sys.id;
 		console.log("creator ID", creatorID);
@@ -106,6 +116,8 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles, formRef }) => {
 								console.log(`Entry ${entry.sys.id} updated.`);
 								entry.publish();
 								navigate(`/profile/${creatorID}`);
+								toast("Link copied to clipboard")
+								setCreate(false);
 							})
 							.catch(console.error);
 					})
@@ -130,30 +142,46 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles, formRef }) => {
 	};
 
 	return (
-		<div className="relative grid-item bg-primary w-1/4 aspect-square rounded-br-3xl">
-			<form className="m-6" onSubmit={handleSubmit(onSubmit)}>
-				<h4>{name}</h4>
-				<input
-					className="my-2 text-white text-xl bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none"
-					{...register("title")}
-					placeholder="Title"
-				/>
-				<p>{errors.title?.message}</p>
+		<>
+			<div className="relative grid-item bg-primary w-1/4 aspect-square rounded-br-3xl">
+				<form className="m-6" onSubmit={handleSubmit(onSubmit)}>
+					<h4>{name}</h4>
+					<input
+						className="my-2 text-white text-xl bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none"
+						{...register("title")}
+						placeholder="Title"
+					/>
+					{errors.title && errors.title?.message ? (
+						<>
+							<p className="my-2">{errors.title?.message}</p>
+							{setStatus("idle")}
+						</>
+					) : (
+						<></>
+					)}
 
-				<textarea
-					className="my-2 text-white bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none resize-none w-full h-40"
-					{...register("caption")}
-					placeholder="Write a caption..."
-				/>
-				<p>{errors.caption?.message}</p>
+					<textarea
+						className="my-2 text-white bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none resize-none w-full h-40"
+						{...register("caption")}
+						placeholder="Write a caption..."
+					/>
+					<p>{errors.caption?.message}</p>
 
-				<label className="my-2" htmlFor="tags">
-					Add tags?
-				</label>
-				<div className="flex my-2">{displayTags()}</div>
-				<p className="my-2">{errors.tags?.message}</p>
-			</form>
-		</div>
+					<label className="my-2" htmlFor="tags">
+						Add tags?
+					</label>
+					<div className="flex my-2">{displayTags()}</div>
+					{errors.tags && errors.tags?.message ? (
+						<>
+							<p className="my-2">{errors.tags?.message}</p>
+							{setStatus("idle")}
+						</>
+					) : (
+						<></>
+					)}
+				</form>
+			</div>
+		</>
 	);
 };
 

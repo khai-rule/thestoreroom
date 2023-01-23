@@ -102,20 +102,7 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 					</div>
 
 					<PostsDetailsMoreOptions isOpen={isOpen} setOpen={setOpen} linkCopiedToastify={linkCopiedToastify} />
-					<ToastContainer
-						position="bottom-center"
-						autoClose={3000}
-						limit={1}
-						hideProgressBar
-						newestOnTop={false}
-						closeOnClick
-						rtl={false}
-						pauseOnFocusLoss
-						draggable={false}
-						pauseOnHover={false}
-						theme="dark"
-						transition={Slide}
-					/>
+			
 
 					{session ? <div>
 						<form

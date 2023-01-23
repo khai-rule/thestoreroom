@@ -4,8 +4,9 @@ export interface Creator {
 	};
 }
 
-export interface ModalProps {
+export interface CreatePostModalProps {
 	closeModal: () => void;
+	setCreate: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface IFormInputs {
@@ -19,6 +20,8 @@ export interface ImageFilesProps {
 	formRef: {
 		current: () => void
 	}
+	setStatus: React.Dispatch<React.SetStateAction<string>>;
+	setCreate: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface ImageFields {

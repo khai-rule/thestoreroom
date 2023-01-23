@@ -1,4 +1,4 @@
-import { ModalProps } from "../utilities/interface";
+import { CreatePostModalProps } from "../utilities/interface";
 import { useState } from "react";
 import CreatePostForm from "./CreatePostForm";
 import Carousel from "./Carousel";
@@ -7,13 +7,16 @@ import { createClient } from "contentful-management";
 import { File } from "../utilities/interface";
 import { useRef } from "react";
 import { FormSubmit } from "../utilities/interface";
+import Loading from "./Loading";
 
-const CreatePost = ({ closeModal }: ModalProps) => {
+const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) => {
 	const client = createClient({
 		// space: "94snklam6irp",
 		accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw", // contentful management
 	});
 	const formRef: FormSubmit = useRef(null!);
+	const [status, setStatus] = useState<string>("idle");
+	// if (status === "loading") return <Loading />;
 
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -38,12 +41,15 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 	};
 
 	const handleUpload = async () => {
+		//TODO check if form is completed  otherwise, don't publish image
 		try {
 			const MClient = createClient({
 				accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw",
 			});
 			const space = await MClient.getSpace("94snklam6irp");
 			const environment = await space.getEnvironment("master");
+
+			setStatus("loading");
 
 			const uploadPromises = imageFiles.map(async (file: any | File) => {
 				const contentType = file.type;
@@ -85,6 +91,7 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 			console.log("Images successfuly uploaded");
 			formRef.current(sanitisedSys);
 		} catch (error) {
+			setStatus("idle")
 			console.log(error);
 		}
 	};
@@ -129,12 +136,21 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 							<h4 className="text-black py-2 mx-5 font-semibold">
 								Create New Post
 							</h4>
-							<h4
-								onClick={handleUpload}
-								className="py-2 mx-5 text-primary font-semibold cursor-pointer"
-							>
-								Share
-							</h4>
+							{status === "loading" ? (
+								<div
+									className="spinner-border animate-spin inline-block w-6 h-6 border-3 rounded-full text-black mx-8 mt-2"
+									role="status"
+								>
+									<span className="visually-hidden">Loading...</span>
+								</div>
+							) : (
+								<h4
+									onClick={handleUpload}
+									className="py-2 mx-5 text-primary font-semi bold cursor-pointer"
+								>
+									Share
+								</h4>
+							)}
 						</div>
 					</div>
 					<div className="flex align-middle justify-center">
@@ -142,7 +158,12 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 							<Carousel imagePreviews={imagePreview} />
 						</div>
 
-						<CreatePostForm imageFiles={imageFiles} formRef={formRef} />
+						<CreatePostForm
+							imageFiles={imageFiles}
+							formRef={formRef}
+							setStatus={setStatus}
+							setCreate={setCreate}
+						/>
 					</div>
 				</div>
 			) : (

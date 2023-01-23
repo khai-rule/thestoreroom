@@ -1,16 +1,15 @@
 import { NavLink } from "react-router-dom";
-// import { AuthContext } from "../App";
-import { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StytchUIClient } from "@stytch/vanilla-js";
 import { useStytchSession } from "@stytch/react";
-import { useEffect } from "react";
 import CreatePost from "./CreatePost";
+import { ToastContainer, toast } from "react-toastify";
+import { Slide } from "react-toastify";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
-	const [create, setCreate] = useState(true);
+	const [create, setCreate] = useState(false);
 	const { session } = useStytchSession();
 
 	const navigate = useNavigate();
@@ -70,9 +69,25 @@ const Navbar: React.FC = () => {
 		);
 	};
 
+
+
 	return (
 		<>
-			{create ? <CreatePost closeModal={() => setCreate(false)} /> : <></>}
+			<ToastContainer
+				position="bottom-center"
+				autoClose={3000}
+				limit={1}
+				hideProgressBar
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable={false}
+				pauseOnHover={false}
+				theme="dark"
+				transition={Slide}
+			/>
+			{create ? <CreatePost closeModal={() => setCreate(false)} setCreate={setCreate}/> : <></>}
 			<nav className="sticky top-4 flex justify-between mx-4">
 				<h3 className="hover:cursor-pointer" onClick={() => navigate("/")}>
 					Logo

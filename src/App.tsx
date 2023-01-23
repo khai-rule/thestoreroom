@@ -1,5 +1,5 @@
 import "./App.css";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Account from "./pages/Account";
 import Homepage from "./pages/Home";
@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import _ from "lodash";
 import { CreatorsContext } from "./utilities/context";
 import { useStytchSession } from "@stytch/react";
+
 
 function App() {
 	const { user } = useStytchUser();
@@ -49,13 +50,14 @@ function App() {
 		setStatus("loading");
 	}, [session, loggedInCreator]);
 
-
-
-
 	if (status === "loading") return <Loading />;
 
+
+
+	
 	return (
 		<>
+
 			<CreatorsContext.Provider
 				value={{ creators, loggedInCreator, loggedInCreatorContentful }}
 			>
