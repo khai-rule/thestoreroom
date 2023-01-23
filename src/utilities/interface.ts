@@ -16,6 +16,9 @@ export interface IFormInputs {
 
 export interface ImageFilesProps {
 	imageFiles: File[];
+	formRef: {
+		current: () => void
+	}
 }
 
 export interface ImageFields {
@@ -72,6 +75,9 @@ export interface Comments {
 	fields: {
 		comment: string;
 		creator: {
+			sys: {
+				id: string;
+			};
 			fields: {
 				firstName: string;
 				artistName: string;
@@ -122,6 +128,12 @@ export interface UseRef {
 }
 
 export interface MoreOptionsProps {
-    isOpen: boolean
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+	isOpen: boolean;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	linkCopiedToastify: () => void;
+}
+
+
+export interface FormSubmit {
+	current: (arg?: any) => void;
 }

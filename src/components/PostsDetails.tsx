@@ -7,28 +7,39 @@ import { Comments } from "../utilities/interface";
 import { useState } from "react";
 import PostsDetailsMoreOptions from "./PostsDetailsMoreOptions";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { Slide } from "react-toastify";
+import { useStytchSession } from "@stytch/react";
 
 const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 	const postsDetails = () => {
 		const navigate = useNavigate();
+		const { session } = useStytchSession();
 		const [isOpen, setOpen] = useState<boolean>(false);
 
 		if (matchingPost) {
+			
 			const { caption, creator, title, comments } = matchingPost?.post;
 			const { firstName, artistName, lastName, email } = creator?.fields;
 			const name = `${firstName} "${artistName}" ${lastName}`;
 
+
 			const displayComments = comments?.map((comment: Comments) => {
 				const theComment = comment.fields.comment;
+				const commenterID = comment.fields.creator.sys.id
 				const {
 					firstName,
 					artistName,
 					lastName,
 				} = comment.fields.creator.fields;
 				const theCommenter = `${firstName} "${artistName}" ${lastName}`;
+
+				const viewCommenterProfile = () => {
+					navigate(`/profile/${commenterID}`)
+				}
 				return (
 					<p className="my-3">
-						<p className="my-2 font-semibold">{theCommenter} </p>
+						<p className="my-2 font-semibold cursor-pointer" onClick={viewCommenterProfile}>{theCommenter}</p>
 						{theComment}
 					</p>
 				);
@@ -68,6 +79,10 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 				navigate(`/profile/${creatorID}`);
 			};
 
+			const linkCopiedToastify = () => {
+				toast("Link copied to clipboard")
+			}
+
 			return (
 				<div className="mx-12 flex flex-col justify-between">
 					<div>
@@ -86,9 +101,23 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 						{displayComments}
 					</div>
 
-					<PostsDetailsMoreOptions isOpen={isOpen} setOpen={setOpen} />
+					<PostsDetailsMoreOptions isOpen={isOpen} setOpen={setOpen} linkCopiedToastify={linkCopiedToastify} />
+					<ToastContainer
+						position="bottom-center"
+						autoClose={3000}
+						limit={1}
+						hideProgressBar
+						newestOnTop={false}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss
+						draggable={false}
+						pauseOnHover={false}
+						theme="dark"
+						transition={Slide}
+					/>
 
-					<div>
+					{session ? <div>
 						<form
 							className="border-b border-gray-300 flex justify-between"
 							onSubmit={handleSubmit(onSubmit)}
@@ -105,7 +134,7 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 							/>
 						</form>
 						<p className="relative top-4">{errors.comment?.message}</p>
-					</div>
+					</div> : <></>}
 				</div>
 			);
 		}

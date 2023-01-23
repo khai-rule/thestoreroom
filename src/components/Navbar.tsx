@@ -10,7 +10,8 @@ import CreatePost from "./CreatePost";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
-	const [create, setCreate] = useState(false);
+	const [create, setCreate] = useState(true);
+	const { session } = useStytchSession();
 
 	const navigate = useNavigate();
 	const stytch = new StytchUIClient(
@@ -25,14 +26,6 @@ const Navbar: React.FC = () => {
 		stytch.session.revoke();
 		navigate("/");
 	};
-
-	const { session } = useStytchSession();
-
-	useEffect(() => {
-		if (!session) {
-			// navigate("/");
-		}
-	}, [session]);
 
 	const createPostModal = () => {
 		create ? setCreate(false) : setCreate(true);
@@ -55,7 +48,10 @@ const Navbar: React.FC = () => {
 					{!session ? (
 						<></>
 					) : (
-						<h2 className="hover:underline cursor-pointer" onClick={createPostModal}>
+						<h2
+							className="hover:underline cursor-pointer"
+							onClick={createPostModal}
+						>
 							Create
 						</h2>
 					)}

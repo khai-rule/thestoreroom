@@ -8,8 +8,10 @@ import { createClient } from "contentful-management";
 import _ from "lodash";
 import { CreatorsContext } from "../utilities/context";
 import { useNavigate } from "react-router-dom";
+import CreatePost from "./CreatePost";
+import { useEffect } from "react";
 
-const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
+const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles, formRef }) => {
 	const navigate = useNavigate();
 
 	const client = createClient({
@@ -19,6 +21,9 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 
 	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
+	const name = `${loggedInCreatorContentful?.creator.firstName} "${loggedInCreatorContentful?.creator.artistName}" ${loggedInCreatorContentful?.creator.lastName}`;
+	console.log(name);
+
 	const {
 		register,
 		handleSubmit,
@@ -27,11 +32,11 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 		resolver: yupResolver(createPostFormSchema),
 	});
 
+	useEffect(() => {
+		formRef.current = handleSubmit(onSubmit);
+	}, []);
 
-
-	console.log("creator ID", loggedInCreatorContentful?.sys.id);
-
-	const onSubmit = (data: IFormInputs) => {
+	const onSubmit = (data: IFormInputs, sanitisedSys: any) => {
 		const { title, caption, tags } = data;
 		console.log("tags", tags);
 		const creatorID = loggedInCreatorContentful?.sys.id;
@@ -52,15 +57,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 							"en-US": caption,
 						},
 						images: {
-							"en-US": [
-								{
-									sys: {
-										type: "Link",
-										linkType: "Asset",
-										id: "3Ow6CqCBvm5hhm37iGPP9P",
-									},
-								},
-							],
+							"en-US": sanitisedSys,
 						},
 						tags: {
 							"en-US": tags,
@@ -108,7 +105,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 							.then((entry) => {
 								console.log(`Entry ${entry.sys.id} updated.`);
 								entry.publish();
-								navigate(`/profile/${creatorID}`)
+								navigate(`/profile/${creatorID}`);
 							})
 							.catch(console.error);
 					})
@@ -133,21 +130,28 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles }) => {
 	};
 
 	return (
-		<div className="relative grid-item bg-primary w-2/6 aspect-square rounded-br-3xl">
+		<div className="relative grid-item bg-primary w-1/4 aspect-square rounded-br-3xl">
 			<form className="m-6" onSubmit={handleSubmit(onSubmit)}>
-				<label htmlFor="title">Title</label>
-				<input className="text-black" {...register("title")} />
+				<h4>{name}</h4>
+				<input
+					className="my-2 text-white text-xl bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none"
+					{...register("title")}
+					placeholder="Title"
+				/>
 				<p>{errors.title?.message}</p>
 
-				<label htmlFor="caption">Caption</label>
-				<input className="text-black" {...register("caption")} />
+				<textarea
+					className="my-2 text-white bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none resize-none w-full h-40"
+					{...register("caption")}
+					placeholder="Write a caption..."
+				/>
 				<p>{errors.caption?.message}</p>
 
-				<label htmlFor="tags">Tags</label>
-				<div className="flex">{displayTags()}</div>
-				<p>{errors.tags?.message}</p>
-
-				<input className="cursor-pointer" type="submit" value="Upload" />
+				<label className="my-2" htmlFor="tags">
+					Add tags?
+				</label>
+				<div className="flex my-2">{displayTags()}</div>
+				<p className="my-2">{errors.tags?.message}</p>
 			</form>
 		</div>
 	);

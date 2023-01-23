@@ -1,17 +1,18 @@
 import React from "react";
 import { MoreOptionsProps } from "../utilities/interface";
-import { ToastContainer, toast } from "react-toastify";
-import { Slide } from "react-toastify";
+
 
 const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 	isOpen,
 	setOpen,
+    linkCopiedToastify
 }) => {
 	if (!isOpen) return null;
 
 	const copyURL = () => {
 		navigator.clipboard.writeText(window.location.href);
-		toast("Link copied to clipboard.");
+        setOpen(false)
+		linkCopiedToastify();
 	};
 
 	return (
@@ -40,20 +41,7 @@ const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 					</button>
 				</div>
 			</div>
-			<ToastContainer
-				position="bottom-center"
-				autoClose={3000}
-				limit={1}
-				hideProgressBar
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable={false}
-				pauseOnHover={false}
-				theme="colored"
-				transition={Slide}
-			/>
+
 		</div>
 	);
 };

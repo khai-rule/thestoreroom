@@ -26,6 +26,12 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 		navigate(`/post/${id}`);
 	};
 
+	//TODO sort this out - reverse the order of the array - issue is--> the type is object
+	const reversedPosts = matchingCreator?.creator.posts
+	console.log( reversedPosts)
+	console.log(typeof reversedPosts)
+
+
 	const posts = matchingCreator?.creator.posts.map((post: Post) => {
 		const title = post.fields.title;
 		const images = post.fields.images.map((image: allImage, index: number) => {

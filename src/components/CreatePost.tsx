@@ -5,12 +5,15 @@ import Carousel from "./Carousel";
 import { ChangeEvent } from "react";
 import { createClient } from "contentful-management";
 import { File } from "../utilities/interface";
+import { useRef } from "react";
+import { FormSubmit } from "../utilities/interface";
 
 const CreatePost = ({ closeModal }: ModalProps) => {
 	const client = createClient({
 		// space: "94snklam6irp",
 		accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw", // contentful management
 	});
+	const formRef: FormSubmit = useRef(null!);
 
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -26,6 +29,12 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 
 		console.log("preview", imagePreview);
 		console.log("file", imageFiles);
+	};
+
+	const goBack = () => {
+		//TODO confirm message
+		setImageFiles([]);
+		setImagePreview([]);
 	};
 
 	const handleUpload = async () => {
@@ -73,10 +82,13 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 				};
 			});
 			console.log(sanitisedSys);
+			console.log("Images successfuly uploaded");
+			formRef.current(sanitisedSys);
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
 	return (
 		<div className="fixed h-screen w-screen inset-0 z-50 bg-black bg-opacity-50 md:overflow-auto text-white">
 			<button
@@ -85,10 +97,11 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 			>
 				Close
 			</button>
+
 			{imageFiles.length !== 0 ? (
 				<></>
 			) : (
-				<div className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0 w-9/12 h-4/6 bg-primary grid grid-flow-col rounded-3xl">
+				<div className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0 w-8/12 h-4/6 bg-primary grid grid-flow-col rounded-3xl">
 					<input
 						className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
 						type="file"
@@ -105,9 +118,17 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 
 			{imageFiles.length !== 0 ? (
 				<div className="relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0">
-					<div className="relative grid-item bg-white w-9/12 left-1/2 -translate-x-1/2 rounded-t-3xl">
+					<div className="relative grid-item bg-white w-8/12 left-1/2 -translate-x-1/2 rounded-t-3xl">
 						<div className="flex justify-between">
-							<h4 className="py-2 mx-5 text-black">Back</h4>
+							<h4
+								className="py-2 mx-5 text-black cursor-pointer"
+								onClick={goBack}
+							>
+								Back
+							</h4>
+							<h4 className="text-black py-2 mx-5 font-semibold">
+								Create New Post
+							</h4>
 							<h4
 								onClick={handleUpload}
 								className="py-2 mx-5 text-primary font-semibold cursor-pointer"
@@ -121,7 +142,7 @@ const CreatePost = ({ closeModal }: ModalProps) => {
 							<Carousel imagePreviews={imagePreview} />
 						</div>
 
-						<CreatePostForm imageFiles={imageFiles} />
+						<CreatePostForm imageFiles={imageFiles} formRef={formRef} />
 					</div>
 				</div>
 			) : (

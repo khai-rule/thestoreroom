@@ -4,13 +4,38 @@ import { ImagePreviewsProps } from "../utilities/interface";
 const Carousel: React.FC<ImagePreviewsProps> = ({ imagePreviews }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
-	//TODO write a function for next and previous  button to make it circular
-	// if (currentIndex < 0) {
-	// 	setCurrentIndex(images.length - 1);
-	// } else if (currentIndex >= images.length) {
-	// 	setCurrentIndex(0);
-	// }
-	// setCurrentIndex(currentIndex + 1);
+	const leftArrow = (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke-width="1.5"
+			className="w-6 h-6"
+		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="M15.75 19.5L8.25 12l7.5-7.5"
+				stroke="white"
+			/>
+		</svg>
+	);
+	const rightArrow = (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke-width="1.5"
+			className="w-6 h-6"
+		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="M8.25 4.5l7.5 7.5-7.5 7.5"
+				stroke="white"
+			/>
+		</svg>
+	);
 
 	return (
 		<div className="relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0">
@@ -21,15 +46,27 @@ const Carousel: React.FC<ImagePreviewsProps> = ({ imagePreviews }) => {
 			/>
 
 			{imagePreviews.length > 1 ? (
-				<div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0">
-					<div className="flex justify-between mx-4">
-						<button className="text-black" onClick={() => console.log("next")}>
-							Previous
+				<div className="fixed top-1/2 left-1/2">
+					{currentIndex === 0 ? (
+						<></>
+					) : (
+						<button
+							className="text-black "
+							onClick={() => setCurrentIndex(currentIndex - 1)}
+						>
+							{leftArrow}
 						</button>
-						<button className="text-black" onClick={() => console.log("next")}>
-							Next
+					)}
+					{currentIndex === imagePreviews.length - 1 ? (
+						<></>
+					) : (
+						<button
+							className="text-black"
+							onClick={() => setCurrentIndex(currentIndex + 1)}
+						>
+							{rightArrow}
 						</button>
-					</div>
+					)}
 				</div>
 			) : (
 				<></>
