@@ -6,11 +6,25 @@ import { useStytchSession } from "@stytch/react";
 import CreatePost from "./CreatePost";
 import { ToastContainer, toast } from "react-toastify";
 import { Slide } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
 	const [create, setCreate] = useState(false);
 	const { session } = useStytchSession();
+	const [showNavbar, setShowNavbar] = useState(true);
+	const location = useLocation();
+
+	useEffect(() => {
+		if (location.pathname.startsWith("/post/")) {
+			setShowNavbar(false);
+		} else {
+			setShowNavbar(true);
+		}
+	}, [location]);
+
+	console.log(location.pathname);
 
 	const navigate = useNavigate();
 	const stytch = new StytchUIClient(
@@ -34,6 +48,7 @@ const Navbar: React.FC = () => {
 		return (
 			<div className="fixed inset-0 z-1 bg-primary flex justify-center items-center z-40 text-center text-white">
 				<div onClick={toggleNav}>
+					<button className="fixed top-4 right-4 hover:underline">Close</button>
 					<NavLink to="/">
 						<h2 className="hover:underline">Home</h2>
 					</NavLink>
@@ -69,8 +84,6 @@ const Navbar: React.FC = () => {
 		);
 	};
 
-
-
 	return (
 		<>
 			<ToastContainer
@@ -87,18 +100,26 @@ const Navbar: React.FC = () => {
 				theme="dark"
 				transition={Slide}
 			/>
-			{create ? <CreatePost closeModal={() => setCreate(false)} setCreate={setCreate}/> : <></>}
-			<nav className="sticky top-4 flex justify-between mx-4">
-				<h3 className="hover:cursor-pointer" onClick={() => navigate("/")}>
-					Logo
-				</h3>
-				<a
-					className="relative hover:cursor-pointer hover:underline z-50 decoration-primary"
-					onClick={toggleNav}
-				>
-					{nav ? "Close" : "Menu"}
-				</a>
-			</nav>
+			{create ? (
+				<CreatePost closeModal={() => setCreate(false)} setCreate={setCreate} />
+			) : (
+				<></>
+			)}
+			{showNavbar ? (
+				<nav className="sticky top-4 flex justify-between mx-4">
+					<h3 className="hover:cursor-pointer" onClick={() => navigate("/")}>
+						Logo
+					</h3>
+					<a
+						className="relative hover:cursor-pointer hover:underline z-50 decoration-primary"
+						onClick={toggleNav}
+					>
+						{nav ? "Close" : "Menu"}
+					</a>
+				</nav>
+			) : (
+				<></>
+			)}
 			{nav ? navbar() : <></>}
 		</>
 	);

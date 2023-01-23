@@ -10,8 +10,8 @@ const PostsGallery: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 				<img
 					className={`${
 						index % 2 === 0
-							? "w-9/12 mr-8 self-center"
-							: "w-6/12 mr-8 self-center"
+							? "w-9/12 mr-8 self-center max-h-[48rem]"
+							: "w-6/12 mr-8 self-center object-cover"
 					}`}
 					src={url}
 					alt={title}
@@ -23,7 +23,7 @@ const PostsGallery: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 
 	return (
 		<>
-			<div className=" flex overflow-auto">{displayImages}</div>
+			<div className="flex overflow-auto">{displayImages}</div>
 		</>
 	);
 };

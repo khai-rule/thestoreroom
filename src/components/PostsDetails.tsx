@@ -98,7 +98,7 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
 							<h2>{title}</h2>
 							<button onClick={() => setOpen(true)}>{moreOptionsIcon}</button>
 						</div>
-						<p className="my-4">{caption}</p>
+						<p className="my-4 w-128">{caption}</p>
 						<hr className="my-8 w-128 border-black" />
 						{displayComments}
 					</div>
