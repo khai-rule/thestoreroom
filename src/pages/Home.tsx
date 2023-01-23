@@ -23,6 +23,8 @@ const Homepage: React.FC = () => {
 		setStatus("loading");
 	}, []);
 
+	console.log(posts)
+
 	if (status === "loading") return <Loading />;
 
 	return (

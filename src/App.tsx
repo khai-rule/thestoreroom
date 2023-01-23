@@ -20,7 +20,7 @@ import { useStytchSession } from "@stytch/react";
 
 function App() {
 	const { user } = useStytchUser();
-	const { session } = useStytchSession();
+	const { session } = useStytchSession(); 
 
 	const [creators, setCreators] = useState([] as any);
 	const [loggedInCreator, setLoggedInCreator] = useState({} as any);

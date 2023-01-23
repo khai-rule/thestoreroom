@@ -134,9 +134,36 @@ export interface MoreOptionsProps {
 	isOpen: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	linkCopiedToastify: () => void;
+	setConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>
+	matchingPost: {
+		post: {
+			creator: {
+				sys: {
+					id: string
+				}
+			}
+		}
+	}
 }
 
 
 export interface FormSubmit {
 	current: (arg?: any) => void;
+}
+
+export interface ConfirmDeleteProps {
+    confirmDeleteOpen: boolean;
+    setConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>
+	matchingPost: {
+		post: {
+			creator: {
+				sys: {
+					id: string
+				}
+			}
+		}
+		sys: {
+			id: string
+		}
+	}
 }

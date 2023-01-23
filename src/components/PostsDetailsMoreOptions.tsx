@@ -1,19 +1,33 @@
 import React from "react";
 import { MoreOptionsProps } from "../utilities/interface";
-
+import { CreatorsContext } from "../utilities/context";
+import { useContext } from "react";
 
 const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 	isOpen,
 	setOpen,
-    linkCopiedToastify
+	linkCopiedToastify,
+	matchingPost,
+	setConfirmDeleteOpen
 }) => {
 	if (!isOpen) return null;
 
+	const { loggedInCreatorContentful } = useContext(CreatorsContext);
+
 	const copyURL = () => {
 		navigator.clipboard.writeText(window.location.href);
-        setOpen(false)
+		setOpen(false);
 		linkCopiedToastify();
 	};
+
+	// To check if this post belongs to the logged in user. If yes, show more options
+	const postCreatorID = matchingPost?.post.creator.sys.id;
+	const loggedInCreatorID = loggedInCreatorContentful?.sys.id;
+
+	const confirmDelete = () => {
+		setOpen(false)
+		setConfirmDeleteOpen(true)
+	}
 
 	return (
 		<div
@@ -24,6 +38,16 @@ const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 		>
 			<div className="fixed inset-0 z-1 bg-black bg-opacity-50 flex justify-center items-center z-50">
 				<div className="absolute bg-white rounded-lg py-2 px-12 flex flex-col">
+					{postCreatorID === loggedInCreatorID ? (
+						<button
+							className="block px-4 py-3 text-red font-semibold"
+							onClick={confirmDelete}
+						>
+							Delete
+						</button>
+					) : (
+						<></>
+					)}
 					<button
 						className="block px-4 py-3 text-black"
 						onClick={() => console.log("Share clicked")}
@@ -41,7 +65,6 @@ const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 					</button>
 				</div>
 			</div>
-
 		</div>
 	);
 };

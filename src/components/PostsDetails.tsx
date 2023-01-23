@@ -10,12 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Slide } from "react-toastify";
 import { useStytchSession } from "@stytch/react";
+import ConfirmDeletePost from "./ConfirmDeletePost";
 
-const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
+const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
 	const postsDetails = () => {
 		const navigate = useNavigate();
 		const { session } = useStytchSession();
 		const [isOpen, setOpen] = useState<boolean>(false);
+		const [confirmDeleteOpen, setConfirmDeleteOpen] = useState<boolean>(false);
 
 		if (matchingPost) {
 			
@@ -101,8 +103,8 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
 						{displayComments}
 					</div>
 
-					<PostsDetailsMoreOptions isOpen={isOpen} setOpen={setOpen} linkCopiedToastify={linkCopiedToastify} />
-			
+					<PostsDetailsMoreOptions isOpen={isOpen} setOpen={setOpen} linkCopiedToastify={linkCopiedToastify} matchingPost={matchingPost} setConfirmDeleteOpen={setConfirmDeleteOpen} />
+					<ConfirmDeletePost confirmDeleteOpen={confirmDeleteOpen} setConfirmDeleteOpen={setConfirmDeleteOpen} matchingPost={matchingPost}/>
 
 					{session ? <div>
 						<form

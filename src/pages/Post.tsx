@@ -29,6 +29,9 @@ const Post: React.FC = () => {
 		post.post.images?.find((image: any) => image.sys.id === code)
 	);
 
+
+
+
 	return (
 		<>
 			<button className="fixed right-12" onClick={() => navigate(-1)}>Back</button>

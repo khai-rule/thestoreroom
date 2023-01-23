@@ -116,7 +116,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 								console.log(`Entry ${entry.sys.id} updated.`);
 								entry.publish();
 								navigate(`/profile/${creatorID}`);
-								toast("Link copied to clipboard")
+								toast("Post successfully created.")
 								setCreate(false);
 							})
 							.catch(console.error);
