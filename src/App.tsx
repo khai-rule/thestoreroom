@@ -52,7 +52,7 @@ function App() {
 
 	if (status === "loading") return <Loading />;
 
-
+console.log("home", loggedInCreatorContentful)
 
 	
 	return (

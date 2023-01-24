@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createPostFormSchema } from "../utilities/YUPvalidations";
 import { useContext } from "react";
-import { IFormInputs } from "../utilities/interface";
+import { CreatePostForms } from "../utilities/interface";
 import { ImageFilesProps } from "../utilities/interface";
 import { createClient } from "contentful-management";
 import _ from "lodash";
@@ -33,7 +33,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<IFormInputs>({
+	} = useForm<CreatePostForms>({
 		resolver: yupResolver(createPostFormSchema),
 	});
 
@@ -41,7 +41,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 		formRef.current = handleSubmit(onSubmit);
 	}, []);
 
-	const onSubmit = (data: IFormInputs, sanitisedSys: any) => {
+	const onSubmit = (data: CreatePostForms, sanitisedSys: any) => {
 		const { title, caption, tags } = data;
 		if (!title || !tags) {
 			console.log("hi");

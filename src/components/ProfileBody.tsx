@@ -13,7 +13,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 		console.log(ref.current);
 	};
 
-	const postsNav = matchingCreator?.creator.posts.map((post: Post) => {
+	const postsNav = matchingCreator?.creator?.posts?.map((post: Post) => {
 		return (
 			<>
 				<h4 className="cursor-pointer my-2" onClick={scrollToPost}>
@@ -32,7 +32,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 	console.log(reversedPosts);
 	console.log(typeof reversedPosts);
 
-	const posts = matchingCreator?.creator.posts.map((post: Post) => {
+	const posts = matchingCreator?.creator?.posts?.map((post: Post) => {
 		const title = post?.fields?.title;
 		const images = post?.fields?.images.map(
 			(image: allImage, index: number) => {
@@ -72,7 +72,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 			<div className="fixed top-1/2 transform -translate-y-1/2 left-8">
 				{postsNav}
 			</div>
-			<div className="">{posts}</div>;
+			<div className="">{posts}</div>
 		</>
 	);
 };

@@ -6,10 +6,10 @@ export interface Creator {
 
 export interface CreatePostModalProps {
 	closeModal: () => void;
-	setCreate: React.Dispatch<React.SetStateAction<boolean>>
+	setCreate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export interface IFormInputs {
+export interface CreatePostForms {
 	title: string;
 	caption: string;
 	tags: string[];
@@ -18,10 +18,10 @@ export interface IFormInputs {
 export interface ImageFilesProps {
 	imageFiles: File[];
 	formRef: {
-		current: () => void
-	}
+		current: () => void;
+	};
 	setStatus: React.Dispatch<React.SetStateAction<string>>;
-	setCreate: React.Dispatch<React.SetStateAction<boolean>>
+	setCreate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface ImageFields {
@@ -134,36 +134,47 @@ export interface MoreOptionsProps {
 	isOpen: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	linkCopiedToastify: () => void;
-	setConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>
+	setConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	matchingPost: {
 		post: {
 			creator: {
 				sys: {
-					id: string
-				}
-			}
-		}
-	}
+					id: string;
+				};
+			};
+		};
+	};
 }
-
 
 export interface FormSubmit {
 	current: (arg?: any) => void;
 }
 
 export interface ConfirmDeleteProps {
-    confirmDeleteOpen: boolean;
-    setConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>
+	confirmDeleteOpen: boolean;
+	setConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	matchingPost: {
 		post: {
 			creator: {
 				sys: {
-					id: string
-				}
-			}
-		}
+					id: string;
+				};
+			};
+		};
 		sys: {
-			id: string
-		}
-	}
+			id: string;
+		};
+	};
+}
+
+export interface ProfileForm {
+	input: string;
+	firstName: string;
+	lastName: string;
+	artistName: string;
+	email: string;
+	bio: string;
+	title: string;
+	website: string;
+	instagram: string;
 }

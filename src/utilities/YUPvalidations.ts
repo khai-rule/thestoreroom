@@ -31,7 +31,7 @@ export const createPostFormSchema = yup
 	  export const profileSchema = yup.object().shape({
 		firstName: yup.string(),
 		lastName: yup.string(),
-		artistName: yup.string().required(),
+		artistName: yup.string(),
 		email: yup.string().email(),
 		bio: yup.string().max(350),
 		title: yup.string().max(20),

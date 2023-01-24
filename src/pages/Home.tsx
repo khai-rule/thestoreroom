@@ -8,7 +8,6 @@ import { CreatorsContext } from "../utilities/context";
 import { useContext } from "react";
 
 const Homepage: React.FC = () => {
-	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 	const [posts, setPosts] = useState([] as any);
 	const [status, setStatus] = useState<string>("idle");
 	const [display, setDisplay] = useState<string>("none");
