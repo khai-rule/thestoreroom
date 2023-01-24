@@ -2,7 +2,7 @@ import Login from "../components/Login";
 import { useParams } from "react-router-dom";
 import ForgetPassword from "../components/ForgetPassword";
 import ResetPassword from "../components/ResetPassword";
-import ProfileInfo from "../components/ProfileInfo";
+import EditProfile from "../components/EditProfile";
 
 const Account: React.FC = () => {
 	const { code } = useParams();
@@ -14,8 +14,8 @@ const Account: React.FC = () => {
 			return <ForgetPassword />;
 		} else if (code === "resetpassword") {
 			return <ResetPassword />;
-		} else if (code === "profileinfo") {
-			return <ProfileInfo />;
+		} else if (code === "edit") {
+			return <EditProfile />;
 		} else {
 			return <Login />;
 		}

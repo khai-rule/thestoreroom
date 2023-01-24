@@ -8,13 +8,19 @@ import { ToastContainer, toast } from "react-toastify";
 import { Slide } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useContext } from "react";
+import { CreatorsContext } from "../utilities/context";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
 	const [create, setCreate] = useState(false);
-	const { session } = useStytchSession();
 	const [showNavbar, setShowNavbar] = useState(true);
+
+	const { session } = useStytchSession();
 	const location = useLocation();
+	const { loggedInCreatorContentful } = useContext(CreatorsContext)
+
+	const loggedInCreatorID = loggedInCreatorContentful?.sys?.id
 
 	useEffect(() => {
 		if (location.pathname.startsWith("/post/")) {
@@ -23,8 +29,6 @@ const Navbar: React.FC = () => {
 			setShowNavbar(true);
 		}
 	}, [location]);
-
-	console.log(location.pathname);
 
 	const navigate = useNavigate();
 	const stytch = new StytchUIClient(
@@ -55,7 +59,7 @@ const Navbar: React.FC = () => {
 					{!session ? (
 						<></>
 					) : (
-						<NavLink to="/profile">
+						<NavLink to={`/profile/${loggedInCreatorID}`}>
 							<h2 className="hover:underline">Profile</h2>
 						</NavLink>
 					)}
