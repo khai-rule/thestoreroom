@@ -34,7 +34,7 @@ const Post: React.FC = () => {
 
 	return (
 		<>
-			<button className="fixed right-4 top-4 hover:underline" onClick={() => navigate(-1)}>Back</button>
+			<button className="fixed right-6 top-6 hover:underline" onClick={() => navigate(-1)}>Back</button>
 			<div className="flex my-40 max-h-[48rem] object-contain">
 				<PostsDetails matchingPost={matchingPost} code={code} />
 				<PostsGallery matchingPost={matchingPost} code={code} />

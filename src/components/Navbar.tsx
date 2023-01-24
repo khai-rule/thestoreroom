@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
 		return (
 			<div className="fixed inset-0 z-1 bg-primary flex justify-center items-center z-40 text-center text-white">
 				<div onClick={toggleNav}>
-					<button className="fixed top-4 right-4 hover:underline">Close</button>
+					<button className="fixed top-6 right-6 hover:underline">Close</button>
 					<NavLink to="/">
 						<h2 className="hover:underline">Home</h2>
 					</NavLink>
@@ -107,11 +107,11 @@ const Navbar: React.FC = () => {
 			)}
 			{showNavbar ? (
 				<nav className="sticky top-4 flex justify-between mx-4">
-					<h3 className="hover:cursor-pointer" onClick={() => navigate("/")}>
-						Logo
-					</h3>
+					<h2 className="hover:cursor-pointer" onClick={() => navigate("/")}>
+						TheStoreroom
+					</h2>
 					<a
-						className="relative hover:cursor-pointer hover:underline z-50 decoration-primary"
+						className="relative hover:cursor-pointer hover:underline z-50 mt-2 mx-2 decoration-primary"
 						onClick={toggleNav}
 					>
 						{nav ? "Close" : "Menu"}
