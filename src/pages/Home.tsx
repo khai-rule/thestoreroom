@@ -11,6 +11,7 @@ const Homepage: React.FC = () => {
 	const [posts, setPosts] = useState([] as any);
 	const [status, setStatus] = useState<string>("idle");
 	const [display, setDisplay] = useState<string>("none");
+	const [ grid, setGrid ] = useState(false)
 
 	const { getPosts } = useContentful();
 
@@ -22,8 +23,6 @@ const Homepage: React.FC = () => {
 		setStatus("loading");
 	}, []);
 
-	console.log(posts)
-
 	if (status === "loading") return <Loading />;
 
 	return (
@@ -31,8 +30,8 @@ const Homepage: React.FC = () => {
 			<h3 className="fixed left-1/2 transform -translate-x-1/2 top-6">{` Discover ${
 				display === "none" ? "" : display
 			}`}</h3>
-			<HomeSideNav display={display} setDisplay={setDisplay} />
-			<HomeFeed posts={posts} display={display} setDisplay={setDisplay} />
+			<HomeSideNav display={display} setDisplay={setDisplay} setGrid={setGrid} grid={grid}/>
+			<HomeFeed posts={posts} display={display} setDisplay={setDisplay} grid={grid}/>
 		</>
 	);
 };

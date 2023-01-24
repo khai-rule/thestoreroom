@@ -103,6 +103,7 @@ const ProfileInfo: React.FC = () => {
 				console.log(`Entry ${entry.sys.id} updated and published.`);
 				toast("Profile details successfully updated");
 				setStatus("idle");
+				navigate(`/profile/${artistName}`)
 			})
 			.catch(console.error);
 	};

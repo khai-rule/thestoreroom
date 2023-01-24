@@ -18,10 +18,11 @@ const Navbar: React.FC = () => {
 
 	const { session } = useStytchSession();
 	const location = useLocation();
+	
 	const { loggedInCreatorContentful } = useContext(CreatorsContext)
-
-	const loggedInCreatorID = loggedInCreatorContentful?.sys?.id
-
+	
+	const loggedInCreatorArtistName = loggedInCreatorContentful?.creator?.artistName
+	
 	useEffect(() => {
 		if (location.pathname.startsWith("/post/")) {
 			setShowNavbar(false);
@@ -59,7 +60,7 @@ const Navbar: React.FC = () => {
 					{!session ? (
 						<></>
 					) : (
-						<NavLink to={`/profile/${loggedInCreatorID}`}>
+						<NavLink to={`/profile/${loggedInCreatorArtistName}`}>
 							<h2 className="hover:underline">Profile</h2>
 						</NavLink>
 					)}

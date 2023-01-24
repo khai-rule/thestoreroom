@@ -77,8 +77,8 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
 			);
 
 			const viewProfile = () => {
-				const creatorID = matchingPost.post.creator.sys.id;
-				navigate(`/profile/${creatorID}`);
+				const artistName = matchingPost.post.creator.fields.artistName;
+				navigate(`/profile/${artistName}`);
 			};
 
 			const linkCopiedToastify = () => {

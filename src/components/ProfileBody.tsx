@@ -4,7 +4,7 @@ import { UseRef } from "../utilities/interface";
 import { useNavigate } from "react-router-dom";
 import LazyLoad from "react-lazy-load";
 
-const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
+const ProfilePosts: React.FC<ProfilePostsProps> = ({matchingCreator}) => {
 	const navigate = useNavigate();
 	const ref: UseRef = useRef(null);
 

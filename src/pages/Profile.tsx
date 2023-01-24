@@ -28,8 +28,10 @@ const Profile: React.FC = () => {
 
 	if (status === "loading") return <Loading />;
 
+	console.log("dajdsa", creators)
+
 	const matchingCreator = creators.find(
-		(creator: any) => creator.sys.id === code
+		(creator: any) => creator.creator.artistName === code
 	);
 
 

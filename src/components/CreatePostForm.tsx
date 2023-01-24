@@ -26,8 +26,8 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 
 	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
-	const name = `${loggedInCreatorContentful?.creator.firstName} "${loggedInCreatorContentful?.creator.artistName}" ${loggedInCreatorContentful?.creator.lastName}`;
-	console.log(name);
+	const name = `${loggedInCreatorContentful?.creator?.firstName} "${loggedInCreatorContentful?.creator?.artistName}" ${loggedInCreatorContentful?.creator?.lastName}`;
+	const artistName = loggedInCreatorContentful?.creator?.artistName
 
 	const {
 		register,
@@ -95,27 +95,30 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 					.then((environment) => environment.getEntry(entryID))
 					.then((entry) => entry.publish())
 					.then((entry) => {
-						//! Update creator to add the new post in
 						console.log(`Entry ${entry.sys.id} published.`);
 						const newPostID = entry.sys.id;
+						//! Update creator to add the new post in
 						client
 							.getSpace("94snklam6irp")
 							.then((space) => space.getEnvironment("master"))
 							.then((environment) => environment.getEntry(creatorID))
 							.then((entry) => {
-								entry.fields.posts["en-US"].push({
+								if (!entry.fields.posts || !entry.fields.posts["en-US"]) {
+									entry.fields.posts = { "en-US": [] };
+								  }
+								  entry.fields.posts["en-US"].push({
 									sys: {
-										type: "Link",
-										linkType: "Entry",
-										id: newPostID,
+									  type: "Link",
+									  linkType: "Entry",
+									  id: newPostID,
 									},
-								});
-								return entry.update();
+								  });
+								  return entry.update();
 							})
 							.then((entry) => {
 								console.log(`Entry ${entry.sys.id} updated.`);
 								entry.publish();
-								navigate(`/profile/${creatorID}`);
+								navigate(`/profile/${artistName}`);
 								toast("Post successfully created.")
 								setCreate(false);
 							})

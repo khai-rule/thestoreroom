@@ -5,8 +5,11 @@ import { Image } from "../utilities/interface";
 import { allImage } from "../utilities/interface";
 import LazyLoad from "react-lazy-load";
 
-const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
+
+const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay, grid }) => {
 	const navigate = useNavigate();
+	
+	
 
 	const allImages = posts
 		.flatMap((post: any) => post.post.images)
@@ -20,8 +23,8 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 		const matchingPost = posts.find((post) =>
 			post.post.images?.find((image: Image) => image.sys.id === id)
 		);
-		const creatorID = matchingPost?.post.creator.sys.id;
-		navigate(`/profile/${creatorID}`);
+		const artistName = matchingPost?.post.creator.fields.artistName;
+		navigate(`/profile/${artistName}`);
 	};
 
 	const displayImages = allImages.map((image: allImage, i: number) => {
@@ -40,7 +43,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 
 			const url = image?.fields?.file?.url;
 			return (
-				<div className={` my-12 ${i % 3 === 0 ? "w-11/12" : "w-9/12"}`}>
+				<div className={` ${ grid ? "my-4" : "my-12"}  ${i % 3 === 0 ? "w-11/12" : "w-9/12"}`}>
 					<LazyLoad>
 						<>
 							<img
@@ -64,7 +67,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay }) => {
 	});
 
 	return (
-		<div className="grid grid-cols-2  mt-24 ml-48 place-items-center">
+		<div className={`grid ${ grid ? "grid-cols-5" : "grid-cols-2"}   my-24 ml-48 place-items-center`}>
 			{displayImages}
 		</div>
 	);

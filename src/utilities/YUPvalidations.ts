@@ -34,7 +34,7 @@ export const createPostFormSchema = yup
 		artistName: yup.string(),
 		email: yup.string().email(),
 		bio: yup.string().max(350),
-		title: yup.string().max(20),
+		title: yup.string().max(30),
 		website: yup.string().url(),
 		instagram: yup.string()
 	  });

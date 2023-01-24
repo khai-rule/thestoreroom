@@ -3,15 +3,26 @@ import { useState } from "react";
 import { useStytch } from "@stytch/react";
 import { useParams } from "react-router-dom";
 import { createClient } from "contentful-management";
+import { useEffect } from "react";
+import { useStytchSession } from "@stytch/react";
 
 const Register: React.FC = () => {
 	const navigate = useNavigate();
 	const { code } = useParams();
+	const { session } = useStytchSession();
+	
+	const [status, setStatus] = useState<string>("idle");
 
 	const client = createClient({
 		space: "94snklam6irp",
 		accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw", // contentful management
 	});
+
+	useEffect(() => {
+		if (session) {
+			navigate("/");
+		}
+	}, [session]);
 
 	let emailParams = code + ".com";
 
@@ -45,25 +56,28 @@ const Register: React.FC = () => {
 	const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log(values);
+		setStatus("loading");
 		//! Confirm Password
 		if (values.password !== values.confirmPassword) {
 			setMsg("Password does not match");
+			setStatus("idle");
 		} else {
 			//! Create Account in Stytch
 			stytchClient.passwords
 				.strengthCheck({ email, password })
 				.then((res) => {
-					console.log("success", res);
-					const feedback = res.feedback.suggestions[0];
+					console.log("Password is good", res);
+					const feedback = res.feedback.suggestions;
 
 					feedback === undefined
 						? setMsg("Unauthorised credentials")
-						: setMsg(feedback);
+						: setMsg(feedback?.[0] + feedback?.[1]);
 				})
 				.catch((error) => {
 					const errorString = JSON.stringify(error.message);
 					const errorArray = errorString.split("\\n");
 					setMsg(errorArray[1]);
+					setStatus("idle");
 				});
 
 			const response = stytchClient.passwords.create({
@@ -74,36 +88,43 @@ const Register: React.FC = () => {
 			response
 				.then((value) => {
 					console.log(value + "Account successfully created in Stytch");
+
+					//!Create Creator in Contentful
+					client
+						.getSpace("94snklam6irp")
+						.then((space) => space.getEnvironment("master"))
+						.then((environment) =>
+							environment.createEntry("creator", {
+								fields: {
+									email: {
+										"en-US": email,
+									},
+									artistName: {
+										"en-US": email,
+									},
+								},
+							})
+						)
+						//! Publish the new post
+						.then((entry) => {
+							const entryID = entry?.sys.id;
+							console.log(
+								"Account " + entryID + " successfully created in Contentful"
+							);
+							client
+								.getSpace("94snklam6irp")
+								.then((space) => space.getEnvironment("master"))
+								.then((environment) => environment.getEntry(entryID))
+								.then((entry) => entry.publish());
+						});
+
 					navigate("/account/edit");
 				})
 				.catch((error) => {
 					const errorString = JSON.stringify(error.message);
 					const errorArray = errorString.split("\\n");
 					setMsg(errorArray[1]);
-				});
-
-			//!Create Creator in Contentful
-			client
-				.getSpace("94snklam6irp")
-				.then((space) => space.getEnvironment("master"))
-				.then((environment) =>
-					environment.createEntry("creator", {
-						fields: {
-							email: {
-								"en-US": email,
-							},
-						},
-					})
-				)
-				//! Publish the new post
-				.then((entry) => {
-					const entryID = entry?.sys.id;
-					console.log("Account " + entryID + " successfully created in Contentful");
-					client
-						.getSpace("94snklam6irp")
-						.then((space) => space.getEnvironment("master"))
-						.then((environment) => environment.getEntry(entryID))
-						.then((entry) => entry.publish());
+					setStatus("idle");
 				});
 		}
 	};
@@ -231,9 +252,18 @@ const Register: React.FC = () => {
 								{showPassword ? hide : show}
 							</button>
 						</div>
-						<p className="text-red">{msg}</p>
+						<p className="text-red w-96">{msg}</p>
 					</label>
-					<input className="cursor-pointer" type="submit" value="Submit" />
+					{status === "loading" ? (
+						<div
+							className="spinner-border animate-spin inline-block w-6 h-6 border-3 rounded-full text-black m-4"
+							role="status"
+						>
+							<span className="visually-hidden">Loading...</span>
+						</div>
+					) : (
+						<input className="cursor-pointer" type="submit" value="Submit" />
+					)}
 				</form>
 			) : (
 				<></>

@@ -1,7 +1,12 @@
 import { useStytchSession } from "@stytch/react";
 import { HomeDisplayProps } from "../utilities/interface";
 
-const HomeSideNav: React.FC<HomeDisplayProps> = ({ display, setDisplay }) => {
+const HomeSideNav: React.FC<HomeDisplayProps> = ({
+	display,
+	setDisplay,
+	setGrid,
+	grid,
+}) => {
 	const { session } = useStytchSession();
 
 	const tags = [
@@ -34,6 +39,9 @@ const HomeSideNav: React.FC<HomeDisplayProps> = ({ display, setDisplay }) => {
 
 	return (
 		<div className="fixed top-1/2 transform -translate-y-1/2 left-8">
+			<button onClick={() => (grid ? setGrid(false) : setGrid(true))}>
+				Grid
+			</button>
 			<div className="py-4">
 				{session ? <h4 className="py-1 ">Following</h4> : <></>}
 				<h4 className=" underline decoration-primary py-1">Discover</h4>
