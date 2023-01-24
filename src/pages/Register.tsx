@@ -227,7 +227,7 @@ const Register: React.FC = () => {
 							placeholder="Email"
 							disabled={true}
 						/>
-						<div className="flex">
+						<div className="flex items-center">
 							<input
 								type={showPassword ? "text" : "password"}
 								className="m-4"
@@ -244,15 +244,16 @@ const Register: React.FC = () => {
 								name="confirmPassword"
 								placeholder="Confirm Password"
 							/>
-							<button
+							<div className="cursor-pointer"
 								onClick={() => {
 									showPassword ? setShowPassword(false) : setShowPassword(true);
 								}}
 							>
 								{showPassword ? hide : show}
-							</button>
+							</div>
 						</div>
 						<p className="text-red w-96">{msg}</p>
+						
 					</label>
 					{status === "loading" ? (
 						<div
