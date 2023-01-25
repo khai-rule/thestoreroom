@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Karla&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,35 +6,41 @@
 
 @layer base {
 	html {
-		color: black;
-		font-family: "Karla", "sans-serif";
+		background-color: rgb(234, 234, 227);
+		color: rgb(58, 66, 60);
+		font-family: 'Source Sans Pro', sans-serif;
 		font-size: 14px;
 	}
 }
 
 h1 {
-	font-family: "EB Garamond";
-	font-size: 56px;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 40px;
+	font-weight: 600;
 }
 
 h2 {
-	font-family: "EB Garamond";
+	font-family:'Source Sans Pro', sans-serif;
 	font-size: 40px;
+	font-weight: 600;
 }
 
 h3 {
-	font-family: "EB Garamond";
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 600;
 	font-size: 24px;
 }
 
 h4 {
-	font-family: "Karla";
+	font-family: 'Source Sans Pro', sans-serif;
 	font-size: 16px;
+
 }
 
 p {
-	font-family: "Karla";
+	font-family:'Source Sans Pro', sans-serif;
 	font-size: 14px;
+
 }
 
 a:hover {
@@ -65,7 +71,6 @@ a:hover {
 	}
 
 	h4 {
-		font-family: "Karla";
 		font-size: 14px;
 	}
 

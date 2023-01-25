@@ -31,9 +31,8 @@ function App() {
 
 	const { getCreators, getPosts } = useContentful();
 
-	const STYTCH_PUBLIC_TOKEN = import.meta.env.VITE_STYTCH_PUBLIC_TOKEN
-console.log(STYTCH_PUBLIC_TOKEN)
-	console.log("app");
+	console.log("token", import.meta.env.VITE_STYTCH_PUBLIC_TOKEN)
+
 
 	useEffect(() => {
 		getCreators().then((response) => {
