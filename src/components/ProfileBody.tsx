@@ -4,7 +4,7 @@ import { UseRef } from "../utilities/interface";
 import { useNavigate } from "react-router-dom";
 import LazyLoad from "react-lazy-load";
 
-const ProfilePosts: React.FC<ProfilePostsProps> = ({matchingCreator}) => {
+const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 	const navigate = useNavigate();
 	const ref: UseRef = useRef(null);
 
@@ -13,7 +13,11 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({matchingCreator}) => {
 		console.log(ref.current);
 	};
 
-	const postsNav = matchingCreator?.creator?.posts?.map((post: Post) => {
+	const reversePosts = Array.isArray(matchingCreator?.creator?.posts)
+		? [...matchingCreator.creator.posts].reverse()
+		: [];
+
+	const postsNav = reversePosts?.map((post: Post) => {
 		return (
 			<>
 				<h4 className="cursor-pointer my-2" onClick={scrollToPost}>
@@ -27,15 +31,13 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({matchingCreator}) => {
 		navigate(`/post/${id}`);
 	};
 
-	//TODO sort this out - reverse the order of the array - issue is--> the type is object
-	const reversedPosts = matchingCreator?.creator.posts;
-	console.log(reversedPosts);
-	console.log(typeof reversedPosts);
-
-	const posts = matchingCreator?.creator?.posts?.map((post: Post) => {
+	const posts = reversePosts?.map((post: Post) => {
 		const title = post?.fields?.title;
-		const images = post?.fields?.images.map(
-			(image: allImage, index: number) => {
+		console.log(post?.fields?.images);
+		console.log(post?.fields?.images.reverse());
+		const images = post?.fields?.images
+			.reverse()
+			.map((image: allImage, index: number) => {
 				const url = image?.fields?.file.url;
 				const id = image?.sys.id;
 
@@ -54,8 +56,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({matchingCreator}) => {
 						/>
 					</>
 				);
-			}
-		);
+			});
 		return (
 			<div className="flex my-24">
 				<LazyLoad>

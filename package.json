@@ -15,6 +15,7 @@
     "@stytch/stytch-react": "^4.1.1",
     "@stytch/vanilla-js": "^0.5.4",
     "@types/lodash": "^4.14.191",
+    "aos": "^3.0.0-beta.6",
     "contentful": "^9.2.15",
     "contentful-management": "^10.26.0",
     "contentful-typescript-codegen": "^3.4.0",

@@ -108,16 +108,20 @@ const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) =
 			{imageFiles.length !== 0 ? (
 				<></>
 			) : (
+
 				<div className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0 w-8/12 h-4/6 bg-primary grid grid-flow-col rounded-3xl">
+					<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+						
 					<input
-						className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+						className="m-2"
 						type="file"
 						multiple
 						onChange={handleImageChange}
 						accept="image/*"
-						max={8}
-						min={1}
-					/>
+					/> 
+						<p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">JPG or PNG (MAX. 15 images | 20MB).</p>
+					
+					</div>
 				</div>
 			)}
 

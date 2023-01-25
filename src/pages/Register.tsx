@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { createClient } from "contentful-management";
 import { useEffect } from "react";
 import { useStytchSession } from "@stytch/react";
+import { toast } from "react-toastify";
 
 const Register: React.FC = () => {
 	const navigate = useNavigate();
@@ -119,6 +120,7 @@ const Register: React.FC = () => {
 						});
 
 					navigate("/account/edit");
+					toast("Account successfully created")
 				})
 				.catch((error) => {
 					const errorString = JSON.stringify(error.message);

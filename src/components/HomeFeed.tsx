@@ -5,11 +5,13 @@ import { Image } from "../utilities/interface";
 import { allImage } from "../utilities/interface";
 import LazyLoad from "react-lazy-load";
 
-
-const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay, grid }) => {
+const HomeFeed: React.FC<HomeFeedProps> = ({
+	posts,
+	display,
+	setDisplay,
+	grid,
+}) => {
 	const navigate = useNavigate();
-	
-	
 
 	const allImages = posts
 		.flatMap((post: any) => post.post.images)
@@ -43,7 +45,11 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay, grid })
 
 			const url = image?.fields?.file?.url;
 			return (
-				<div className={` ${ grid ? "my-4" : "my-12"}  ${i % 3 === 0 ? "w-11/12" : "w-9/12"}`}>
+				<div
+					className={` ${grid ? "my-4" : "my-12"}  ${
+						i % 3 === 0 ? "w-11/12" : "w-9/12"
+					}`}
+				>
 					<LazyLoad>
 						<>
 							<img
@@ -53,12 +59,16 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay, grid })
 								alt={title}
 								key={url}
 							/>
-							<p
-								className="mx-auto my-2 hover:underline cursor-pointer decoration-primary"
-								onClick={() => viewProfile(id)}
-							>
-								{name}
-							</p>
+							{grid ? (
+								<></>
+							) : (
+								<p
+									className="mx-auto my-2 hover:underline cursor-pointer decoration-primary"
+									onClick={() => viewProfile(id)}
+								>
+									{name}
+								</p>
+							)}
 						</>
 					</LazyLoad>
 				</div>
@@ -67,7 +77,11 @@ const HomeFeed: React.FC<HomeFeedProps> = ({ posts, display, setDisplay, grid })
 	});
 
 	return (
-		<div className={`grid ${ grid ? "grid-cols-5" : "grid-cols-2"}   my-24 ml-48 place-items-center`}>
+		<div
+			className={`grid ${
+				grid ? "grid-cols-5" : "grid-cols-2"
+			}   my-24 ml-48 place-items-center`}
+		>
 			{displayImages}
 		</div>
 	);

@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import ProfileBody from "../components/ProfileBody";
 import ProfileHead from "../components/ProfileHead";
 
-
 const Profile: React.FC = () => {
 	const { code } = useParams();
 	const [status, setStatus] = useState<string>("idle");
@@ -24,20 +23,14 @@ const Profile: React.FC = () => {
 		setStatus("loading");
 	}, []);
 
-	console.log(creators)
-
 	if (status === "loading") return <Loading />;
-
-	console.log("dajdsa", creators)
 
 	const matchingCreator = creators.find(
 		(creator: any) => creator.creator.artistName === code
 	);
 
-
 	return (
 		<div>
-			
 			<div>
 				<ProfileHead matchingCreator={matchingCreator} />
 			</div>
