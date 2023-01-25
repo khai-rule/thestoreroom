@@ -17,10 +17,9 @@ import _ from "lodash";
 import { CreatorsContext } from "./utilities/context";
 import { useStytchSession } from "@stytch/react";
 
-
 function App() {
 	const { user } = useStytchUser();
-	const { session } = useStytchSession(); 
+	const { session } = useStytchSession();
 
 	const [creators, setCreators] = useState([] as any);
 	const [loggedInCreator, setLoggedInCreator] = useState({} as any);
@@ -33,7 +32,8 @@ function App() {
 	const { getCreators, getPosts } = useContentful();
 
 	const STYTCH_PUBLIC_TOKEN = import.meta.env.VITE_STYTCH_PUBLIC_TOKEN
-	console.log(STYTCH_PUBLIC_TOKEN)
+console.log(STYTCH_PUBLIC_TOKEN)
+	console.log("app");
 
 	useEffect(() => {
 		getCreators().then((response) => {
@@ -55,12 +55,8 @@ function App() {
 
 	if (status === "loading") return <Loading />;
 
-
-
-	
 	return (
 		<>
-
 			<CreatorsContext.Provider
 				value={{ creators, loggedInCreator, loggedInCreatorContentful }}
 			>

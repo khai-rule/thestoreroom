@@ -23,7 +23,7 @@ const ConfirmDeletePost: React.FC<ConfirmDeleteProps> = ({
 	const deletePost = () => {
 		console.log("delete initiated");
 
-        // Remove post from creator
+		// Remove post from creator
 		client
 			.getSpace("94snklam6irp")
 			.then((space) => space.getEnvironment("master"))

@@ -41,14 +41,14 @@ export interface HomeFeedProps {
 	posts: Record<string, any>[];
 	display: string;
 	setDisplay: React.Dispatch<React.SetStateAction<string>>;
-	grid: boolean
+	grid: boolean;
 }
 
 export interface HomeDisplayProps {
 	display: string;
 	setDisplay: React.Dispatch<React.SetStateAction<string>>;
-	grid: boolean
-	setGrid: React.Dispatch<React.SetStateAction<boolean>>
+	grid: boolean;
+	setGrid: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface PostsGalleryProps {
@@ -161,6 +161,9 @@ export interface ConfirmDeleteProps {
 			creator: {
 				sys: {
 					id: string;
+				};
+				fields: {
+					artistName: string;
 				};
 			};
 		};

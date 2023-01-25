@@ -10,8 +10,8 @@ import { FormSubmit } from "../utilities/interface";
 import Loading from "./Loading";
 
 const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) => {
+
 	const client = createClient({
-		// space: "94snklam6irp",
 		accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw", // contentful management
 	});
 	const formRef: FormSubmit = useRef(null!);
