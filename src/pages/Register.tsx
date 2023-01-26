@@ -215,7 +215,7 @@ const Register: React.FC = () => {
 									showPassword ? setShowPassword(false) : setShowPassword(true);
 								}}
 							>
-								{showPassword ? hideIcon : showIcon}
+								{showPassword ? showIcon : hideIcon}
 							</div>
 						</div>
 						<p className="text-red w-96">{msg}</p>
@@ -229,7 +229,7 @@ const Register: React.FC = () => {
 							<span className="visually-hidden">Loading...</span>
 						</div>
 					) : (
-						<input className="cursor-pointer" type="submit" value="Submit" />
+						<input className="cursor-pointer font-semibold" type="submit" value="Submit" />
 					)}
 				</form>
 			) : (

@@ -10,7 +10,6 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 
 	const scrollToPost = () => {
 		ref.current!.scrollIntoView({ behavior: "smooth" });
-		console.log(ref.current);
 	};
 
 	const reversePosts = Array.isArray(matchingCreator?.creator?.posts)
@@ -33,8 +32,6 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 
 	const posts = reversePosts?.map((post: Post) => {
 		const title = post?.fields?.title;
-		console.log(post?.fields?.images);
-		console.log(post?.fields?.images.reverse());
 		const images = post?.fields?.images
 			.reverse()
 			.map((image: allImage, index: number) => {

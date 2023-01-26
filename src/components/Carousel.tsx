@@ -46,12 +46,13 @@ const Carousel: React.FC<ImagePreviewsProps> = ({ imagePreviews }) => {
 			/>
 
 			{imagePreviews.length > 1 ? (
-				<div className="fixed top-1/2 left-1/2">
+				<div className="absolute inset-0 flex items-center justify-center">
+
 					{currentIndex === 0 ? (
 						<></>
 					) : (
 						<button
-							className="text-black "
+							className="absolute bg-primary rounded-full p-2 left-4"
 							onClick={() => setCurrentIndex(currentIndex - 1)}
 						>
 							{leftArrow}
@@ -61,12 +62,13 @@ const Carousel: React.FC<ImagePreviewsProps> = ({ imagePreviews }) => {
 						<></>
 					) : (
 						<button
-							className="text-black"
+							className="absolute bg-primary rounded-full p-2 right-4"
 							onClick={() => setCurrentIndex(currentIndex + 1)}
 						>
 							{rightArrow}
 						</button>
 					)}
+
 				</div>
 			) : (
 				<></>

@@ -52,13 +52,12 @@ const Login: React.FC = () => {
 	return (
 		<>
 			<div className="flex flex-col items-center my-24">
-				<h1>Welcome Back to The Storeroom</h1>
+				<h1>Welcome to The Storeroom</h1>
 				<p className="w-3/6 max-w-3xl items-center my-4">
-					{/* To change text */}
-					Welcome to The Storeroom, where creativity thrives! We're excited to
-					have you join our community of talented visual artists and
-					photographers. With your help, we're building a platform that
-					celebrates and amplifies the voices of creators like you.
+					Welcome to The Storeroom! Please sign in with your registered email
+					and password to access your account and start creating, managing and
+					delivering your content. Don't have an account yet? Register now to
+					join our community of creative minds.
 				</p>
 				<form onSubmit={handleSubmit}>
 					<label className="flex flex-col">
@@ -70,26 +69,25 @@ const Login: React.FC = () => {
 							placeholder="Email"
 						/>
 						<div className="flex items-center">
-
-						<input
-							className="m-4"
-							type={showPassword ? "text" : "password"}
-							value={values.password}
-							onChange={handleInputChange}
-							name="password"
-							placeholder="Password"
+							<input
+								className="m-4"
+								type={showPassword ? "text" : "password"}
+								value={values.password}
+								onChange={handleInputChange}
+								name="password"
+								placeholder="Password"
 							/>
-						<div
-							className="cursor-pointer"
-							onClick={() => {
-								showPassword ? setShowPassword(false) : setShowPassword(true);
-							}}
+							<div
+								className="cursor-pointer"
+								onClick={() => {
+									showPassword ? setShowPassword(false) : setShowPassword(true);
+								}}
 							>
-							{showPassword ? hideIcon : showIcon}
-						</div>
+								{showPassword ? showIcon : hideIcon}
 							</div>
+						</div>
 
-						<input className="cursor-pointer" type="submit" value="Login" />
+						<input className="cursor-pointer font-semibold" type="submit" value="Login" />
 					</label>
 				</form>
 
