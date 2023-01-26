@@ -10,6 +10,8 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { CreatorsContext } from "../utilities/context";
+import logoIcon2 from "../img/logoIcon2.svg";
+
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
@@ -18,11 +20,12 @@ const Navbar: React.FC = () => {
 
 	const { session } = useStytchSession();
 	const location = useLocation();
-	
-	const { loggedInCreatorContentful } = useContext(CreatorsContext)
-	
-	const loggedInCreatorArtistName = loggedInCreatorContentful?.creator?.artistName
-	
+
+	const { loggedInCreatorContentful } = useContext(CreatorsContext);
+
+	const loggedInCreatorArtistName =
+		loggedInCreatorContentful?.creator?.artistName;
+
 	useEffect(() => {
 		if (location.pathname.startsWith("/post/")) {
 			setShowNavbar(false);
@@ -111,12 +114,16 @@ const Navbar: React.FC = () => {
 				<></>
 			)}
 			{showNavbar ? (
-				<nav className="sticky top-4 flex justify-between mx-4">
-					<h2 className="hover:cursor-pointer" onClick={() => navigate("/")}>
-						TheStoreroom
-					</h2>
+				<nav className="fixed top-4 flex mx-4">
+					<img
+						src={logoIcon2}
+						alt="Logo Icon"
+						className="hover:cursor-pointer w-36 fixed -left-5 top-10"
+						onClick={() => navigate("/")}
+					/>
+
 					<a
-						className="relative hover:cursor-pointer hover:underline z-50 mt-2 mx-2 decoration-primary"
+						className="fixed right-4 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2 decoration-primary"
 						onClick={toggleNav}
 					>
 						{nav ? "Close" : "Menu"}

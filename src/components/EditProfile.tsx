@@ -35,8 +35,7 @@ const ProfileInfo: React.FC = () => {
 
 	const firstName = loggedInCreatorContentful?.creator?.firstName;
 	const lastName = loggedInCreatorContentful?.creator?.lastName;
-	const artistName = loggedInCreatorContentful?.creator?.artistName;
-	const email = loggedInCreatorContentful?.creator?.email;
+	const currentArtistName = loggedInCreatorContentful?.creator?.artistName;
 	const bio = loggedInCreatorContentful?.creator?.bio;
 	const title = loggedInCreatorContentful?.creator?.title;
 	const website = loggedInCreatorContentful?.creator?.website;
@@ -103,7 +102,9 @@ const ProfileInfo: React.FC = () => {
 				console.log(`Entry ${entry.sys.id} updated and published.`);
 				toast("Profile details successfully updated");
 				setStatus("idle");
-				navigate(`/profile/${artistName}`)
+				navigate(
+					`/profile/${artistName === "" ? currentArtistName : artistName}`
+				);
 			})
 			.catch(console.error);
 	};
@@ -115,7 +116,7 @@ const ProfileInfo: React.FC = () => {
 				<label>Artist Name</label>
 				<input
 					className="m-4"
-					placeholder={artistName}
+					placeholder={currentArtistName}
 					{...register("artistName")}
 				/>
 				<p>This will appear in your profile link.</p>

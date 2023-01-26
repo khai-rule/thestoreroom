@@ -11,24 +11,25 @@ import { ToastContainer, toast } from "react-toastify";
 import { Slide } from "react-toastify";
 import { useStytchSession } from "@stytch/react";
 import ConfirmDeletePost from "./ConfirmDeletePost";
+import EditPostImages from "./EditPostImages";
 
-const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
+const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, setUpdate }) => {
 	const postsDetails = () => {
 		const navigate = useNavigate();
 		const { session } = useStytchSession();
+
 		const [isOpen, setOpen] = useState<boolean>(false);
 		const [confirmDeleteOpen, setConfirmDeleteOpen] = useState<boolean>(false);
+		const [edit, setEdit] = useState<boolean>(false);
 
 		if (matchingPost) {
-			
 			const { caption, creator, title, comments } = matchingPost?.post;
 			const { firstName, artistName, lastName, email } = creator?.fields;
 			const name = `${firstName} "${artistName}" ${lastName}`;
 
-
 			const displayComments = comments?.map((comment: Comments) => {
 				const theComment = comment.fields.comment;
-				const commenterID = comment.fields.creator.sys.id
+				const commenterID = comment.fields.creator.sys.id;
 				const {
 					firstName,
 					artistName,
@@ -37,11 +38,16 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
 				const theCommenter = `${firstName} "${artistName}" ${lastName}`;
 
 				const viewCommenterProfile = () => {
-					navigate(`/profile/${commenterID}`)
-				}
+					navigate(`/profile/${commenterID}`);
+				};
 				return (
 					<p className="my-3">
-						<p className="my-2 font-semibold cursor-pointer" onClick={viewCommenterProfile}>{theCommenter}</p>
+						<p
+							className="my-2 font-semibold cursor-pointer"
+							onClick={viewCommenterProfile}
+						>
+							{theCommenter}
+						</p>
 						{theComment}
 					</p>
 				);
@@ -82,8 +88,8 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
 			};
 
 			const linkCopiedToastify = () => {
-				toast("Link copied to clipboard")
-			}
+				toast("Link copied to clipboard");
+			};
 
 			return (
 				<div className="mx-12 flex flex-col justify-between">
@@ -103,27 +109,53 @@ const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
 						{displayComments}
 					</div>
 
-					<PostsDetailsMoreOptions isOpen={isOpen} setOpen={setOpen} linkCopiedToastify={linkCopiedToastify} matchingPost={matchingPost} setConfirmDeleteOpen={setConfirmDeleteOpen} />
-					<ConfirmDeletePost confirmDeleteOpen={confirmDeleteOpen} setConfirmDeleteOpen={setConfirmDeleteOpen} matchingPost={matchingPost}/>
+					<PostsDetailsMoreOptions
+						isOpen={isOpen}
+						setOpen={setOpen}
+						linkCopiedToastify={linkCopiedToastify}
+						matchingPost={matchingPost}
+						setConfirmDeleteOpen={setConfirmDeleteOpen}
+						setEdit={setEdit}
+					/>
+					<ConfirmDeletePost
+						confirmDeleteOpen={confirmDeleteOpen}
+						setConfirmDeleteOpen={setConfirmDeleteOpen}
+						matchingPost={matchingPost}
+					/>
 
-					{session ? <div>
-						<form
-							className="border-b border-gray-300 flex justify-between"
-							onSubmit={handleSubmit(onSubmit)}
-						>
-							<input
-								className="text-sm p-2 w-11/12 outline-none"
-								{...register("comment")}
-								placeholder="Add a comment"
-							/>
-							<input
-								className="cursor-pointer p-2 "
-								type="submit"
-								value="Post"
-							/>
-						</form>
-						<p className="relative top-4">{errors.comment?.message}</p>
-					</div> : <></>}
+					{edit ? (
+						<EditPostImages
+							closeModal={() => setEdit(false)}
+							setEdit={setEdit}
+							matchingPost={matchingPost}
+							setUpdate={setUpdate}
+						/>
+					) : (
+						<></>
+					)}
+
+					{session ? (
+						<div>
+							<form
+								className="border-b border-gray-300 flex justify-between"
+								onSubmit={handleSubmit(onSubmit)}
+							>
+								<input
+									className="text-sm p-2 w-11/12 outline-none"
+									{...register("comment")}
+									placeholder="Add a comment"
+								/>
+								<input
+									className="cursor-pointer p-2 "
+									type="submit"
+									value="Post"
+								/>
+							</form>
+							<p className="relative top-4">{errors.comment?.message}</p>
+						</div>
+					) : (
+						<></>
+					)}
 				</div>
 			);
 		}

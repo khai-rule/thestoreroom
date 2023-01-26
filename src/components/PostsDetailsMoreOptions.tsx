@@ -8,7 +8,8 @@ const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 	setOpen,
 	linkCopiedToastify,
 	matchingPost,
-	setConfirmDeleteOpen
+	setConfirmDeleteOpen,
+	setEdit,
 }) => {
 	if (!isOpen) return null;
 
@@ -25,9 +26,14 @@ const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 	const loggedInCreatorID = loggedInCreatorContentful?.sys.id;
 
 	const confirmDelete = () => {
-		setOpen(false)
-		setConfirmDeleteOpen(true)
-	}
+		setOpen(false);
+		setConfirmDeleteOpen(true);
+	};
+
+	const editPost = () => {
+		setOpen(false);
+		setEdit(true);
+	};
 
 	return (
 		<div
@@ -39,12 +45,17 @@ const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 			<div className="fixed inset-0 z-1 bg-black bg-opacity-50 flex justify-center items-center z-50">
 				<div className="absolute bg-white rounded-lg py-2 px-12 flex flex-col">
 					{postCreatorID === loggedInCreatorID ? (
-						<button
-							className="block px-4 py-3 text-red font-semibold"
-							onClick={confirmDelete}
-						>
-							Delete
-						</button>
+						<>
+							<button
+								className="block px-4 py-3 text-red font-semibold"
+								onClick={confirmDelete}
+							>
+								Delete
+							</button>
+							<button className="block px-4 py-3" onClick={editPost}>
+								Edit
+							</button>
+						</>
 					) : (
 						<></>
 					)}

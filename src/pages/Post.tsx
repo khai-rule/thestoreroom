@@ -14,6 +14,8 @@ const Post: React.FC = () => {
 
 	const [posts, setPosts] = useState([] as any);
 	const [status, setStatus] = useState<string>("idle");
+	const [update, setUpdate] = useState<number>(1);
+	
 
 	useEffect(() => {
 		getPosts().then((response) => {
@@ -21,7 +23,7 @@ const Post: React.FC = () => {
 			setStatus("done");
 		});
 		setStatus("loading");
-	}, []);
+	}, [update]);
 
 	if (status === "loading") return <Loading />;
 
@@ -36,7 +38,7 @@ const Post: React.FC = () => {
 		<>
 			<button className="fixed right-6 top-6 hover:underline" onClick={() => navigate(-1)}>Back</button>
 			<div className="flex my-40 max-h-[48rem] object-contain">
-				<PostsDetails matchingPost={matchingPost} code={code} />
+				<PostsDetails matchingPost={matchingPost} code={code}  setUpdate={setUpdate}/>
 				<PostsGallery matchingPost={matchingPost} code={code} />
 			</div>
 		</>

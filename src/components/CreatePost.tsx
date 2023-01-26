@@ -16,7 +16,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) =
 	});
 	const formRef: FormSubmit = useRef(null!);
 	const [status, setStatus] = useState<string>("idle");
-	// if (status === "loading") return <Loading />;
+
 
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -30,9 +30,12 @@ const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) =
 		setImageFiles([...imageFiles, ...files!]);
 		setImagePreview([...imagePreview, ...previews]);
 
+
 		console.log("preview", imagePreview);
 		console.log("file", imageFiles);
 	};
+
+	console.log("preview", imagePreview);
 
 	const goBack = () => {
 		//TODO confirm message
