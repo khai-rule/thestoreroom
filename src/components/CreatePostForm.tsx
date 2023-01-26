@@ -151,27 +151,39 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 						placeholder="Title"
 					/>
 
-					<>
-						<p className="my-2">{errors.title?.message}</p>
-						{setStatus("idle")}
-					</>
+					{errors.title && errors.title?.message ? (
+						<>
+							<p className="my-2">{errors.title?.message}</p>
+							{setStatus("idle")}
+						</>
+					) : (
+						<></>
+					)}
 
 					<textarea
 						className="my-2 text-white bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none resize-none w-full h-40"
 						{...register("caption")}
 						placeholder="Write a caption..."
 					/>
-					<p>{errors.caption?.message}</p>
+					{errors.caption && errors.caption?.message ? (
+						<p>{errors.caption?.message}</p>
+					) : (
+						<></>
+					)}
 
 					<label className="my-2" htmlFor="tags">
 						Add tags?
 					</label>
 					<div className="flex my-2">{displayTags()}</div>
 
-					<>
-						<p className="my-2">{errors.tags?.message}</p>
-						{setStatus("idle")}
-					</>
+					{errors.tags && errors.tags?.message ? (
+						<>
+							<p className="my-2">{errors.tags?.message}</p>
+							{setStatus("idle")}
+						</>
+					) : (
+						<></>
+					)}
 				</form>
 			</div>
 		</>

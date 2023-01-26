@@ -97,7 +97,14 @@ const EditPost: React.FC<EditPostProps> = ({
 					defaultValue={title}
 				/>
 				<>
-					<p className="my-2">{errors.title?.message}</p>
+					{errors.title && errors.title?.message ? (
+						<>
+							<p className="my-2">{errors.title?.message}</p>
+							{setStatus("idle")}
+						</>
+					) : (
+						<></>
+					)}
 					{setStatus("idle")}
 				</>
 
@@ -107,17 +114,25 @@ const EditPost: React.FC<EditPostProps> = ({
 					placeholder="Write a caption..."
 					defaultValue={caption}
 				/>
-				<p>{errors.caption?.message}</p>
+				{errors.caption && errors.caption?.message ? (
+					<p>{errors.caption?.message}</p>
+				) : (
+					<></>
+				)}
 
 				<label className="my-2" htmlFor="tags">
 					Add tags?
 				</label>
 				<div className="flex my-2">{displayTags()}</div>
 
-				<>
-					<p className="my-2">{errors.tags?.message}</p>
-					{setStatus("idle")}
-				</>
+				{errors.tags && errors.tags?.message ? (
+					<>
+						<p className="my-2">{errors.tags?.message}</p>
+						{setStatus("idle")}
+					</>
+				) : (
+					<></>
+				)}
 			</form>
 		</div>
 	);

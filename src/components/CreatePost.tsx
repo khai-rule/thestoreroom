@@ -13,11 +13,9 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 	closeModal,
 	setCreate,
 }) => {
-	const client = createClient({
-		accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw", // contentful management
-	});
 	const formRef: FormSubmit = useRef(null!);
 	const [status, setStatus] = useState<string>("idle");
+
 
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -30,12 +28,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 		}
 		setImageFiles([...imageFiles, ...files!]);
 		setImagePreview([...imagePreview, ...previews]);
-
-		console.log("preview", imagePreview);
-		console.log("file", imageFiles);
 	};
-
-	console.log("preview", imagePreview);
 
 	const goBack = () => {
 		//TODO confirm message
