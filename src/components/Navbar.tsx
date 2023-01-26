@@ -10,8 +10,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { CreatorsContext } from "../utilities/context";
-import logoIcon2 from "../img/logoIcon2.svg";
-
+import logoIcon2 from "../imgIcons/logoIcon2.svg";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
@@ -63,20 +62,22 @@ const Navbar: React.FC = () => {
 					{!session ? (
 						<></>
 					) : (
-						<NavLink to={`/profile/${loggedInCreatorArtistName}`}>
-							<h2 className="hover:underline">Profile</h2>
-						</NavLink>
+						<>
+							<NavLink to={`/profile/${loggedInCreatorArtistName}`}>
+								<h2 className="hover:underline">Profile</h2>
+							</NavLink>
+							<h2
+								className="hover:underline cursor-pointer"
+								onClick={createPostModal}
+							>
+								Create
+							</h2>
+							<NavLink to={"/invite"}>
+								<h2 className="hover:underline">Invite</h2>
+							</NavLink>
+						</>
 					)}
-					{!session ? (
-						<></>
-					) : (
-						<h2
-							className="hover:underline cursor-pointer"
-							onClick={createPostModal}
-						>
-							Create
-						</h2>
-					)}
+
 					{!session ? (
 						<NavLink to="/account/login">
 							<h2 className="hover:underline cursor-pointer">Login</h2>
@@ -86,7 +87,9 @@ const Navbar: React.FC = () => {
 							<h2 className="hover:underline cursor-pointer">Logout</h2>
 						</a>
 					)}
-					<h2 className="hover:underline cursor-pointer">About</h2>
+					<NavLink to="/about/">
+						<h2 className="hover:underline cursor-pointer">About</h2>
+					</NavLink>
 				</div>
 			</div>
 		);

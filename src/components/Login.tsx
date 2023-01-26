@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useStytch } from "@stytch/react";
+import hideIcon from "../imgIcons/hideIcon";
+import showIcon from "../imgIcons/showIcon";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
@@ -15,6 +17,7 @@ const Login: React.FC = () => {
 
 	const [values, setValues] = useState(initialValues);
 	const [msg, setMsg] = useState("");
+	const [showPassword, setShowPassword] = useState<boolean>(false);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -48,40 +51,67 @@ const Login: React.FC = () => {
 
 	return (
 		<>
-			<h1>Login</h1>
+			<div className="flex flex-col items-center my-24">
+				<h1>Welcome Back to The Storeroom</h1>
+				<p className="w-3/6 max-w-3xl items-center my-4">
+					{/* To change text */}
+					Welcome to The Storeroom, where creativity thrives! We're excited to
+					have you join our community of talented visual artists and
+					photographers. With your help, we're building a platform that
+					celebrates and amplifies the voices of creators like you.
+				</p>
+				<form onSubmit={handleSubmit}>
+					<label className="flex flex-col">
+						<input
+							className="m-4"
+							value={values.email}
+							onChange={handleInputChange}
+							name="email"
+							placeholder="Email"
+						/>
+						<div className="flex items-center">
 
-			<form onSubmit={handleSubmit}>
-				<label>
-					<input
-						value={values.email}
-						onChange={handleInputChange}
-						name="email"
-						placeholder="Email"
-					/>
-					<input
-						value={values.password}
-						onChange={handleInputChange}
-						name="password"
-						placeholder="Password"
-					/>
-				</label>
+						<input
+							className="m-4"
+							type={showPassword ? "text" : "password"}
+							value={values.password}
+							onChange={handleInputChange}
+							name="password"
+							placeholder="Password"
+							/>
+						<div
+							className="cursor-pointer"
+							onClick={() => {
+								showPassword ? setShowPassword(false) : setShowPassword(true);
+							}}
+							>
+							{showPassword ? hideIcon : showIcon}
+						</div>
+							</div>
 
-				<input className="cursor-pointer" type="submit" value="Login" />
-			</form>
+						<input className="cursor-pointer" type="submit" value="Login" />
+					</label>
+				</form>
 
-			<p>{msg}</p>
+				<p className="text-red">{msg}</p>
 
-			{msg === "Unauthorized credentials." ? (
-				<a onClick={() => navigate("/account/forgetpassword")}>
-					Forgot your password?
-				</a>
-			) : (
-				<></>
-			)}
-			<p>
-				Don't have an account yet?
-				<a onClick={() => navigate("/register/*")}>Create Account</a>
-			</p>
+				{msg === "Unauthorized credentials." ? (
+					<a onClick={() => navigate("/account/forgetpassword")}>
+						Forgot your password?
+					</a>
+				) : (
+					<></>
+				)}
+				<p className="my-4">
+					Don't have an account yet?
+					<a
+						className="mx-2 font-semibold"
+						onClick={() => navigate("/register/*")}
+					>
+						Create Account
+					</a>
+				</p>
+			</div>
 		</>
 	);
 };

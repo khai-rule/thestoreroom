@@ -9,14 +9,15 @@ import { useRef } from "react";
 import { FormSubmit } from "../utilities/interface";
 import Loading from "./Loading";
 
-const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) => {
-
+const CreatePost: React.FC<CreatePostModalProps> = ({
+	closeModal,
+	setCreate,
+}) => {
 	const client = createClient({
 		accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw", // contentful management
 	});
 	const formRef: FormSubmit = useRef(null!);
 	const [status, setStatus] = useState<string>("idle");
-
 
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -30,7 +31,6 @@ const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) =
 		setImageFiles([...imageFiles, ...files!]);
 		setImagePreview([...imagePreview, ...previews]);
 
-
 		console.log("preview", imagePreview);
 		console.log("file", imageFiles);
 	};
@@ -42,18 +42,18 @@ const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) =
 		setImageFiles([]);
 		setImagePreview([]);
 	};
+	//TODO check if form is completed  otherwise, don't publish image
 
 	const handleUpload = async () => {
-		//TODO check if form is completed  otherwise, don't publish image
 		try {
 			const MClient = createClient({
 				accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw",
 			});
 			const space = await MClient.getSpace("94snklam6irp");
 			const environment = await space.getEnvironment("master");
-
 			setStatus("loading");
 
+			//! Create Image Asset in Contentful
 			const uploadPromises = imageFiles.map(async (file: any | File) => {
 				const contentType = file.type;
 				const fileName = file.name;
@@ -80,7 +80,6 @@ const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) =
 			});
 
 			const assets = await Promise.all(uploadPromises);
-			console.log(assets);
 			const sanitisedSys = assets.map((asset) => {
 				return {
 					sys: {
@@ -90,11 +89,10 @@ const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) =
 					},
 				};
 			});
-			console.log(sanitisedSys);
 			console.log("Images successfuly uploaded");
 			formRef.current(sanitisedSys);
 		} catch (error) {
-			setStatus("idle")
+			setStatus("idle");
 			console.log(error);
 		}
 	};
@@ -111,19 +109,21 @@ const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) =
 			{imageFiles.length !== 0 ? (
 				<></>
 			) : (
-
 				<div className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0 w-8/12 h-4/6 bg-primary grid grid-flow-col rounded-3xl">
 					<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-						
-					<input
-						className="m-2"
-						type="file"
-						multiple
-						onChange={handleImageChange}
-						accept="image/*"
-					/> 
-						<p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">JPG or PNG (MAX. 15 images | 20MB).</p>
-					
+						<input
+							className="m-2"
+							type="file"
+							multiple
+							onChange={handleImageChange}
+							accept="image/*"
+						/>
+						<p
+							className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+							id="file_input_help"
+						>
+							JPG or PNG (MAX. 15 images | 20MB).
+						</p>
 					</div>
 				</div>
 			)}
@@ -153,7 +153,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({ closeModal, setCreate }) =
 							) : (
 								<h4
 									onClick={handleUpload}
-									className="py-2 mx-5 text-primary font-semi bold cursor-pointer"
+									className="py-2 mx-5 text-primary font-semibold cursor-pointer"
 								>
 									Share
 								</h4>

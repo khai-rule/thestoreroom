@@ -5,7 +5,6 @@ import Account from "./pages/Account";
 import Homepage from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { useState } from "react";
-import { createContext } from "react";
 import Register from "./pages/Register";
 import useContentful from "./utilities/useContentful";
 import { useEffect } from "react";
@@ -16,6 +15,8 @@ import Profile from "./pages/Profile";
 import _ from "lodash";
 import { CreatorsContext } from "./utilities/context";
 import { useStytchSession } from "@stytch/react";
+import About from "./pages/About";
+import Invite from "./pages/Invite";
 
 function App() {
 	const { user } = useStytchUser();
@@ -27,9 +28,8 @@ function App() {
 	const [loggedInCreatorContentful, setLoggedInCreatorContentful] = useState(
 		{} as any
 	);
-	const [post, setPost] = useState();
 
-	const { getCreators, getPosts } = useContentful();
+	const { getCreators } = useContentful();
 
 	console.log("token", import.meta.env.VITE_STYTCH_PUBLIC_TOKEN)
 
@@ -68,6 +68,8 @@ function App() {
 						<Route path="/register/:code" element={<Register />} />
 						<Route path="/post/:code" element={<Post />} />
 						<Route path="/profile/:code" element={<Profile />} />
+						<Route path="/about/" element={<About />} />
+						<Route path="/invite/" element={<Invite />} />
 					</Routes>
 				</BrowserRouter>
 			</CreatorsContext.Provider>

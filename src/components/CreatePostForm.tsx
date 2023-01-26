@@ -44,14 +44,10 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	const onSubmit = (data: CreatePostForms, sanitisedSys: any) => {
 		const { title, caption, tags } = data;
 		if (!title || !tags) {
-			console.log("hi");
 			setStatus("idle");
 			return;
 		}
-		console.log("tags", tags);
 		const creatorID = loggedInCreatorContentful?.sys.id;
-		console.log("creator ID", creatorID);
-		console.log("image file", imageFiles);
 
 		//!Create new post
 		client
