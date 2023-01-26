@@ -15,7 +15,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	imageFiles,
 	formRef,
 	setStatus,
-	setCreate,
+	setCreate
 }) => {
 	const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
 	const name = `${loggedInCreatorContentful?.creator?.firstName} "${loggedInCreatorContentful?.creator?.artistName}" ${loggedInCreatorContentful?.creator?.lastName}`;
-	const artistName = loggedInCreatorContentful?.creator?.artistName;
+	const artistName = loggedInCreatorContentful?.creator?.artistName
 
 	const {
 		register,
@@ -44,10 +44,14 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	const onSubmit = (data: CreatePostForms, sanitisedSys: any) => {
 		const { title, caption, tags } = data;
 		if (!title || !tags) {
+			console.log("hi");
 			setStatus("idle");
 			return;
 		}
+		console.log("tags", tags);
 		const creatorID = loggedInCreatorContentful?.sys.id;
+		console.log("creator ID", creatorID);
+		console.log("image file", imageFiles);
 
 		//!Create new post
 		client
@@ -101,21 +105,21 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 							.then((entry) => {
 								if (!entry.fields.posts || !entry.fields.posts["en-US"]) {
 									entry.fields.posts = { "en-US": [] };
-								}
-								entry.fields.posts["en-US"].push({
+								  }
+								  entry.fields.posts["en-US"].push({
 									sys: {
-										type: "Link",
-										linkType: "Entry",
-										id: newPostID,
+									  type: "Link",
+									  linkType: "Entry",
+									  id: newPostID,
 									},
-								});
-								return entry.update();
+								  });
+								  return entry.update();
 							})
 							.then((entry) => {
 								console.log(`Entry ${entry.sys.id} updated.`);
 								entry.publish();
 								navigate(`/profile/${artistName}`);
-								toast("Post successfully created.");
+								toast("Post successfully created.")
 								setCreate(false);
 							})
 							.catch(console.error);
@@ -150,7 +154,6 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 						{...register("title")}
 						placeholder="Title"
 					/>
-
 					{errors.title && errors.title?.message ? (
 						<>
 							<p className="my-2">{errors.title?.message}</p>
@@ -165,17 +168,12 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 						{...register("caption")}
 						placeholder="Write a caption..."
 					/>
-					{errors.caption && errors.caption?.message ? (
-						<p>{errors.caption?.message}</p>
-					) : (
-						<></>
-					)}
+					<p>{errors.caption?.message}</p>
 
 					<label className="my-2" htmlFor="tags">
 						Add tags?
 					</label>
 					<div className="flex my-2">{displayTags()}</div>
-
 					{errors.tags && errors.tags?.message ? (
 						<>
 							<p className="my-2">{errors.tags?.message}</p>
