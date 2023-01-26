@@ -4,9 +4,8 @@ import { toast } from "react-toastify";
 
 const Invite: React.FC = () => {
 	const { register, handleSubmit } = useForm();
-	const [inviteSent, setInviteSent] = useState(false);
 
-	const onSubmit = (data: { email: string }) => {
+	const onSubmit = (data: any) => {
 		const { email } = data;
 		const removeDotCom = email.replace(".com", "");
 
@@ -28,15 +27,12 @@ const Invite: React.FC = () => {
 				Link" button. Simply send them the unique link to join The Storeroom.
 				Together, we can push the boundaries of creativity.
 			</p>
-			{inviteSent ? (
-				<p>Invite sent!</p>
-			) : (
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<input className="m-4" type="email" {...register("email")} />
 
-					<button className="font-semibold">Get Invite Link</button>
-				</form>
-			)}
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<input className="m-4" type="email" {...register("email")} />
+
+				<button className="font-semibold">Get Invite Link</button>
+			</form>
 		</div>
 	);
 };

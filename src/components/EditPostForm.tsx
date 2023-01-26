@@ -11,7 +11,6 @@ import { CreatePostForms } from "../utilities/interface";
 const EditPost: React.FC<EditPostProps> = ({
 	formRef,
 	setStatus,
-	setEdit,
 	setUpdate,
 	matchingPost,
 }) => {
