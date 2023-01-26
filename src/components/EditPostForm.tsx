@@ -4,19 +4,27 @@ import _ from "lodash";
 import { toast } from "react-toastify";
 import { createClient } from "contentful-management";
 import { useEffect } from "react";
+import { EditPostProps } from "../utilities/interface";
+import { createPostFormSchema } from "../utilities/YUPvalidations";
+import { CreatePostForms } from "../utilities/interface";
 
-const EditPost = ({ formRef, setStatus, setEdit, setUpdate, matchingPost }) => {
+const EditPost: React.FC<EditPostProps> = ({
+	formRef,
+	setStatus,
+	setEdit,
+	setUpdate,
+	matchingPost,
+}) => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm({
-		// resolver: yupResolver(createPostFormSchema),
+	} = useForm<CreatePostForms>({
+		resolver: yupResolver(createPostFormSchema),
 	});
 
 	const { title, caption, tags } = matchingPost.post;
-	const {firstName, artistName, lastName } = matchingPost.post.creator.fields
-
+	const { firstName, artistName, lastName } = matchingPost.post.creator.fields;
 
 	const client = createClient({
 		accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw", // contentful management
@@ -26,7 +34,7 @@ const EditPost = ({ formRef, setStatus, setEdit, setUpdate, matchingPost }) => {
 		formRef.current = handleSubmit(onSubmit);
 	}, []);
 
-	const onSubmit = (data: any, postID: number) => {
+	const onSubmit = (data: any, postID: any) => {
 		const { title, caption, tags } = data;
 		console.log(postID);
 		client
@@ -88,14 +96,10 @@ const EditPost = ({ formRef, setStatus, setEdit, setUpdate, matchingPost }) => {
 					placeholder="Title"
 					defaultValue={title}
 				/>
-				{errors.title && errors.title?.message ? (
-					<>
-						<p className="my-2">{errors.title?.message}</p>
-						{setStatus("idle")}
-					</>
-				) : (
-					<></>
-				)}
+				<>
+					<p className="my-2">{errors.title?.message}</p>
+					{setStatus("idle")}
+				</>
 
 				<textarea
 					className="my-2 text-white bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none resize-none w-full h-40"
@@ -109,14 +113,11 @@ const EditPost = ({ formRef, setStatus, setEdit, setUpdate, matchingPost }) => {
 					Add tags?
 				</label>
 				<div className="flex my-2">{displayTags()}</div>
-				{errors.tags && errors.tags?.message ? (
-					<>
-						<p className="my-2">{errors.tags?.message}</p>
-						{setStatus("idle")}
-					</>
-				) : (
-					<></>
-				)}
+
+				<>
+					<p className="my-2">{errors.tags?.message}</p>
+					{setStatus("idle")}
+				</>
 			</form>
 		</div>
 	);

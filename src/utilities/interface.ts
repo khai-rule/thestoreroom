@@ -56,6 +56,12 @@ export interface PostsGalleryProps {
 	code: string | undefined;
 }
 
+export interface PostsDetailsProps {
+	matchingPost: string | any;
+	code: string | undefined;
+	setUpdate: React.Dispatch<React.SetStateAction<number>>;
+}
+
 export interface Image {
 	sys: {
 		id: string;
@@ -138,6 +144,7 @@ export interface MoreOptionsProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	linkCopiedToastify: () => void;
 	setConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 	matchingPost: {
 		post: {
 			creator: {
@@ -183,4 +190,42 @@ export interface ProfileForm {
 	title: string;
 	website: string;
 	instagram: string;
+}
+
+export interface EditPostImagesProps {
+	closeModal: () => void;
+	setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+	setUpdate: React.Dispatch<React.SetStateAction<number>>;
+	matchingPost: {
+		sys: {
+			id: string;
+		};
+		post: {
+			images: []
+		};
+	};
+}
+
+export interface EditPostProps {
+	formRef: {
+		current: () => void;
+	};
+	setStatus:  React.Dispatch<React.SetStateAction<string>>;
+	setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+	setUpdate: React.Dispatch<React.SetStateAction<number>>;
+	matchingPost: {
+		
+		post: {
+			title: string;
+			caption: string;
+			tags: string;
+			creator: {
+				fields: {
+					firstName: string;
+					artistName: string;
+					lastName: string;
+				}
+			}
+		};
+	} | any;
 }

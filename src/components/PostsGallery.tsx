@@ -1,7 +1,7 @@
 import { PostsGalleryProps } from "../utilities/interface";
 import { ImageFields } from "../utilities/interface";
 
-const PostsGallery: React.FC<PostsGalleryProps> = ({ matchingPost, code }) => {
+const PostsGallery: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
 	const displayImages = matchingPost?.post?.images.map(
 		(image: ImageFields, index: number) => {
 			const title = image?.fields.title;

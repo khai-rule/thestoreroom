@@ -15,7 +15,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	imageFiles,
 	formRef,
 	setStatus,
-	setCreate
+	setCreate,
 }) => {
 	const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
 	const name = `${loggedInCreatorContentful?.creator?.firstName} "${loggedInCreatorContentful?.creator?.artistName}" ${loggedInCreatorContentful?.creator?.lastName}`;
-	const artistName = loggedInCreatorContentful?.creator?.artistName
+	const artistName = loggedInCreatorContentful?.creator?.artistName;
 
 	const {
 		register,
@@ -105,21 +105,21 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 							.then((entry) => {
 								if (!entry.fields.posts || !entry.fields.posts["en-US"]) {
 									entry.fields.posts = { "en-US": [] };
-								  }
-								  entry.fields.posts["en-US"].push({
+								}
+								entry.fields.posts["en-US"].push({
 									sys: {
-									  type: "Link",
-									  linkType: "Entry",
-									  id: newPostID,
+										type: "Link",
+										linkType: "Entry",
+										id: newPostID,
 									},
-								  });
-								  return entry.update();
+								});
+								return entry.update();
 							})
 							.then((entry) => {
 								console.log(`Entry ${entry.sys.id} updated.`);
 								entry.publish();
 								navigate(`/profile/${artistName}`);
-								toast("Post successfully created.")
+								toast("Post successfully created.");
 								setCreate(false);
 							})
 							.catch(console.error);
@@ -154,14 +154,11 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 						{...register("title")}
 						placeholder="Title"
 					/>
-					{errors.title && errors.title?.message ? (
-						<>
-							<p className="my-2">{errors.title?.message}</p>
-							{setStatus("idle")}
-						</>
-					) : (
-						<></>
-					)}
+
+					<>
+						<p className="my-2">{errors.title?.message}</p>
+						{setStatus("idle")}
+					</>
 
 					<textarea
 						className="my-2 text-white bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none resize-none w-full h-40"
@@ -174,14 +171,11 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 						Add tags?
 					</label>
 					<div className="flex my-2">{displayTags()}</div>
-					{errors.tags && errors.tags?.message ? (
-						<>
-							<p className="my-2">{errors.tags?.message}</p>
-							{setStatus("idle")}
-						</>
-					) : (
-						<></>
-					)}
+
+					<>
+						<p className="my-2">{errors.tags?.message}</p>
+						{setStatus("idle")}
+					</>
 				</form>
 			</div>
 		</>

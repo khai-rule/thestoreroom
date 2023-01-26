@@ -3,12 +3,16 @@ import { useState } from "react";
 import EditPostForm from "./EditPostForm";
 import Carousel from "./Carousel";
 import { useEffect } from "react";
+import { EditPostImagesProps } from "../utilities/interface";
+import { ImageFields } from "../utilities/interface";
 
-
-const EditPostImages = ({ closeModal, setEdit, matchingPost, setUpdate }) => {
-	
+const EditPostImages: React.FC<EditPostImagesProps> = ({
+	closeModal,
+	setEdit,
+	matchingPost,
+	setUpdate,
+}) => {
 	const formRef: any = useRef(null!);
-	
 
 	const [status, setStatus] = useState<string>("idle");
 
@@ -17,10 +21,9 @@ const EditPostImages = ({ closeModal, setEdit, matchingPost, setUpdate }) => {
 	useEffect(() => {
 		if (matchingPost !== undefined) {
 			const previews = matchingPost?.post?.images?.map(
-				(image) => image.fields.file.url
+				(image: ImageFields) => image.fields.file.url
 			);
 			if (previews) {
-				const finalPreview = previews.reduce((acc, cur) => acc.concat(cur), []);
 				setImagePreview([...imagePreview, ...previews]);
 			}
 		}

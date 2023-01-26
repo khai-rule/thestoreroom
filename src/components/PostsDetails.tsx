@@ -1,4 +1,4 @@
-import { PostsGalleryProps } from "../utilities/interface";
+import { PostsDetailsProps } from "../utilities/interface";
 import { commentsSchema } from "../utilities/YUPvalidations";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,7 +13,7 @@ import { useStytchSession } from "@stytch/react";
 import ConfirmDeletePost from "./ConfirmDeletePost";
 import EditPostImages from "./EditPostImages";
 
-const PostsDetails: React.FC<PostsGalleryProps> = ({ matchingPost, setUpdate }) => {
+const PostsDetails: React.FC<PostsDetailsProps> = ({ matchingPost, setUpdate }) => {
 	const postsDetails = () => {
 		const navigate = useNavigate();
 		const { session } = useStytchSession();
