@@ -44,6 +44,7 @@ const Navbar: React.FC = () => {
 
 	const handleLogout = () => {
 		stytch.session.revoke();
+		toast("You have successfully logged out.")
 		navigate("/");
 	};
 

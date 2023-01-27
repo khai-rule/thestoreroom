@@ -26,8 +26,12 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 
 	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
-	const name = `${loggedInCreatorContentful?.creator?.firstName} "${loggedInCreatorContentful?.creator?.artistName}" ${loggedInCreatorContentful?.creator?.lastName}`;
-	const artistName = loggedInCreatorContentful?.creator?.artistName
+
+	const firstName = loggedInCreatorContentful?.creator?.firstName !== undefined ? loggedInCreatorContentful?.creator?.firstName : "" 
+	const artistName = loggedInCreatorContentful?.creator?.artistName !== undefined ? loggedInCreatorContentful?.creator?.artistName : ""
+	const lastName = loggedInCreatorContentful?.creator?.lastName
+
+	const name = `${firstName} "${artistName}" ${lastName}`;
 
 	const {
 		register,

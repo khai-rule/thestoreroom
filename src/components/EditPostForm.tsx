@@ -88,7 +88,9 @@ const EditPost: React.FC<EditPostProps> = ({
 	return (
 		<div className="relative grid-item bg-primary w-1/4 aspect-square rounded-br-3xl">
 			<form className="m-6" onSubmit={handleSubmit(onSubmit)}>
-				<h4>{`${firstName} "${artistName}" ${lastName}`}</h4>
+				<h4>{`${firstName !== undefined ? firstName : ""} "${artistName}" ${
+					lastName !== undefined ? lastName : ""
+				}`}</h4>
 				<input
 					className="my-2 text-white text-xl bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none"
 					{...register("title")}

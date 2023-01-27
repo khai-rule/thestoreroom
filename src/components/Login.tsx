@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useStytch } from "@stytch/react";
 import hideIcon from "../imgIcons/hideIcon";
 import showIcon from "../imgIcons/showIcon";
+import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
@@ -40,6 +41,7 @@ const Login: React.FC = () => {
 		});
 		response
 			.then((value) => {
+				toast("Welcome back to The Storeroom")
 				navigate("/");
 			})
 			.catch((error) => {
