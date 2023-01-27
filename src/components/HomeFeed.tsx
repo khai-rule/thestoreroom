@@ -36,11 +36,14 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 		);
 		if (matchingPost) {
 			const {
-				firstName,
-				artistName,
-				lastName,
+
+
+
 				title,
 			} = matchingPost?.post?.creator?.fields;
+			const firstName = matchingPost?.post?.creator?.fields?.firstName !== undefined ? matchingPost?.post?.creator?.fields?.firstName : ""
+			const artistName = matchingPost?.post?.creator?.fields?.artistName !== undefined ? matchingPost?.post?.creator?.fields?.artistName : ""
+			const lastName = matchingPost?.post?.creator?.fields?.lastName !== undefined ? matchingPost?.post?.creator?.fields?.lastName : ""
 			const name = `${firstName} "${artistName}" ${lastName}`;
 
 			const url = image?.fields?.file?.url;
