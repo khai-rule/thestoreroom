@@ -43,6 +43,7 @@ const Login: React.FC = () => {
 				navigate("/");
 			})
 			.catch((error) => {
+				console.log("error", error)
 				const errorString = JSON.stringify(error.message);
 				const errorArray = errorString.split("\\n");
 				setMsg(errorArray[1]);

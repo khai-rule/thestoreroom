@@ -112,52 +112,52 @@ const ProfileInfo: React.FC = () => {
 	return (
 		<div className="flex flex-col items-center m-12">
 			<h2 className="m-4">Fill in your details</h2>
-			<form className="" onSubmit={handleSubmit(onSubmit)}>
+			<form className="flex flex-col w-2/6" onSubmit={handleSubmit(onSubmit)}>
 				<label>Artist Name</label>
 				<input
-					className="m-4"
-					placeholder={currentArtistName}
+					className="mt-4 mb-2 h-10 p-4"
+					defaultValue={currentArtistName}
 					{...register("artistName")}
 				/>
-				<p>This will appear in your profile link.</p>
+				<p className="text-xs mb-4">This will appear in your profile link.</p>
 				<p className="text-red">{errors.artistName?.message}</p>
 
 				<label>First Name</label>
 				<input
-					className="m-4"
-					placeholder={firstName}
+					className="my-4 h-10 p-4"
+					defaultValue={firstName}
 					{...register("firstName")}
 				/>
 				<p className="text-red">{errors.firstName?.message}</p>
 
 				<label>Last Name</label>
 				<input
-					className="m-4"
-					placeholder={lastName}
+					className="my-4 h-10 p-4"
+					defaultValue={lastName}
 					{...register("lastName")}
 				/>
 				<p className="text-red">{errors.lastName?.message}</p>
 
 				<label>Bio</label>
 				<textarea
-					className="m-4  focus:placeholder-opacity-100 focus:outline-none resize-none w-full h-32"
-					placeholder={bio}
+					className="my-4 p-4 focus:defaultValue-opacity-100 focus:outline-none resize-none w-full h-32"
+					defaultValue={bio}
 					{...register("bio")}
 				/>
 				<p className="text-red">{errors.bio?.message}</p>
 
 				<label>Title</label>
-				<input className="m-4" placeholder={title} {...register("title")} />
+				<input className="my-4 h-10 p-4" defaultValue={title} {...register("title")} />
 				<p className="text-red">{errors.title?.message}</p>
 
 				<label>Website</label>
-				<input className="m-4" placeholder={website} {...register("website")} />
+				<input className="my-4 h-10 p-4" defaultValue={website} {...register("website")} />
 				<p className="text-red">{errors.website?.message}</p>
 
 				<label>Instagram</label>
 				<input
-					className="m-4"
-					placeholder={instagram}
+					className="my-4 h-10 p-4"
+					defaultValue={instagram}
 					{...register("instagram")}
 				/>
 				<p className="text-red">{errors.instagram?.message}</p>
@@ -170,7 +170,7 @@ const ProfileInfo: React.FC = () => {
 						<span className="visually-hidden">Loading...</span>
 					</div>
 				) : (
-					<input className="m-4 cursor-pointer" type="submit" value="Update" />
+					<input className="m-4 cursor-pointer hover:underline font-semibold" type="submit" value="Update" />
 				)}
 			</form>
 		</div>

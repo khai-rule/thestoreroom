@@ -23,7 +23,7 @@ const ConfirmDeletePost: React.FC<ConfirmDeleteProps> = ({
 	const deletePost = () => {
 		console.log("delete initiated");
 
-		// Remove post from creator
+		//! Remove post from creator
 		client
 			.getSpace("94snklam6irp")
 			.then((space) => space.getEnvironment("master"))
@@ -46,7 +46,7 @@ const ConfirmDeletePost: React.FC<ConfirmDeleteProps> = ({
 				console.log("Error removing post: ", error);
 			});
 
-		// Unpublished entry
+		//! Unpublished entry
 		client
 			.getSpace("94snklam6irp")
 			.then((space) => space.getEnvironment("master"))
@@ -55,7 +55,7 @@ const ConfirmDeletePost: React.FC<ConfirmDeleteProps> = ({
 			.then((entry) => console.log(`Entry ${entry.sys.id} unpublished.`))
 			.catch(console.error);
 
-		// Delete entry
+		//! Delete entry
 		client
 			.getSpace("94snklam6irp")
 			.then((space) => space.getEnvironment("master"))

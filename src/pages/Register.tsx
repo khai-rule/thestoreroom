@@ -69,7 +69,6 @@ const Register: React.FC = () => {
 			stytchClient.passwords
 				.strengthCheck({ email, password })
 				.then((res) => {
-					console.log("Password is good", res);
 					const feedback = res.feedback.suggestions;
 
 					feedback === undefined

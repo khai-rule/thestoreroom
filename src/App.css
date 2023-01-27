@@ -57,6 +57,11 @@ a:hover {
 	opacity: 1;
 }
 
+input {
+	height: 2.5rem;
+	padding: 1rem;
+  }
+
 @media only screen and (max-width: 767px) {
 	h1 {
 		font-size: 32px;

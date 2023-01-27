@@ -65,6 +65,9 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 		);
 	});
 
+
+
+
 	return (
 		<>
 			<div className="fixed top-1/2 transform -translate-y-1/2 left-8">
