@@ -35,7 +35,7 @@ const PostsDetails: React.FC<PostsDetailsProps> = ({
 			const artistName = creator?.fields?.artistName;
 			const lastName =
 				creator?.fields?.lastName !== undefined
-					? creator?.fields?.creator?.lastName
+					? creator?.fields?.lastName
 					: "";
 
 			const name = `${firstName} "${artistName}" ${lastName}`;
