@@ -9,7 +9,8 @@ module.exports = {
 		colors: {
 			primary: "rgb(58, 66, 60)",
 			black: "#000000",
-			white: "rgb(242, 242, 242)",
+			// white: "rgb(242, 242, 242)",
+			white: "#ffffff",
 			red: "#FF0000"
 		},
 		extend: {

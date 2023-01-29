@@ -48,6 +48,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 
 			//! Create Image Asset in Contentful
 			const uploadPromises = imageFiles.map(async (file: any | File) => {
+				console.log("uploading process initiated")
 				const contentType = file.type;
 				const fileName = file.name;
 				let asset = await environment.createAssetFromFiles({

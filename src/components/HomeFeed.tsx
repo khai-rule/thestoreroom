@@ -32,15 +32,11 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 	const displayImages = allImages.map((image: allImage, i: number) => {
 		const id = image?.sys.id;
 		const matchingPost = posts.find((post) =>
-			post.post.images?.find((image: Image) => image.sys.id === id)
+		post.post.images?.find((image: Image) => image.sys.id === id)
 		);
-		if (matchingPost) {
-			const {
 
 
 
-				title,
-			} = matchingPost?.post?.creator?.fields;
 			const firstName = matchingPost?.post?.creator?.fields?.firstName !== undefined ? matchingPost?.post?.creator?.fields?.firstName : ""
 			const artistName = matchingPost?.post?.creator?.fields?.artistName !== undefined ? matchingPost?.post?.creator?.fields?.artistName : ""
 			const lastName = matchingPost?.post?.creator?.fields?.lastName !== undefined ? matchingPost?.post?.creator?.fields?.lastName : ""
@@ -59,7 +55,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 								className="cursor-pointer"
 								onClick={() => viewPost(id)}
 								src={url}
-								alt={title}
+								alt={"image"}
 								key={url}
 							/>
 							{grid ? (
@@ -76,7 +72,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 					</LazyLoad>
 				</div>
 			);
-		}
+		
 	});
 
 	return (

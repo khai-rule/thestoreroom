@@ -33,6 +33,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 
 	const name = `${firstName} "${artistName}" ${lastName}`;
 
+
 	const {
 		register,
 		handleSubmit,
@@ -48,7 +49,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	const onSubmit = (data: CreatePostForms, sanitisedSys: any) => {
 		const { title, caption, tags } = data;
 		if (!title || !tags) {
-			console.log("hi");
+
 			setStatus("idle");
 			return;
 		}
