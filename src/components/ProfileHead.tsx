@@ -14,9 +14,15 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ matchingCreator }) => {
 	const loggedInCreatorArtistName =
 		loggedInCreatorContentful?.creator?.artistName;
 
-		const firstName = matchingCreator?.creator?.firstName !== undefined ? matchingCreator?.creator?.firstName : ""
+	const firstName =
+		matchingCreator?.creator?.firstName !== undefined
+			? matchingCreator?.creator?.firstName
+			: "";
 	const artistName = matchingCreator?.creator?.artistName;
-	const lastName = matchingCreator?.creator?.lastName !== undefined ? matchingCreator?.creator?.lastName : ""
+	const lastName =
+		matchingCreator?.creator?.lastName !== undefined
+			? matchingCreator?.creator?.lastName
+			: "";
 	const name = `${firstName} "${artistName}" ${lastName}`;
 	const title = matchingCreator?.creator?.title;
 	const bio = matchingCreator?.creator?.bio;

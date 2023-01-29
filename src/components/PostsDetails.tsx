@@ -13,7 +13,10 @@ import { useStytchSession } from "@stytch/react";
 import ConfirmDeletePost from "./ConfirmDeletePost";
 import EditPostImages from "./EditPostImages";
 
-const PostsDetails: React.FC<PostsDetailsProps> = ({ matchingPost, setUpdate }) => {
+const PostsDetails: React.FC<PostsDetailsProps> = ({
+	matchingPost,
+	setUpdate,
+}) => {
 	const postsDetails = () => {
 		const navigate = useNavigate();
 		const { session } = useStytchSession();
@@ -24,7 +27,17 @@ const PostsDetails: React.FC<PostsDetailsProps> = ({ matchingPost, setUpdate }) 
 
 		if (matchingPost) {
 			const { caption, creator, title, comments } = matchingPost?.post;
-			const { firstName, artistName, lastName, email } = creator?.fields;
+
+			const firstName =
+				creator?.fields?.firstName !== undefined
+					? creator?.fields?.firstName
+					: "";
+			const artistName = creator?.fields?.artistName;
+			const lastName =
+				creator?.fields?.lastName !== undefined
+					? creator?.fields?.creator?.lastName
+					: "";
+
 			const name = `${firstName} "${artistName}" ${lastName}`;
 
 			const displayComments = comments?.map((comment: Comments) => {
