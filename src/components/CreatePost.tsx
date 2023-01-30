@@ -129,7 +129,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 					<div className="relative grid-item bg-white w-8/12 left-1/2 -translate-x-1/2 rounded-t-3xl">
 						<div className="flex justify-between">
 							<h4
-								className="py-2 mx-5 text-black cursor-pointer"
+								className="py-2 mx-5 text-black cursor-pointer hover:underline"
 								onClick={goBack}
 							>
 								Back
@@ -147,7 +147,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 							) : (
 								<h4
 									onClick={handleUpload}
-									className="py-2 mx-5 text-primary font-semibold cursor-pointer"
+									className="py-2 mx-5 text-orange font-semibold cursor-pointer hover:underline"
 								>
 									Share
 								</h4>

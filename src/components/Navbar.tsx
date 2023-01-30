@@ -130,7 +130,7 @@ const Navbar: React.FC = () => {
 					/>
 
 					<a
-						className="fixed right-4 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2 decoration-primary"
+						className="fixed right-4 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2"
 						onClick={toggleNav}
 					>
 						{nav ? "Close" : "Menu"}

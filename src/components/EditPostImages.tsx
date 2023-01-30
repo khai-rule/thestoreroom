@@ -60,7 +60,7 @@ const EditPostImages: React.FC<EditPostImagesProps> = ({
 						) : (
 							<h4
 								onClick={handleUpdate}
-								className="py-2 mx-5 text-primary font-semibold cursor-pointer"
+								className="py-2 mx-5 text-orange font-semibold cursor-pointer hover:underline"
 							>
 								Update
 							</h4>

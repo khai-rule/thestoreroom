@@ -27,7 +27,7 @@ const Homepage: React.FC = () => {
 
 	return (
 		<>
-			<h3 className="fixed left-1/2 transform -translate-x-1/2 top-6">{` Discover ${
+			<h3 className={`fixed left-1/2 transform -translate-x-1/2 top-6 ${display === "none" ? "text-primary" : "text-orange"} `}>{` Discover ${
 				display === "none" ? "" : display
 			}`}</h3>
 			<HomeSideNav display={display} setDisplay={setDisplay} setGrid={setGrid} grid={grid}/>

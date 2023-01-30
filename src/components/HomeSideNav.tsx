@@ -23,8 +23,8 @@ const HomeSideNav: React.FC<HomeDisplayProps> = ({
 				<h4
 					className={
 						display === tag
-							? "underline py-1 cursor-pointer decoration-primary"
-							: "py-1 cursor-pointer hover:underline decoration-primary"
+							? "text-orange py-1 cursor-pointer"
+							: "py-1 cursor-pointer hover:underline"
 					}
 					onClick={() =>
 						display === tag ? setDisplay("none") : setDisplay(tag)
@@ -44,7 +44,7 @@ const HomeSideNav: React.FC<HomeDisplayProps> = ({
 			</button>
 			<div className="py-4">
 				{session ? <h4 className="py-1 ">Following</h4> : <></>}
-				<h4 className=" underline decoration-primary py-1">Discover</h4>
+				<h4 onClick={() => setDisplay("none")} className={display === "none" ? "py-1 text-orange cursor-pointer" : "py-1 hover:underline cursor-pointer"}>Discover</h4>
 			</div>
 			<div className="py-4">{displayTags()}</div>
 		</div>

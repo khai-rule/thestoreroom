@@ -155,7 +155,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 				<form className="m-6" onSubmit={handleSubmit(onSubmit)}>
 					<h4>{name}</h4>
 					<input
-						className="my-2 text-white text-xl bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none"
+						className="my-2 text-white text-xl bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none p-0"
 						{...register("title")}
 						placeholder="Title"
 					/>

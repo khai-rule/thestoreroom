@@ -62,7 +62,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 								<></>
 							) : (
 								<p
-									className="mx-auto my-2 hover:underline cursor-pointer decoration-primary"
+									className="mx-auto my-2 hover:underline cursor-pointer"
 									onClick={() => viewProfile(id)}
 								>
 									{name}
