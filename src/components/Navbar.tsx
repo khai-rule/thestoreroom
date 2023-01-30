@@ -26,7 +26,10 @@ const Navbar: React.FC = () => {
 		loggedInCreatorContentful?.creator?.artistName;
 
 	useEffect(() => {
-		if (location.pathname.startsWith("/post/")) {
+		if (
+			location.pathname.startsWith("/post/") ||
+			location.pathname.startsWith("/about/")
+		) {
 			setShowNavbar(false);
 		} else {
 			setShowNavbar(true);
@@ -44,7 +47,7 @@ const Navbar: React.FC = () => {
 
 	const handleLogout = () => {
 		stytch.session.revoke();
-		toast("You have successfully logged out.")
+		toast("You have successfully logged out.");
 		navigate("/");
 	};
 
