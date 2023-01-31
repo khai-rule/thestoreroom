@@ -17,6 +17,7 @@ import { CreatorsContext } from "./utilities/context";
 import { useStytchSession } from "@stytch/react";
 import About from "./pages/About";
 import Invite from "./pages/Invite";
+import Footer from "./components/Footer";
 
 function App() {
 	const { user } = useStytchUser();
@@ -69,6 +70,8 @@ function App() {
 						<Route path="/about/" element={<About />} />
 						<Route path="/invite/" element={<Invite />} />
 					</Routes>
+
+					<Footer />
 				</BrowserRouter>
 			</CreatorsContext.Provider>
 		</>

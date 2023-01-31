@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
 		return (
 			<div className="fixed inset-0 z-1 bg-nav flex justify-center items-center z-40 text-center text-white">
 				<div onClick={toggleNav}>
-					<button className="fixed top-6 right-6 hover:underline">Close</button>
+					<button className="fixed top-6 right-8 hover:underline">Close</button>
 					<NavLink to="/">
 						<h2 className="hover:underline">Home</h2>
 					</NavLink>
@@ -147,7 +147,7 @@ const Navbar: React.FC = () => {
 					</svg>
 
 					<a
-						className="fixed right-4 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2"
+						className="fixed right-6 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2"
 						onClick={toggleNav}
 					>
 						{nav ? "Close" : "Menu"}

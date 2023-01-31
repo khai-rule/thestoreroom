@@ -6,7 +6,7 @@ const About = () => {
 	return (
 		<div className="fixed inset-0 z-1 bg-primary">
 			<button
-				className="fixed right-6 top-6 hover:underline text-white"
+				className="fixed right-8 top-6 hover:underline text-white z-50"
 				onClick={() => navigate(-1)}
 			>
 				Back
