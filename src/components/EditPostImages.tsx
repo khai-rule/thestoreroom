@@ -39,16 +39,16 @@ const EditPostImages: React.FC<EditPostImagesProps> = ({
 
 	return (
 		<div className="fixed h-screen w-screen inset-0 z-50 bg-black bg-opacity-50 md:overflow-auto text-white">
-			<button
-				className="absolute right-6 top-6 hover:underline"
-				onClick={closeModal}
-			>
-				Close
-			</button>
 
 			<div className="relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0">
 				<div className="relative grid-item bg-white w-8/12 left-1/2 -translate-x-1/2 rounded-t-3xl">
 					<div className="flex justify-between">
+					<h4
+								className="py-2 mx-5 text-black cursor-pointer hover:underline"
+								onClick={closeModal}
+							>
+								Cancel
+							</h4>
 						<h4 className="text-black py-2 mx-5 font-semibold">Edit Post</h4>
 						{status === "loading" ? (
 							<div
@@ -60,7 +60,7 @@ const EditPostImages: React.FC<EditPostImagesProps> = ({
 						) : (
 							<h4
 								onClick={handleUpdate}
-								className="py-2 mx-5 text-orange font-semibold cursor-pointer hover:underline"
+								className="py-2 mx-5 text-secondary font-semibold cursor-pointer hover:underline"
 							>
 								Update
 							</h4>

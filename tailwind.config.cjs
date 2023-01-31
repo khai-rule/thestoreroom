@@ -11,13 +11,16 @@ module.exports = {
 			black: "#000000",
 			// white: "rgb(242, 242, 242)",
 			white: "#ffffff",
-			orange: "#ff4d00",
+			secondary: "#ff4d00",
 			red: "#FF0000"
 		},
 		extend: {
 			width: {
 				"128": "28rem",
 			},
+			backgroundImage: {
+				'nav': "url('/src/img/navCover.jpg')",
+			  }
 		},
 	},
 	plugins: [require("tw-elements/dist/plugin")],

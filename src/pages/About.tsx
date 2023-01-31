@@ -23,17 +23,18 @@ const About = () => {
 
 					<div className="col-span-1">
 						<h4 className="mb-4 ">
-							Current platforms are saturated with content, making it hard for
+							"Current platforms are saturated with content, making it hard for
 							users to discover quality creators and for creators to stand out.
 							Contents engagements are now based on popularity rather than its
 							quality. There is a need for a curated platform that prioritises
 							quality over quantity, allowing users to easily discover the best
 							work from a diverse range of creators and providing a space for
 							creators to showcase their work to a discerning audience, helping
-							them grow their careers.
+							them grow their careers."
 						</h4>
 						<a
 							href="https://drive.google.com/file/d/1c596obaFGIAxDFtZGCgdRXtc7q_AKQDZ/view?usp=sharing"
+							target="_blank"
 							className="font-semibold"
 						>
 							Read more

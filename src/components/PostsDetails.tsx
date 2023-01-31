@@ -108,7 +108,7 @@ const PostsDetails: React.FC<PostsDetailsProps> = ({
 				<div className="mx-12 flex flex-col justify-between">
 					<div>
 						<p
-							className="cursor-pointer text-orange font-semibold hover:underline"
+							className="cursor-pointer text-secondary font-semibold hover:underline"
 							onClick={viewProfile}
 						>
 							{name}

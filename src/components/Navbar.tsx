@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { CreatorsContext } from "../utilities/context";
 import logoIcon2 from "../imgIcons/logoIcon2.svg";
+import { motion, useScroll } from "framer-motion";
+import { useRef } from "react";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
@@ -19,6 +21,8 @@ const Navbar: React.FC = () => {
 
 	const { session } = useStytchSession();
 	const location = useLocation();
+	const ref = useRef(null);
+	const { scrollYProgress } = useScroll();
 
 	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
@@ -57,7 +61,7 @@ const Navbar: React.FC = () => {
 
 	const navbar = () => {
 		return (
-			<div className="fixed inset-0 z-1 bg-primary flex justify-center items-center z-40 text-center text-white">
+			<div className="fixed inset-0 z-1 bg-nav flex justify-center items-center z-40 text-center text-white">
 				<div onClick={toggleNav}>
 					<button className="fixed top-6 right-6 hover:underline">Close</button>
 					<NavLink to="/">
@@ -100,7 +104,7 @@ const Navbar: React.FC = () => {
 	};
 
 	return (
-		<>
+		<div>
 			<ToastContainer
 				position="bottom-center"
 				autoClose={3000}
@@ -122,12 +126,25 @@ const Navbar: React.FC = () => {
 			)}
 			{showNavbar ? (
 				<nav className="fixed top-4 flex mx-4">
-					<img
+					<motion.img
 						src={logoIcon2}
 						alt="Logo Icon"
-						className="hover:cursor-pointer w-36 fixed -left-5 top-10"
+						className="hover:cursor-pointer w-36 fixed -left-5 top-10 "
 						onClick={() => navigate("/")}
+						style={{ pathLength: scrollYProgress }}
 					/>
+
+					<svg id="progress" width="100" height="100" viewBox="0 0 100 100"> 
+
+						<motion.circle
+							cx="50"
+							cy="50"
+							r="30"
+						
+							className="indicator"
+							style={{ pathLength: scrollYProgress }}
+						/>
+					</svg>
 
 					<a
 						className="fixed right-4 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2"
@@ -140,7 +157,7 @@ const Navbar: React.FC = () => {
 				<></>
 			)}
 			{nav ? navbar() : <></>}
-		</>
+		</div>
 	);
 };
 

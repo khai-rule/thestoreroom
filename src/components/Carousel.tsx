@@ -52,7 +52,7 @@ const Carousel: React.FC<ImagePreviewsProps> = ({ imagePreviews }) => {
 						<></>
 					) : (
 						<button
-							className="absolute bg-primary rounded-full p-2 left-4"
+							className="absolute bg-primary rounded-full p-2 left-4 hover:opacity-75 active:opacity-90"
 							onClick={() => setCurrentIndex(currentIndex - 1)}
 						>
 							{leftArrow}
@@ -62,7 +62,7 @@ const Carousel: React.FC<ImagePreviewsProps> = ({ imagePreviews }) => {
 						<></>
 					) : (
 						<button
-							className="absolute bg-primary rounded-full p-2 right-4"
+							className="absolute bg-primary rounded-full p-2 right-4 hover:opacity-75 active:opacity-90"
 							onClick={() => setCurrentIndex(currentIndex + 1)}
 						>
 							{rightArrow}

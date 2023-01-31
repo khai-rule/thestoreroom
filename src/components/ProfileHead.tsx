@@ -48,14 +48,14 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ matchingCreator }) => {
 				<p className="w-3/6 my-4">{bio}</p>
 				<div>
 					<a
-						className="mx-4 text-orange font-semibold"
+						className="mx-4 text-secondary font-semibold"
 						href={website}
 						target="_blank"
 					>
 						{formatWebsite ? formatWebsite : ""}
 					</a>
 					<a
-						className="mx-4 text-orange font-semibold"
+						className="mx-4 text-secondary font-semibold"
 						href={instagramLink}
 						target="_blank"
 					>

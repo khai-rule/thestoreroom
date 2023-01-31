@@ -76,6 +76,17 @@ a:hover {
 input {
 	height: 2.5rem;
 	padding: 1rem;
+	text-decoration-color: #ff4d00;
+	text-underline-offset: 3px;
+}
+
+circle {
+	stroke-width: 15%;
+	fill: none;
+}
+
+.indicator {
+	stroke: blue;
 }
 
 @media only screen and (max-width: 767px) {

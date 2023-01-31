@@ -147,7 +147,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 							) : (
 								<h4
 									onClick={handleUpload}
-									className="py-2 mx-5 text-orange font-semibold cursor-pointer hover:underline"
+									className="py-2 mx-5 text-secondary font-semibold cursor-pointer hover:underline"
 								>
 									Share
 								</h4>

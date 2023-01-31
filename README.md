@@ -10,6 +10,7 @@ https://www.behance.net/gallery/106679479/SR-Monogram-logo
 ## Notes
 - This website is not fully completed, only it's core function works.
 - Occasionaly, uploading of content will fail due to connection issue with Contentful. You can try again later. 
+- The website is not optimised for mobile
 
 
 If there are any questions regarding this project, feel free to contact me at Qai-rule@hotmail.com

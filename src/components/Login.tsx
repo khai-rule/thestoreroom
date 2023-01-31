@@ -90,7 +90,7 @@ const Login: React.FC = () => {
 							</div>
 						</div>
 
-						<input className="cursor-pointer font-semibold" type="submit" value="Login" />
+						<input className="cursor-pointer font-semibold hover:underline" type="submit" value="Login" />
 					</label>
 				</form>
 

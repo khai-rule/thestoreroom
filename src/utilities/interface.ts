@@ -201,7 +201,7 @@ export interface EditPostImagesProps {
 			id: string;
 		};
 		post: {
-			images: []
+			images: [];
 		};
 	};
 }
@@ -210,22 +210,30 @@ export interface EditPostProps {
 	formRef: {
 		current: () => void;
 	};
-	setStatus:  React.Dispatch<React.SetStateAction<string>>;
+	setStatus: React.Dispatch<React.SetStateAction<string>>;
 	setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 	setUpdate: React.Dispatch<React.SetStateAction<number>>;
-	matchingPost: {
-		
-		post: {
-			title: string;
-			caption: string;
-			tags: string;
-			creator: {
-				fields: {
-					firstName: string;
-					artistName: string;
-					lastName: string;
-				}
-			}
-		};
-	} | any;
+	matchingPost:
+		| {
+				post: {
+					title: string;
+					caption: string;
+					tags: string;
+					creator: {
+						fields: {
+							firstName: string;
+							artistName: string;
+							lastName: string;
+						};
+					};
+				};
+		  }
+		| any;
+}
+
+export interface FullScreenDisplayProps {
+	openDisplay: boolean;
+	setOpenDisplay: React.Dispatch<React.SetStateAction<boolean>>;
+	imagePreviews: string[];
+	display: string;
 }
