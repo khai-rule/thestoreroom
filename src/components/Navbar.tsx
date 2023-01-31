@@ -12,7 +12,7 @@ import { useContext } from "react";
 import { CreatorsContext } from "../utilities/context";
 import logoIcon2 from "../imgIcons/logoIcon2.svg";
 import { motion, useScroll } from "framer-motion";
-import { useRef } from "react";
+import { useTransform } from "framer-motion";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
@@ -21,8 +21,10 @@ const Navbar: React.FC = () => {
 
 	const { session } = useStytchSession();
 	const location = useLocation();
-	const ref = useRef(null);
+
 	const { scrollYProgress } = useScroll();
+
+	const rotate = useTransform(scrollYProgress, (value) => value * 360);
 
 	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
@@ -131,20 +133,8 @@ const Navbar: React.FC = () => {
 						alt="Logo Icon"
 						className="hover:cursor-pointer w-36 fixed -left-5 top-10 "
 						onClick={() => navigate("/")}
-						style={{ pathLength: scrollYProgress }}
+						style={{ rotate }}
 					/>
-
-					<svg id="progress" width="100" height="100" viewBox="0 0 100 100"> 
-
-						<motion.circle
-							cx="50"
-							cy="50"
-							r="30"
-						
-							className="indicator"
-							style={{ pathLength: scrollYProgress }}
-						/>
-					</svg>
 
 					<a
 						className="fixed right-6 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2"

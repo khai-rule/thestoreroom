@@ -80,14 +80,6 @@ input {
 	text-underline-offset: 3px;
 }
 
-circle {
-	stroke-width: 15%;
-	fill: none;
-}
-
-.indicator {
-	stroke: blue;
-}
 
 @media only screen and (max-width: 767px) {
 	h1 {
