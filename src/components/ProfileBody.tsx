@@ -8,13 +8,13 @@ import { useEffect } from "react";
 
 const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 	const navigate = useNavigate();
-	const postsRef = useRef([]);
+	const postsRef = useRef<{ [key: string]: React.RefObject<any> }>({});
 
 	const reversePosts = Array.isArray(matchingCreator?.creator?.posts)
 		? [...matchingCreator.creator.posts].reverse()
 		: [];
 
-	const [activePost, setActivePost] = useState<any>(reversePosts[0]?.sys?.id);
+	const [activePost, setActivePost] = useState<string>("");
 
 	const scrollToPost = (postId: string) => {
 		const postElement = postsRef.current[postId].current;
@@ -35,7 +35,9 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 			});
 		});
 
-		const getDivs = Object.values(postsRef.current).map((ref) => ref.current);
+		const getDivs = Object.values(postsRef.current).map(
+			(ref: { current: HTMLDivElement }) => ref.current
+		);
 
 		getDivs.reverse().forEach((ele) => observer.observe(ele));
 
@@ -44,7 +46,6 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 		};
 	}, []);
 
-	//! Nav
 	const postsNav = reversePosts?.map((post: Post) => {
 		return (
 			<>
@@ -66,9 +67,8 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 		navigate(`/post/${id}`);
 	};
 
-	//! Posts
 	const posts = reversePosts?.map((post: Post) => {
-		const postId = post?.sys.id;
+		const postId = post?.sys.id as string;
 		postsRef.current[postId] = useRef(null);
 		const ref = postsRef.current[postId];
 		const title = post?.fields?.title;
@@ -110,7 +110,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 			<div className="fixed top-1/2 transform -translate-y-1/2 left-8">
 				{postsNav}
 			</div>
-			<div className="">{posts}</div>
+			<div>{posts}</div>
 		</>
 	);
 };

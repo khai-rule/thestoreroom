@@ -109,6 +109,9 @@ export interface Post {
 		caption: string;
 		images: [];
 	};
+	sys: {
+		id: string
+	}
 }
 
 export interface ProfilePostsProps {
