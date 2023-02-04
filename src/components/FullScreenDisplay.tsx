@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { FullScreenDisplayProps } from "../utilities/interface";
 
-const FullScreenDisplay : React.FC<FullScreenDisplayProps>= ({
+const FullScreenDisplay: React.FC<FullScreenDisplayProps> = ({
 	openDisplay,
 	setOpenDisplay,
 	imagePreviews,
-    display
+	display,
 }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
-
 
 	if (!openDisplay) return null;
 
@@ -49,7 +48,7 @@ const FullScreenDisplay : React.FC<FullScreenDisplayProps>= ({
 		<>
 			<div className="absolute inset-0  bg-white">
 				<button
-					className="fixed top-6 right-6 hover:underline z-10 text-primary"
+					className="fixed top-6 right-6 hover:underline z-20 text-primary"
 					onClick={() => setOpenDisplay(false)}
 				>
 					Close
@@ -60,10 +59,11 @@ const FullScreenDisplay : React.FC<FullScreenDisplayProps>= ({
 						alt="preview"
 						className="w-full"
 					/>
-                    </div>
+				</div>
 
-					{imagePreviews.length > 1 ? (
-						<div className="fixed inset-0 flex items-center justify-center">
+				{imagePreviews.length > 1 ? (
+					<>
+						<div className="fixed inset-0 flex items-center justify-center z-10">
 							{currentIndex === 0 ? (
 								<></>
 							) : (
@@ -85,11 +85,16 @@ const FullScreenDisplay : React.FC<FullScreenDisplayProps>= ({
 								</button>
 							)}
 						</div>
-					) : (
-						<></>
-					)}
-				</div>
-			
+						<div className="inset-0 flex items-end justify-center">
+							<p className="fixed bottom-7">{`${currentIndex + 1} / ${
+								imagePreviews.length
+							}`}</p>
+						</div>
+					</>
+				) : (
+					<></>
+				)}
+			</div>
 		</>
 	);
 };
