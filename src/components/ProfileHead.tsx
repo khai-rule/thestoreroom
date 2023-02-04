@@ -22,7 +22,6 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ matchingCreator }) => {
 			}
 		};
 
-		console.log(isSticky);
 		window.addEventListener("scroll", handleScroll);
 
 		return () => {
@@ -46,9 +45,12 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ matchingCreator }) => {
 	const title = matchingCreator?.creator?.title;
 	const bio = matchingCreator?.creator?.bio;
 	const website = matchingCreator?.creator?.website;
-	const formatWebsite = website
-		?.replace(/^https?:\/\//, "")
-		?.replace(/^www./, "");
+	const email = matchingCreator?.creator?.email;
+
+	// const formatWebsite = website
+	// 	?.replace(/^https?:\/\//, "")
+	// 	?.replace(/^www./, "");
+
 	const instagram = matchingCreator?.creator?.instagram;
 	const instagramLink = `https://www.instagram.com/${instagram}/?hl=en`;
 
@@ -56,7 +58,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ matchingCreator }) => {
 		<div className="text-center flex flex-col items-center mt-16">
 			{loggedInCreatorArtistName === artistName ? (
 				<button
-					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+					className=" text-primary font-semibold py-2 px-4 hover:underline"
 					onClick={() => navigate("/account/edit")}
 				>
 					Edit Profile
@@ -74,14 +76,21 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ matchingCreator }) => {
 					href={website}
 					target="_blank"
 				>
-					{formatWebsite ? formatWebsite : ""}
+					{website ? "Website" : ""}
 				</a>
 				<a
 					className="mx-4 text-secondary font-semibold"
 					href={instagramLink}
 					target="_blank"
 				>
-					{instagram ? `@${instagram}` : ""}
+					{instagram ? "Instagram" : ""}
+				</a>
+				<a
+					className="mx-4 text-secondary font-semibold"
+					href={`mailto:${email}`}
+					target="_blank"
+				>
+					{email ? "Email" : ""}
 				</a>
 			</div>
 
