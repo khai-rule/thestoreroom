@@ -46,30 +46,35 @@ const Carousel: React.FC<ImagePreviewsProps> = ({ imagePreviews }) => {
 			/>
 
 			{imagePreviews.length > 1 ? (
-				<div className="absolute inset-0 flex items-center justify-center">
-
-					{currentIndex === 0 ? (
-						<></>
-					) : (
-						<button
-							className="absolute bg-primary rounded-full p-2 left-4 hover:opacity-75 active:opacity-90"
-							onClick={() => setCurrentIndex(currentIndex - 1)}
-						>
-							{leftArrow}
-						</button>
-					)}
-					{currentIndex === imagePreviews.length - 1 ? (
-						<></>
-					) : (
-						<button
-							className="absolute bg-primary rounded-full p-2 right-4 hover:opacity-75 active:opacity-90"
-							onClick={() => setCurrentIndex(currentIndex + 1)}
-						>
-							{rightArrow}
-						</button>
-					)}
-
-				</div>
+				<>
+					<div className="absolute inset-0 flex items-center justify-center z-10">
+						{currentIndex === 0 ? (
+							<></>
+						) : (
+							<button
+								className="absolute bg-primary rounded-full p-2 left-4 hover:opacity-75 active:opacity-90"
+								onClick={() => setCurrentIndex(currentIndex - 1)}
+							>
+								{leftArrow}
+							</button>
+						)}
+						{currentIndex === imagePreviews.length - 1 ? (
+							<></>
+						) : (
+							<button
+								className="absolute bg-primary rounded-full p-2 right-4 hover:opacity-75 active:opacity-90"
+								onClick={() => setCurrentIndex(currentIndex + 1)}
+							>
+								{rightArrow}
+							</button>
+						)}
+					</div>
+					<div className="absolute inset-0 flex items-end justify-center">
+						<p className="absolute bottom-4">{`${currentIndex + 1} / ${
+							imagePreviews.length
+						}`}</p>
+					</div>
+				</>
 			) : (
 				<></>
 			)}
