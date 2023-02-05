@@ -16,7 +16,7 @@ import { useTransform } from "framer-motion";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
-	const [create, setCreate] = useState(true);
+	const [create, setCreate] = useState(false);
 	const [showNavbar, setShowNavbar] = useState(true);
 
 	const { session } = useStytchSession();
