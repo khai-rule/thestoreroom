@@ -38,13 +38,24 @@ const HomeSideNav: React.FC<HomeDisplayProps> = ({
 	};
 
 	return (
-		<div className="fixed top-1/2 transform -translate-y-1/2 left-8">
+		<div 
+
+		className="fixed top-1/2 transform -translate-y-1/2 left-8">
 			<button onClick={() => (grid ? setGrid(false) : setGrid(true))}>
 				Grid
 			</button>
 			<div className="py-4">
 				{session ? <h4 className="py-1 ">Following</h4> : <></>}
-				<h4 onClick={() => setDisplay("none")} className={display === "none" ? "py-1 text-secondary cursor-pointer" : "py-1 hover:underline cursor-pointer"}>Discover</h4>
+				<h4
+					onClick={() => setDisplay("none")}
+					className={
+						display === "none"
+							? "py-1 text-secondary cursor-pointer"
+							: "py-1 hover:underline cursor-pointer"
+					}
+				>
+					Discover
+				</h4>
 			</div>
 			<div className="py-4">{displayTags()}</div>
 		</div>

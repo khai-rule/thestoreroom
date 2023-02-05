@@ -16,7 +16,7 @@ import { useTransform } from "framer-motion";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
-	const [create, setCreate] = useState(false);
+	const [create, setCreate] = useState(true);
 	const [showNavbar, setShowNavbar] = useState(true);
 
 	const { session } = useStytchSession();
@@ -127,7 +127,8 @@ const Navbar: React.FC = () => {
 				<></>
 			)}
 			{showNavbar ? (
-				<nav className="fixed top-4 flex mx-4">
+				<nav 
+				className="fixed top-4 flex mx-4">
 					<motion.img
 						src={logoIcon2}
 						alt="Logo Icon"

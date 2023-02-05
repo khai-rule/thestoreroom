@@ -140,9 +140,9 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	const displayTags = () => {
 		const getTags = tags.map((tag: string) => {
 			return (
-				<div className="flex">
-					<input value={tag} type="checkbox" {...register("tags")} />
-					<p>{_.startCase(_.camelCase(tag))}</p>
+				<div className="flex mr-4 items-center">
+					<input className="form-checkbox h-4 w-4 mr-2" value={tag} type="checkbox" {...register("tags")} />
+					<label className="">{_.startCase(_.camelCase(tag))}</label>
 				</div>
 			);
 		});
