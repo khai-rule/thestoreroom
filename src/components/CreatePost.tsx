@@ -94,7 +94,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 	return (
 		<div className="fixed h-screen w-screen inset-0 z-50 bg-black bg-opacity-50 md:overflow-auto text-white">
 			<button
-				className="absolute right-6 top-6 hover:underline"
+				className="absolute right-8 top-6 hover:underline"
 				onClick={closeModal}
 			>
 				Close

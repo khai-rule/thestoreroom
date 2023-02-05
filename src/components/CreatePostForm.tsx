@@ -15,7 +15,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	imageFiles,
 	formRef,
 	setStatus,
-	setCreate
+	setCreate,
 }) => {
 	const navigate = useNavigate();
 
@@ -26,13 +26,17 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 
 	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
-
-	const firstName = loggedInCreatorContentful?.creator?.firstName !== undefined ? loggedInCreatorContentful?.creator?.firstName : "" 
-	const artistName = loggedInCreatorContentful?.creator?.artistName !== undefined ? loggedInCreatorContentful?.creator?.artistName : ""
-	const lastName = loggedInCreatorContentful?.creator?.lastName
+	const firstName =
+		loggedInCreatorContentful?.creator?.firstName !== undefined
+			? loggedInCreatorContentful?.creator?.firstName
+			: "";
+	const artistName =
+		loggedInCreatorContentful?.creator?.artistName !== undefined
+			? loggedInCreatorContentful?.creator?.artistName
+			: "";
+	const lastName = loggedInCreatorContentful?.creator?.lastName;
 
 	const name = `${firstName} "${artistName}" ${lastName}`;
-
 
 	const {
 		register,
@@ -49,7 +53,6 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	const onSubmit = (data: CreatePostForms, sanitisedSys: any) => {
 		const { title, caption, tags } = data;
 		if (!title || !tags) {
-
 			setStatus("idle");
 			return;
 		}
@@ -110,21 +113,21 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 							.then((entry) => {
 								if (!entry.fields.posts || !entry.fields.posts["en-US"]) {
 									entry.fields.posts = { "en-US": [] };
-								  }
-								  entry.fields.posts["en-US"].push({
+								}
+								entry.fields.posts["en-US"].push({
 									sys: {
-									  type: "Link",
-									  linkType: "Entry",
-									  id: newPostID,
+										type: "Link",
+										linkType: "Entry",
+										id: newPostID,
 									},
-								  });
-								  return entry.update();
+								});
+								return entry.update();
 							})
 							.then((entry) => {
 								console.log(`Entry ${entry.sys.id} updated.`);
 								entry.publish();
 								navigate(`/profile/${artistName}`);
-								toast("Post successfully created.")
+								toast("Post successfully created.");
 								setCreate(false);
 							})
 							.catch(console.error);
@@ -141,7 +144,12 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 		const getTags = tags.map((tag: string) => {
 			return (
 				<div className="flex mr-4 items-center">
-					<input className="form-checkbox h-4 w-4 mr-2" value={tag} type="checkbox" {...register("tags")} />
+					<input
+						className="form-checkbox h-4 w-4 mr-2"
+						value={tag}
+						type="checkbox"
+						{...register("tags")}
+					/>
 					<label className="">{_.startCase(_.camelCase(tag))}</label>
 				</div>
 			);

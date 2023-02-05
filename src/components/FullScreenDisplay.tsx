@@ -48,7 +48,7 @@ const FullScreenDisplay: React.FC<FullScreenDisplayProps> = ({
 		<>
 			<div className="absolute inset-0  bg-white">
 				<button
-					className="fixed top-6 right-6 hover:underline z-20 text-primary"
+					className="fixed top-6 right-8 hover:underline z-20 text-primary"
 					onClick={() => setOpenDisplay(false)}
 				>
 					Close

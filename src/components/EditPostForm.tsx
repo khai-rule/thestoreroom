@@ -71,8 +71,9 @@ const EditPost: React.FC<EditPostProps> = ({
 	const displayTags = () => {
 		const getTags = allTags.map((tag: string) => {
 			return (
-				<div className="flex">
+				<div className="flex mr-4 items-center">
 					<input
+						className="form-checkbox h-4 w-4 mr-2"
 						value={tag}
 						type="checkbox"
 						checked={tags.includes(tag)}
@@ -92,7 +93,7 @@ const EditPost: React.FC<EditPostProps> = ({
 					lastName !== undefined ? lastName : ""
 				}`}</h4>
 				<input
-					className="my-2 text-white text-xl bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none"
+					className="my-2 p-0 text-white text-xl bg-primary placeholder-white placeholder-opacity-50 focus:placeholder-opacity-100 focus:outline-none"
 					{...register("title")}
 					placeholder="Title"
 					defaultValue={title}
