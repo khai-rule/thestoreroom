@@ -20,7 +20,7 @@ const HomeSideNav: React.FC<HomeDisplayProps> = ({
 	const displayTags = () => {
 		const getTags = tags.map((tag: string) => {
 			return (
-				<h4
+				<h4 key={tag}
 					className={
 						display === tag
 							? "text-secondary py-1 cursor-pointer"

@@ -240,3 +240,7 @@ export interface FullScreenDisplayProps {
 	imagePreviews: string[];
 	display: string;
 }
+
+export interface Action {
+	type: string;
+}

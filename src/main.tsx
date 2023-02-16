@@ -3,19 +3,34 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { StytchProvider } from "@stytch/react";
 import { StytchUIClient } from "@stytch/vanilla-js";
-import * as dotenv from 'dotenv' 
-// dotenv.config()
+import { createStore, compose } from "redux";
+import allReducers from "./reducers";
+import { Provider } from "react-redux";
 
+declare global {
+	interface Window {
+	  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+	}
+  }
 
 const stytch = new StytchUIClient(
-	// process.env.STYTCH_PUBLIC_TOKEN as string 
+	// process.env.STYTCH_PUBLIC_TOKEN as string
 	"public-token-test-736493f4-1ae4-437e-b06b-d7a20bda9083"
+);
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+	allReducers,
+	composeEnhancers() 
 );
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
 		<StytchProvider stytch={stytch}>
-			<App />
+			<Provider store={store}>
+				<App />
+			</Provider>
 		</StytchProvider>
 	</React.StrictMode>
 );

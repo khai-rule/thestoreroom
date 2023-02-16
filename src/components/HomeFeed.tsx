@@ -35,8 +35,6 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 		post.post.images?.find((image: Image) => image.sys.id === id)
 		);
 
-
-
 			const firstName = matchingPost?.post?.creator?.fields?.firstName !== undefined ? matchingPost?.post?.creator?.fields?.firstName : ""
 			const artistName = matchingPost?.post?.creator?.fields?.artistName !== undefined ? matchingPost?.post?.creator?.fields?.artistName : ""
 			const lastName = matchingPost?.post?.creator?.fields?.lastName !== undefined ? matchingPost?.post?.creator?.fields?.lastName : ""
@@ -45,6 +43,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 			const url = image?.fields?.file?.url;
 			return (
 				<div
+				key={url}
 					className={` ${grid ? "my-4" : "my-12"}  ${
 						i % 3 === 0 ? "w-11/12" : "w-9/12"
 					}`}
@@ -56,7 +55,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 								onClick={() => viewPost(id)}
 								src={url}
 								alt={"image"}
-								key={url}
+								
 							/>
 							{grid ? (
 								<></>
