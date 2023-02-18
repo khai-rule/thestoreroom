@@ -13,10 +13,11 @@ import { CreatorsContext } from "../utilities/context";
 import logoIcon2 from "../imgIcons/logoIcon2.svg";
 import { motion, useScroll } from "framer-motion";
 import { useTransform } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
+import { showCreatePopUp, hideCreatePopUp } from "../actions/modal";
 
 const Navbar: React.FC = () => {
 	const [nav, setNav] = useState(false);
-	const [create, setCreate] = useState(false);
 	const [showNavbar, setShowNavbar] = useState(true);
 
 	const { session } = useStytchSession();
@@ -30,6 +31,10 @@ const Navbar: React.FC = () => {
 
 	const loggedInCreatorArtistName =
 		loggedInCreatorContentful?.creator?.artistName;
+
+	const setModal = useSelector((state: any) => state.modal);
+	const dispatch = useDispatch();
+	console.log(setModal.modalType);
 
 	useEffect(() => {
 		if (
@@ -57,10 +62,6 @@ const Navbar: React.FC = () => {
 		navigate("/");
 	};
 
-	const createPostModal = () => {
-		create ? setCreate(false) : setCreate(true);
-	};
-
 	const navbar = () => {
 		return (
 			<div className="fixed inset-0 z-1 bg-nav flex justify-center items-center z-40 text-center text-white">
@@ -78,7 +79,9 @@ const Navbar: React.FC = () => {
 							</NavLink>
 							<h2
 								className="hover:underline cursor-pointer"
-								onClick={createPostModal}
+								onClick={() =>
+									dispatch({ type: "SHOW_MODAL", payload: "CREATE_MODAL" })
+								}
 							>
 								Create
 							</h2>
@@ -121,14 +124,13 @@ const Navbar: React.FC = () => {
 				theme="dark"
 				transition={Slide}
 			/>
-			{create ? (
-				<CreatePost closeModal={() => setCreate(false)} setCreate={setCreate} />
+			{setModal.modalType === "CREATE_MODAL" ? (
+				<CreatePost />
 			) : (
 				<></>
 			)}
 			{showNavbar ? (
-				<nav 
-				className="fixed top-4 flex mx-4">
+				<nav className="fixed top-4 flex mx-4">
 					<motion.img
 						src={logoIcon2}
 						alt="Logo Icon"

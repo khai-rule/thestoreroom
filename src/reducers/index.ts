@@ -1,8 +1,10 @@
-import isLogged from "./isLogged";
+import loadingStatusReducer from "./loadingStatusReducer";
 import { combineReducers } from "redux";
+import modalReducer from "./modalReducer";
 
 const allReducers = combineReducers({
-	isLogged,
+	loadingStatus: loadingStatusReducer,
+	modal: modalReducer
 });
 
 export default allReducers;

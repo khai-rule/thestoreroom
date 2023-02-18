@@ -4,10 +4,7 @@ export interface Creator {
 	};
 }
 
-export interface CreatePostModalProps {
-	closeModal: () => void;
-	setCreate: React.Dispatch<React.SetStateAction<boolean>>;
-}
+
 
 export interface CreatePostForms {
 	title: string;
@@ -21,7 +18,6 @@ export interface ImageFilesProps {
 		current: () => void;
 	};
 	setStatus: React.Dispatch<React.SetStateAction<string>>;
-	setCreate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface ImageFields {
@@ -243,4 +239,9 @@ export interface FullScreenDisplayProps {
 
 export interface Action {
 	type: string;
+	payload: string
+}
+
+export interface UseSelectorState {
+	loadingStatus: string
 }

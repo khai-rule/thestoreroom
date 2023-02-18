@@ -18,6 +18,9 @@ import { useStytchSession } from "@stytch/react";
 import About from "./pages/About";
 import Invite from "./pages/Invite";
 import Footer from "./components/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoadingStatus } from "./actions/setLoadingStatus";
+import { UseSelectorState } from "./utilities/interface";
 
 function App() {
 	const { user } = useStytchUser();
@@ -25,12 +28,17 @@ function App() {
 
 	const [creators, setCreators] = useState([] as any);
 	const [loggedInCreator, setLoggedInCreator] = useState({} as any);
-	const [status, setStatus] = useState("idle");
 	const [loggedInCreatorContentful, setLoggedInCreatorContentful] = useState(
 		{} as any
 	);
 
 	const { getCreators } = useContentful();
+
+
+	const loadingStatus = useSelector((state: UseSelectorState) => state.loadingStatus);
+
+	const dispatch = useDispatch();
+
 
 	useEffect(() => {
 		getCreators().then((response) => {
@@ -45,12 +53,13 @@ function App() {
 			);
 
 			setLoggedInCreatorContentful(matchingCreator);
-			setStatus("done");
+			dispatch(setLoadingStatus("done"))
 		});
-		setStatus("loading");
+		dispatch(setLoadingStatus("loading"))
 	}, [session, loggedInCreator]);
 
-	if (status === "loading") return <Loading />;
+	if (loadingStatus === "loading") return <Loading />;
+
 
 
 	return (

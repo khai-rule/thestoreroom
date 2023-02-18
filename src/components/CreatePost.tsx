@@ -1,4 +1,3 @@
-import { CreatePostModalProps } from "../utilities/interface";
 import { useState } from "react";
 import CreatePostForm from "./CreatePostForm";
 import Carousel from "./Carousel";
@@ -7,15 +6,13 @@ import { createClient } from "contentful-management";
 import { File } from "../utilities/interface";
 import { useRef } from "react";
 import { FormSubmit } from "../utilities/interface";
-import Loading from "./Loading";
+import { useSelector, useDispatch } from "react-redux";
 
-const CreatePost: React.FC<CreatePostModalProps> = ({
-	closeModal,
-	setCreate,
-}) => {
+const CreatePost: React.FC = () => {
+	const dispatch = useDispatch();
+
 	const formRef: FormSubmit = useRef(null!);
 	const [status, setStatus] = useState<string>("idle");
-
 
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -48,7 +45,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 
 			//! Create Image Asset in Contentful
 			const uploadPromises = imageFiles.map(async (file: any | File) => {
-				console.log("uploading process initiated")
+				console.log("uploading process initiated");
 				const contentType = file.type;
 				const fileName = file.name;
 				let asset = await environment.createAssetFromFiles({
@@ -95,7 +92,7 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 		<div className="fixed h-screen w-screen inset-0 z-50 bg-black bg-opacity-50 md:overflow-auto text-white">
 			<button
 				className="absolute right-8 top-6 hover:underline"
-				onClick={closeModal}
+				onClick={() => dispatch({ type: "HIDE_MODAL" })}
 			>
 				Close
 			</button>
@@ -163,7 +160,6 @@ const CreatePost: React.FC<CreatePostModalProps> = ({
 							imageFiles={imageFiles}
 							formRef={formRef}
 							setStatus={setStatus}
-							setCreate={setCreate}
 						/>
 					</div>
 				</div>

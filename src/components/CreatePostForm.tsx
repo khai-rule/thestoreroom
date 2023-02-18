@@ -10,14 +10,16 @@ import { CreatorsContext } from "../utilities/context";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 const CreatePostForm: React.FC<ImageFilesProps> = ({
 	imageFiles,
 	formRef,
 	setStatus,
-	setCreate,
 }) => {
 	const navigate = useNavigate();
+
+	const dispatch = useDispatch();
 
 	const client = createClient({
 		space: "94snklam6irp",
@@ -128,7 +130,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 								entry.publish();
 								navigate(`/profile/${artistName}`);
 								toast("Post successfully created.");
-								setCreate(false);
+								dispatch({ type: 'HIDE_MODAL' })
 							})
 							.catch(console.error);
 					})
