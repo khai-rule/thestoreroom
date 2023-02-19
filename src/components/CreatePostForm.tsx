@@ -10,16 +10,16 @@ import { CreatorsContext } from "../utilities/context";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoadingStatus } from "../actions/setLoadingStatus";
 
-const CreatePostForm: React.FC<ImageFilesProps> = ({
-	imageFiles,
-	formRef,
-	setStatus,
-}) => {
+
+const CreatePostForm: React.FC<ImageFilesProps> = ({ imageFiles, formRef }) => {
 	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
+
+
 
 	const client = createClient({
 		space: "94snklam6irp",
@@ -49,13 +49,22 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 	});
 
 	useEffect(() => {
+		if (
+			(errors && errors.tags && errors.tags.message) ||
+			(errors && errors.title && errors.title.message)
+		) {
+			dispatch(setLoadingStatus("idle"));
+		}
+	}, [errors]);
+
+	useEffect(() => {
 		formRef.current = handleSubmit(onSubmit);
 	}, []);
 
 	const onSubmit = (data: CreatePostForms, sanitisedSys: any) => {
 		const { title, caption, tags } = data;
 		if (!title || !tags) {
-			setStatus("idle");
+			dispatch(setLoadingStatus("idle"));
 			return;
 		}
 		console.log("tags", tags);
@@ -130,7 +139,8 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 								entry.publish();
 								navigate(`/profile/${artistName}`);
 								toast("Post successfully created.");
-								dispatch({ type: 'HIDE_MODAL' })
+								dispatch({ type: "HIDE_MODAL" });
+								dispatch(setLoadingStatus("done"));
 							})
 							.catch(console.error);
 					})
@@ -171,8 +181,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 					/>
 					{errors.title && errors.title?.message ? (
 						<>
-							<p className="my-2">{errors.title?.message}</p>
-							{setStatus("idle")}
+							<p className="my-2 text-red">{errors.title?.message}</p>
 						</>
 					) : (
 						<></>
@@ -183,7 +192,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 						{...register("caption")}
 						placeholder="Write a caption..."
 					/>
-					<p>{errors.caption?.message}</p>
+					<p className="text-red">{errors.caption?.message}</p>
 
 					<label className="my-2" htmlFor="tags">
 						Add tags?
@@ -191,8 +200,7 @@ const CreatePostForm: React.FC<ImageFilesProps> = ({
 					<div className="flex my-2">{displayTags()}</div>
 					{errors.tags && errors.tags?.message ? (
 						<>
-							<p className="my-2">{errors.tags?.message}</p>
-							{setStatus("idle")}
+							<p className="my-2 text-red">{errors.tags?.message}</p>
 						</>
 					) : (
 						<></>

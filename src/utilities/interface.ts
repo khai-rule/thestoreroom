@@ -17,7 +17,6 @@ export interface ImageFilesProps {
 	formRef: {
 		current: () => void;
 	};
-	setStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface ImageFields {

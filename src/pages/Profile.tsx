@@ -1,33 +1,29 @@
 import _ from "lodash";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import useContentful from "../utilities/useContentful";
-import { useState } from "react";
-import Loading from "../components/Loading";
 import { useParams } from "react-router-dom";
 import ProfileBody from "../components/ProfileBody";
 import ProfileHead from "../components/ProfileHead";
+import { CreatorsContext } from "../utilities/context";
+import { useContext } from "react";
+import { UseSelectorState } from "../utilities/interface";
+import { useSelector } from "react-redux";
+import Loading from "../components/Loading";
 
 const Profile: React.FC = () => {
 	const { code } = useParams();
-	const [status, setStatus] = useState<string>("idle");
-	const [creators, setCreators] = useState([] as any);
 
-	const { getCreators } = useContentful();
+	const creators = useContext(CreatorsContext);
+	const loadingStatus = useSelector((state: UseSelectorState) => state.loadingStatus);
 
-	useEffect(() => {
-		getCreators().then((response) => {
-			setCreators(response);
-			setStatus("done");
-		});
-		setStatus("loading");
-	}, []);
 
-	if (status === "loading") return <Loading />;
-
-	const matchingCreator = creators.find(
+	const matchingCreator = creators?.creators?.find(
 		(creator: any) => creator.creator.artistName === code
 	);
+
+	if (matchingCreator === undefined) {
+		return <></>;
+	}
+
+	if (loadingStatus === "loading") return <Loading />;
 
 	return (
 		<div>

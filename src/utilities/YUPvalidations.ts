@@ -10,13 +10,14 @@ export const createPostFormSchema = yup
 			.string()
 			.max(500, "Caption cannot be more than 500 characters"),
 		tags: yup
-			.array()
-			.of(
-				yup
-					.string()
-					.oneOf(["outdoor", "indoor", "still life"])
+			// .array()
+			// .of(
+			// 	yup
+					.array()
+					.nullable()
+					// .oneOf(["outdoor", "indoor", "still life"])
 					.required("Select at least one tag")
-			),
+			// ),
 	})
 	.required();
 

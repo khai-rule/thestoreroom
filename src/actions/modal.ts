@@ -3,8 +3,7 @@ export const showCreatePopUp = (modal: any) => ({
     payload: modal
   });
   
-  export const hideCreatePopUp = (modal: any) => ({
+  export const hideCreatePopUp = () => ({
     type: "HIDE_MODAL",
-    payload: modal
   });
   

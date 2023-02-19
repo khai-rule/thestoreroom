@@ -7,12 +7,16 @@ import { File } from "../utilities/interface";
 import { useRef } from "react";
 import { FormSubmit } from "../utilities/interface";
 import { useSelector, useDispatch } from "react-redux";
+import { setLoadingStatus } from "../actions/setLoadingStatus";
+import { UseSelectorState } from "../utilities/interface";
 
 const CreatePost: React.FC = () => {
 	const dispatch = useDispatch();
+	const loadingStatus = useSelector(
+		(state: UseSelectorState) => state.loadingStatus
+	);
 
 	const formRef: FormSubmit = useRef(null!);
-	const [status, setStatus] = useState<string>("idle");
 
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -41,7 +45,7 @@ const CreatePost: React.FC = () => {
 			});
 			const space = await MClient.getSpace("94snklam6irp");
 			const environment = await space.getEnvironment("master");
-			setStatus("loading");
+			dispatch(setLoadingStatus("loading"));
 
 			//! Create Image Asset in Contentful
 			const uploadPromises = imageFiles.map(async (file: any | File) => {
@@ -83,7 +87,7 @@ const CreatePost: React.FC = () => {
 			console.log("Images successfuly uploaded");
 			formRef.current(sanitisedSys);
 		} catch (error) {
-			setStatus("idle");
+			dispatch(setLoadingStatus("idle"));
 			console.log(error);
 		}
 	};
@@ -134,7 +138,7 @@ const CreatePost: React.FC = () => {
 							<h4 className="text-black py-2 mx-5 font-semibold">
 								Create New Post
 							</h4>
-							{status === "loading" ? (
+							{loadingStatus === "loading" ? (
 								<div
 									className="spinner-border animate-spin inline-block w-6 h-6 border-3 rounded-full text-black mx-8 mt-2"
 									role="status"
@@ -156,11 +160,7 @@ const CreatePost: React.FC = () => {
 							<Carousel imagePreviews={imagePreview} />
 						</div>
 
-						<CreatePostForm
-							imageFiles={imageFiles}
-							formRef={formRef}
-							setStatus={setStatus}
-						/>
+						<CreatePostForm imageFiles={imageFiles} formRef={formRef} />
 					</div>
 				</div>
 			) : (

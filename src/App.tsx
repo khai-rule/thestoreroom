@@ -58,7 +58,7 @@ function App() {
 		dispatch(setLoadingStatus("loading"))
 	}, [session, loggedInCreator]);
 
-	if (loadingStatus === "loading") return <Loading />;
+	// if (loadingStatus === "loading") return <Loading />;
 
 
 

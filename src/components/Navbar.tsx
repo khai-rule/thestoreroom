@@ -34,7 +34,6 @@ const Navbar: React.FC = () => {
 
 	const setModal = useSelector((state: any) => state.modal);
 	const dispatch = useDispatch();
-	console.log(setModal.modalType);
 
 	useEffect(() => {
 		if (
