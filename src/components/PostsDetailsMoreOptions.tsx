@@ -2,38 +2,42 @@ import React from "react";
 import { MoreOptionsProps } from "../utilities/interface";
 import { CreatorsContext } from "../utilities/context";
 import { useContext } from "react";
+import _ from "lodash";
+import { useStytchUser } from "@stytch/react";
+import { useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
+import { Action } from "../utilities/interface";
+import { fetchContentfulData } from "../actions/fetchContentfulData";
+import Loading from "./Loading";
 
 const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
-	isOpen,
-	setOpen,
 	linkCopiedToastify,
 	matchingPost,
-	setConfirmDeleteOpen,
-	setEdit,
 }) => {
-	if (!isOpen) return null;
+	const dispatch = useDispatch();
+	const { user } = useStytchUser();
 
-	const { loggedInCreatorContentful } = useContext(CreatorsContext);
+	const contentfulAPI = useSelector((state: any) => state.contentfulData);
+	
+	if (contentfulAPI.loading === true) return <Loading />;
+
+	const loggedInEmailFromStytch = user?.emails?.[0].email;
+
+	const loggedInCreatorContentful = contentfulAPI?.data?.creator?.find(
+					(creator: any) =>
+						_.lowerCase(creator.fields.email) ===
+						_.lowerCase(loggedInEmailFromStytch)
+				);
 
 	const copyURL = () => {
 		navigator.clipboard.writeText(window.location.href);
-		setOpen(false);
+		dispatch({ type: "HIDE_MODAL" })
 		linkCopiedToastify();
 	};
 
 	// To check if this post belongs to the logged in user. If yes, show more options
-	const postCreatorID = matchingPost?.post.creator.sys.id;
+	const postCreatorID = matchingPost?.fields.creator.sys.id;
 	const loggedInCreatorID = loggedInCreatorContentful?.sys.id;
-
-	const confirmDelete = () => {
-		setOpen(false);
-		setConfirmDeleteOpen(true);
-	};
-
-	const editPost = () => {
-		setOpen(false);
-		setEdit(true);
-	};
 
 	return (
 		<div
@@ -48,11 +52,11 @@ const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 						<>
 							<button
 								className="block px-4 py-3 text-red font-semibold"
-								onClick={confirmDelete}
+								onClick={() => dispatch({ type: "SHOW_MODAL", payload: "CONFIRM_DELETE_MODAL" })}
 							>
 								Delete
 							</button>
-							<button className="block px-4 py-3" onClick={editPost}>
+							<button className="block px-4 py-3" onClick={() => dispatch({ type: "SHOW_MODAL", payload: "EDIT_POST_MODAL" })}>
 								Edit
 							</button>
 						</>
@@ -70,7 +74,7 @@ const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 					</button>
 					<button
 						className="block px-4 py-3 text-black"
-						onClick={() => setOpen(false)}
+						onClick={() => dispatch({ type: "HIDE_MODAL" })}
 					>
 						Cancel
 					</button>

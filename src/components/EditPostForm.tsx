@@ -7,13 +7,16 @@ import { useEffect } from "react";
 import { EditPostProps } from "../utilities/interface";
 import { createPostFormSchema } from "../utilities/YUPvalidations";
 import { CreatePostForms } from "../utilities/interface";
+import { useDispatch } from "react-redux";
+import { setLoadingStatus } from "../actions/setLoadingStatus";
 
 const EditPost: React.FC<EditPostProps> = ({
 	formRef,
-	setStatus,
 	setUpdate,
 	matchingPost,
 }) => {
+	const dispatch = useDispatch();
+
 	const {
 		register,
 		handleSubmit,
@@ -22,12 +25,21 @@ const EditPost: React.FC<EditPostProps> = ({
 		resolver: yupResolver(createPostFormSchema),
 	});
 
-	const { title, caption, tags } = matchingPost.post;
-	const { firstName, artistName, lastName } = matchingPost.post.creator.fields;
+	const { title, caption, tags } = matchingPost.fields;
+	const { firstName, artistName, lastName } = matchingPost.fields.creator.fields;
 
 	const client = createClient({
 		accessToken: "CFPAT-A6jfpI6MkmfBymBooRWgT4L8Fa-6ng0BLo0hGUmdpuw", // contentful management
 	});
+
+	useEffect(() => {
+		if (
+			(errors && errors.tags && errors.tags.message) ||
+			(errors && errors.title && errors.title.message)
+		) {
+			dispatch(setLoadingStatus("idle"));
+		}
+	}, [errors]);
 
 	useEffect(() => {
 		formRef.current = handleSubmit(onSubmit);
@@ -35,7 +47,6 @@ const EditPost: React.FC<EditPostProps> = ({
 
 	const onSubmit = (data: any, postID: any) => {
 		const { title, caption, tags } = data;
-		console.log(postID);
 		client
 			.getSpace("94snklam6irp")
 			.then((space) => space.getEnvironment("master"))
@@ -59,8 +70,8 @@ const EditPost: React.FC<EditPostProps> = ({
 				entry.publish();
 				console.log(`Entry ${entry.sys.id} updated and published.`);
 				toast("Post details successfully updated");
-				setStatus("idle");
-
+				dispatch(setLoadingStatus("idle"));
+				dispatch({ type: "HIDE_MODAL" });
 				setUpdate(_.random(0, 500));
 			})
 			.catch(console.error);
@@ -101,13 +112,11 @@ const EditPost: React.FC<EditPostProps> = ({
 				<>
 					{errors.title && errors.title?.message ? (
 						<>
-							<p className="my-2">{errors.title?.message}</p>
-							{setStatus("idle")}
+							<p  className="my-2 text-red">{errors.title?.message}</p>
 						</>
 					) : (
 						<></>
 					)}
-					{setStatus("idle")}
 				</>
 
 				<textarea
@@ -117,7 +126,7 @@ const EditPost: React.FC<EditPostProps> = ({
 					defaultValue={caption}
 				/>
 				{errors.caption && errors.caption?.message ? (
-					<p>{errors.caption?.message}</p>
+					<p className="text-red">{errors.caption?.message}</p>
 				) : (
 					<></>
 				)}
@@ -129,8 +138,7 @@ const EditPost: React.FC<EditPostProps> = ({
 
 				{errors.tags && errors.tags?.message ? (
 					<>
-						<p className="my-2">{errors.tags?.message}</p>
-						{setStatus("idle")}
+						<p className="my-2 text-red">{errors.tags?.message}</p>
 					</>
 				) : (
 					<></>

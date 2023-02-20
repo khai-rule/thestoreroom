@@ -6,14 +6,14 @@ import { StytchUIClient } from "@stytch/vanilla-js";
 import { createStore, compose } from "redux";
 import allReducers from "./reducers";
 import { Provider } from "react-redux";
-import thunk from 'redux-thunk';
+import thunk from "redux-thunk";
 import { applyMiddleware } from "@reduxjs/toolkit";
 
 declare global {
 	interface Window {
-	  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
 	}
-  }
+}
 
 const stytch = new StytchUIClient(
 	// process.env.STYTCH_PUBLIC_TOKEN as string
@@ -22,11 +22,9 @@ const stytch = new StytchUIClient(
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
-	allReducers,
-	applyMiddleware(thunk),
-	// composeEnhancers()
-);
+const enhancer = composeEnhancers(applyMiddleware(thunk));
+
+const store = createStore(allReducers, enhancer);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>

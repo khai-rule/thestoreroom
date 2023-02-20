@@ -12,7 +12,7 @@ const PostsGallery: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
 
 	useEffect(() => {
 		if (matchingPost !== undefined) {
-			const previews = matchingPost?.post?.images?.map(
+			const previews = matchingPost?.fields?.images?.map(
 				(image: ImageFields) => image.fields.file.url
 			);
 
@@ -25,7 +25,7 @@ const PostsGallery: React.FC<PostsGalleryProps> = ({ matchingPost }) => {
 		setDisplay(url)
 	};
 
-	const displayImages = matchingPost?.post?.images.map(
+	const displayImages = matchingPost?.fields?.images.map(
 		(image: ImageFields, index: number) => {
 			const title = image?.fields.title;
 			const url = image?.fields?.file.url;

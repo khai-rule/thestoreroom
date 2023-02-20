@@ -2,13 +2,13 @@ import { ConfirmDeleteProps } from "../utilities/interface";
 import { createClient } from "contentful-management";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
 
 const ConfirmDeletePost: React.FC<ConfirmDeleteProps> = ({
-	confirmDeleteOpen,
-	setConfirmDeleteOpen,
 	matchingPost,
 }) => {
-	if (!confirmDeleteOpen) return null;
+
+	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const ConfirmDeletePost: React.FC<ConfirmDeleteProps> = ({
 	});
 
 	const postID = matchingPost?.sys.id;
-	const creatorID = matchingPost?.post.creator.sys.id;
+	const creatorID = matchingPost?.fields?.creator?.sys.id;
 
 	const deletePost = () => {
 		console.log("delete initiated");
@@ -89,7 +89,7 @@ const ConfirmDeletePost: React.FC<ConfirmDeleteProps> = ({
 					</button>
 					<button
 						className=" px-4 py-3 text-black"
-						onClick={() => setConfirmDeleteOpen(false)}
+						onClick={() => dispatch({ type: "HIDE_MODAL" })}
 					>
 						Cancel
 					</button>

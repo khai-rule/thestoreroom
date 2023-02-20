@@ -5,22 +5,26 @@ import Carousel from "./Carousel";
 import { useEffect } from "react";
 import { EditPostImagesProps } from "../utilities/interface";
 import { ImageFields } from "../utilities/interface";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoadingStatus } from "../actions/setLoadingStatus";
+import { UseSelectorState } from "../utilities/interface";
 
 const EditPostImages: React.FC<EditPostImagesProps> = ({
-	closeModal,
-	setEdit,
 	matchingPost,
 	setUpdate,
 }) => {
-	const formRef: any = useRef(null!);
+	const dispatch = useDispatch();
+	const loadingStatus = useSelector(
+		(state: UseSelectorState) => state.loadingStatus
+	);
 
-	const [status, setStatus] = useState<string>("idle");
+	const formRef: any = useRef(null!);
 
 	const [imagePreview, setImagePreview] = useState<string[]>([]);
 
 	useEffect(() => {
 		if (matchingPost !== undefined) {
-			const previews = matchingPost?.post?.images?.map(
+			const previews = matchingPost?.fields?.images?.map(
 				(image: ImageFields) => image.fields.file.url
 			);
 			if (previews) {
@@ -30,27 +34,25 @@ const EditPostImages: React.FC<EditPostImagesProps> = ({
 	}, [matchingPost]);
 
 	const postID = matchingPost?.sys?.id;
-	console.log(postID);
 
 	const handleUpdate = async () => {
-		setStatus("loading");
+		dispatch(setLoadingStatus("loading"));
 		formRef.current(postID);
 	};
 
 	return (
 		<div className="fixed h-screen w-screen inset-0 z-50 bg-black bg-opacity-50 md:overflow-auto text-white">
-
 			<div className="relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0">
 				<div className="relative grid-item bg-white w-8/12 left-1/2 -translate-x-1/2 rounded-t-3xl">
 					<div className="flex justify-between">
-					<h4
-								className="py-2 mx-5 text-black cursor-pointer hover:underline"
-								onClick={closeModal}
-							>
-								Cancel
-							</h4>
+						<h4
+							className="py-2 mx-5 text-black cursor-pointer hover:underline"
+							onClick={() => dispatch({ type: "HIDE_MODAL" })}
+						>
+							Cancel
+						</h4>
 						<h4 className="text-black py-2 mx-5 font-semibold">Edit Post</h4>
-						{status === "loading" ? (
+						{loadingStatus === "loading" ? (
 							<div
 								className="spinner-border animate-spin inline-block w-6 h-6 border-3 rounded-full text-black mx-8 mt-2"
 								role="status"
@@ -74,8 +76,6 @@ const EditPostImages: React.FC<EditPostImagesProps> = ({
 
 					<EditPostForm
 						formRef={formRef}
-						setStatus={setStatus}
-						setEdit={setEdit}
 						setUpdate={setUpdate}
 						matchingPost={matchingPost}
 					/>

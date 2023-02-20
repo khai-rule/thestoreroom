@@ -10,7 +10,7 @@ import { CreatorsContext } from "../utilities/context";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLoadingStatus } from "../actions/setLoadingStatus";
 
 

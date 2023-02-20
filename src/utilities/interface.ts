@@ -136,13 +136,9 @@ export interface UseRef {
 }
 
 export interface MoreOptionsProps {
-	isOpen: boolean;
-	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	linkCopiedToastify: () => void;
-	setConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 	matchingPost: {
-		post: {
+		fields: {
 			creator: {
 				sys: {
 					id: string;
@@ -157,10 +153,8 @@ export interface FormSubmit {
 }
 
 export interface ConfirmDeleteProps {
-	confirmDeleteOpen: boolean;
-	setConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	matchingPost: {
-		post: {
+		fields: {
 			creator: {
 				sys: {
 					id: string;
@@ -189,14 +183,12 @@ export interface ProfileForm {
 }
 
 export interface EditPostImagesProps {
-	closeModal: () => void;
-	setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 	setUpdate: React.Dispatch<React.SetStateAction<number>>;
 	matchingPost: {
 		sys: {
 			id: string;
 		};
-		post: {
+		fields: {
 			images: [];
 		};
 	};
@@ -206,12 +198,10 @@ export interface EditPostProps {
 	formRef: {
 		current: () => void;
 	};
-	setStatus: React.Dispatch<React.SetStateAction<string>>;
-	setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 	setUpdate: React.Dispatch<React.SetStateAction<number>>;
 	matchingPost:
 		| {
-				post: {
+				fields: {
 					title: string;
 					caption: string;
 					tags: string;

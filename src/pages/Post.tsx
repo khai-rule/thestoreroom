@@ -6,33 +6,30 @@ import Loading from "../components/Loading";
 import { useState } from "react";
 import PostsGallery from "../components/PostsGallery";
 import PostsDetails from "../components/PostsDetails";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchContentfulData } from "../actions/fetchContentfulData";
+import { Action } from "../utilities/interface";
 
 const Post: React.FC = () => {
 	const navigate = useNavigate();
 	const { code } = useParams();
-	const { getPosts } = useContentful();
 
-	const [posts, setPosts] = useState([] as any);
-	const [status, setStatus] = useState<string>("idle");
 	const [update, setUpdate] = useState<number>(1);
-	
+
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		getPosts().then((response) => {
-			setPosts(response);
-			setStatus("done");
-		});
-		setStatus("loading");
+		dispatch<Action | any>(fetchContentfulData("posts"));
+		dispatch<Action | any>(fetchContentfulData("creator"));
 	}, [update]);
 
-	if (status === "loading") return <Loading />;
+	const contentfulAPI = useSelector((state: any) => state.contentfulData);
 
-	const matchingPost = posts.find((post: any) =>
-		post.post.images?.find((image: any) => image.sys.id === code)
+	if (contentfulAPI.loading === true) return <Loading />;
+
+	const matchingPost = contentfulAPI?.data?.posts?.find((post: any) =>
+		post.fields.images?.find((image: any) => image.sys.id === code)
 	);
-
-
-
 
 	return (
 		<>
