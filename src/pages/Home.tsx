@@ -6,34 +6,44 @@ import Loading from "../components/Loading";
 import HomeSideNav from "../components/HomeSideNav";
 import { CreatorsContext } from "../utilities/context";
 import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchContentfulData } from "../actions/fetchContentfulData";
+import { Action } from "../utilities/interface";
 
 const Homepage: React.FC = () => {
-	const [posts, setPosts] = useState([] as any);
-	const [status, setStatus] = useState<string>("idle");
 	const [display, setDisplay] = useState<string>("none");
-	const [ grid, setGrid ] = useState(false)
+	const [grid, setGrid] = useState(false);
 
-	const { getPosts } = useContentful();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		getPosts().then((response) => {
-			setPosts(response);
-			setStatus("done");
-		});
-		setStatus("loading");
+		dispatch<Action | any>(fetchContentfulData("posts"));
 	}, []);
 
-	if (status === "loading") return <Loading />;
+	const postsAPI = useSelector((state: any) => state.contentfulData);
+
+	if (postsAPI.loading === true) return <Loading />;
 
 	return (
 		<>
-			<h3 className={`fixed left-1/2 transform -translate-x-1/2 top-6 ${display === "none" ? "text-primary" : "text-secondary cursor-pointer"} `} 
-			onClick={() => setDisplay("none")}
-			>{` Discover ${
-				display === "none" ? "" : display
-			}`}</h3>
-			<HomeSideNav display={display} setDisplay={setDisplay} setGrid={setGrid} grid={grid}/>
-			<HomeFeed posts={posts} display={display} setDisplay={setDisplay} grid={grid}/>
+			<h3
+				className={`fixed left-1/2 transform -translate-x-1/2 top-6 ${
+					display === "none" ? "text-primary" : "text-secondary cursor-pointer"
+				} `}
+				onClick={() => setDisplay("none")}
+			>{` Discover ${display === "none" ? "" : display}`}</h3>
+			<HomeSideNav
+				display={display}
+				setDisplay={setDisplay}
+				setGrid={setGrid}
+				grid={grid}
+			/>
+			<HomeFeed
+				posts={postsAPI?.data?.posts}
+				display={display}
+				setDisplay={setDisplay}
+				grid={grid}
+			/>
 		</>
 	);
 };

@@ -21,6 +21,8 @@ import Footer from "./components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingStatus } from "./actions/setLoadingStatus";
 import { UseSelectorState } from "./utilities/interface";
+import { fetchContentfulData } from "./actions/fetchContentfulData";
+import { Action } from "./utilities/interface";
 
 function App() {
 	const { user } = useStytchUser();
@@ -32,35 +34,35 @@ function App() {
 		{} as any
 	);
 
-	const { getCreators } = useContentful();
+	// const { getCreators } = useContentful();
 
+	// const dispatch = useDispatch();
 
-	const loadingStatus = useSelector((state: UseSelectorState) => state.loadingStatus);
+	// useEffect(() => {
+	// 	dispatch<Action | any>(fetchContentfulData("creator"));
+	// }, []);
 
-	const dispatch = useDispatch();
+	// const creatorsAPI = useSelector((state: any) => state.contentfulData);
 
+	// console.log(creatorsAPI)
 
-	useEffect(() => {
-		getCreators().then((response) => {
-			setCreators(response);
-			setLoggedInCreator(user);
-			const loggedInEmailFromStytch = loggedInCreator?.emails?.[0].email;
+	// useEffect(() => {
+	// 	getCreators().then((response) => {
+	// 		setCreators(response);
+	// 		setLoggedInCreator(user);
+	// 		const loggedInEmailFromStytch = loggedInCreator?.emails?.[0].email;
 
-			const matchingCreator = creators.find(
-				(creator: any) =>
-					_.lowerCase(creator.creator.email) ===
-					_.lowerCase(loggedInEmailFromStytch)
-			);
+	// 		const matchingCreator = creators.find(
+	// 			(creator: any) =>
+	// 				_.lowerCase(creator.creator.email) ===
+	// 				_.lowerCase(loggedInEmailFromStytch)
+	// 		);
 
-			setLoggedInCreatorContentful(matchingCreator);
-			dispatch(setLoadingStatus("done"))
-		});
-		dispatch(setLoadingStatus("loading"))
-	}, [session, loggedInCreator]);
-
-	// if (loadingStatus === "loading") return <Loading />;
-
-
+	// 		setLoggedInCreatorContentful(matchingCreator);
+	// 		dispatch(setLoadingStatus("done"));
+	// 	});
+	// 	dispatch(setLoadingStatus("loading"));
+	// }, [session, loggedInCreator]);
 
 	return (
 		<>

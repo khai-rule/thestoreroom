@@ -79,7 +79,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 				const id = image?.sys.id;
 
 				return (
-					<div >
+					<>
 						<img
 							className={
 								index % 3 !== 0
@@ -90,7 +90,7 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 							alt={title}
 							onClick={() => viewPost(id)}
 						/>
-					</div>
+					</>
 				);
 			});
 		return (

@@ -12,8 +12,9 @@ const Profile: React.FC = () => {
 	const { code } = useParams();
 
 	const creators = useContext(CreatorsContext);
-	const loadingStatus = useSelector((state: UseSelectorState) => state.loadingStatus);
-
+	const loadingStatus = useSelector(
+		(state: UseSelectorState) => state.loadingStatus
+	);
 
 	const matchingCreator = creators?.creators?.find(
 		(creator: any) => creator.creator.artistName === code
@@ -27,9 +28,7 @@ const Profile: React.FC = () => {
 
 	return (
 		<div>
-			<div>
-				<ProfileHead matchingCreator={matchingCreator} />
-			</div>
+			<ProfileHead matchingCreator={matchingCreator} />
 			<ProfileBody matchingCreator={matchingCreator} />
 		</div>
 	);

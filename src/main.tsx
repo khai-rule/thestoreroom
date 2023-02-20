@@ -6,6 +6,8 @@ import { StytchUIClient } from "@stytch/vanilla-js";
 import { createStore, compose } from "redux";
 import allReducers from "./reducers";
 import { Provider } from "react-redux";
+import thunk from 'redux-thunk';
+import { applyMiddleware } from "@reduxjs/toolkit";
 
 declare global {
 	interface Window {
@@ -22,7 +24,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
 	allReducers,
-	composeEnhancers() 
+	applyMiddleware(thunk),
+	// composeEnhancers()
 );
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

@@ -4,8 +4,6 @@ export interface Creator {
 	};
 }
 
-
-
 export interface CreatePostForms {
 	title: string;
 	caption: string;
@@ -105,8 +103,8 @@ export interface Post {
 		images: [];
 	};
 	sys: {
-		id: string
-	}
+		id: string;
+	};
 }
 
 export interface ProfilePostsProps {
@@ -236,11 +234,15 @@ export interface FullScreenDisplayProps {
 	display: string;
 }
 
+
 export interface Action {
 	type: string;
-	payload: string
+	payload: {
+		api: string
+		data: any
+	}
 }
 
 export interface UseSelectorState {
-	loadingStatus: string
+	loadingStatus: string;
 }

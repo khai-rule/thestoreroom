@@ -14,7 +14,7 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 	const navigate = useNavigate();
 
 	const allImages = posts
-		.flatMap((post: any) => post.post.images)
+		.flatMap((post: any) => post.fields.images)
 		.sort(() => Math.random() - 0.5);
 
 	const viewPost = (id: string) => {
@@ -23,23 +23,24 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 
 	const viewProfile = (id: string) => {
 		const matchingPost = posts.find((post) =>
-			post.post.images?.find((image: Image) => image.sys.id === id)
+			post.fields.images?.find((image: Image) => image.sys.id === id)
 		);
-		const artistName = matchingPost?.post.creator.fields.artistName;
+		const artistName = matchingPost?.fields.creator.fields.artistName;
 		navigate(`/profile/${artistName}`);
 	};
 
 	const displayImages = allImages.map((image: allImage, i: number) => {
 		const id = image?.sys.id;
 		const matchingPost = posts.find((post) =>
-		post.post.images?.find((image: Image) => image.sys.id === id)
+		post.fields.images?.find((image: Image) => image.sys.id === id)
 		);
 
-			const firstName = matchingPost?.post?.creator?.fields?.firstName !== undefined ? matchingPost?.post?.creator?.fields?.firstName : ""
-			const artistName = matchingPost?.post?.creator?.fields?.artistName !== undefined ? matchingPost?.post?.creator?.fields?.artistName : ""
-			const lastName = matchingPost?.post?.creator?.fields?.lastName !== undefined ? matchingPost?.post?.creator?.fields?.lastName : ""
-			const name = `${firstName} "${artistName}" ${lastName}`;
-
+		
+		const firstName = matchingPost?.fields?.creator?.fields?.firstName !== undefined ? matchingPost?.fields?.creator?.fields?.firstName : ""
+		const artistName = matchingPost?.fields?.creator?.fields?.artistName !== undefined ? matchingPost?.fields?.creator?.fields?.artistName : ""
+		const lastName = matchingPost?.fields?.creator?.fields?.lastName !== undefined ? matchingPost?.fields?.creator?.fields?.lastName : ""
+		const name = `${firstName} "${artistName}" ${lastName}`;
+		
 			const url = image?.fields?.file?.url;
 			return (
 				<div
