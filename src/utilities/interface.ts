@@ -46,12 +46,11 @@ export interface HomeDisplayProps {
 
 export interface PostsGalleryProps {
 	matchingPost: string | any;
-	code: string | undefined;
+	// code: string | undefined;
 }
 
 export interface PostsDetailsProps {
 	matchingPost: string | any;
-	code: string | undefined;
 	setUpdate: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -109,7 +108,7 @@ export interface Post {
 
 export interface ProfilePostsProps {
 	matchingCreator: {
-		creator: {
+		fields: {
 			posts: [];
 		};
 		sys: object;
@@ -118,7 +117,7 @@ export interface ProfilePostsProps {
 
 export interface ProfileHeadProps {
 	matchingCreator: {
-		creator: {
+		fields: {
 			email: string;
 			firstName: string;
 			artistName: string;

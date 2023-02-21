@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StytchUIClient } from "@stytch/vanilla-js";
 import { useStytchSession } from "@stytch/react";
@@ -8,32 +7,36 @@ import { ToastContainer, toast } from "react-toastify";
 import { Slide } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { useContext } from "react";
-import { CreatorsContext } from "../utilities/context";
 import logoIcon2 from "../imgIcons/logoIcon2.svg";
 import { motion, useScroll } from "framer-motion";
 import { useTransform } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { showCreatePopUp, hideCreatePopUp } from "../actions/modal";
+import _ from "lodash";
+import { useContext } from "react";
+import { useState } from "react";
+import { CreatorsContext } from "../utilities/context";
 
 const Navbar: React.FC = () => {
-	const [nav, setNav] = useState(false);
+	const dispatch = useDispatch();
+	const modal = useSelector((state: any) => state.modal);
+
+	const location = useLocation();
+	const navigate = useNavigate();
+
+	const { scrollYProgress } = useScroll();
+	const rotate = useTransform(scrollYProgress, (value) => value * 360);
+
 	const [showNavbar, setShowNavbar] = useState(true);
 
 	const { session } = useStytchSession();
-	const location = useLocation();
-
-	const { scrollYProgress } = useScroll();
-
-	const rotate = useTransform(scrollYProgress, (value) => value * 360);
+	const stytch = new StytchUIClient(
+		"public-token-test-736493f4-1ae4-437e-b06b-d7a20bda9083"
+	);
 
 	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
 	const loggedInCreatorArtistName =
 		loggedInCreatorContentful?.creator?.artistName;
-
-	const setModal = useSelector((state: any) => state.modal);
-	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (
@@ -46,25 +49,16 @@ const Navbar: React.FC = () => {
 		}
 	}, [location]);
 
-	const navigate = useNavigate();
-	const stytch = new StytchUIClient(
-		"public-token-test-736493f4-1ae4-437e-b06b-d7a20bda9083"
-	);
-
-	const toggleNav = () => {
-		nav ? setNav(false) : setNav(true);
-	};
-
 	const handleLogout = () => {
 		stytch.session.revoke();
 		toast("You have successfully logged out.");
 		navigate("/");
 	};
 
-	const navbar = () => {
+	const navbarModal = () => {
 		return (
 			<div className="fixed inset-0 z-1 bg-nav flex justify-center items-center z-40 text-center text-white">
-				<div onClick={toggleNav}>
+				<div onClick={() => dispatch({ type: "HIDE_MODAL" })}>
 					<button className="fixed top-6 right-8 hover:underline">Close</button>
 					<NavLink to="/">
 						<h2 className="hover:underline">Home</h2>
@@ -78,8 +72,9 @@ const Navbar: React.FC = () => {
 							</NavLink>
 							<h2
 								className="hover:underline cursor-pointer"
-								onClick={() =>
-									dispatch({ type: "SHOW_MODAL", payload: "CREATE_MODAL" })
+								onClick={() => setTimeout(() => {
+									dispatch({ type: "SHOW_MODAL", payload: "CREATE_MODAL" });
+								  }, 0)
 								}
 							>
 								Create
@@ -123,11 +118,9 @@ const Navbar: React.FC = () => {
 				theme="dark"
 				transition={Slide}
 			/>
-			{setModal.modalType === "CREATE_MODAL" ? (
-				<CreatePost />
-			) : (
-				<></>
-			)}
+
+			{modal.modalType === "CREATE_MODAL" ? <CreatePost /> : <></>}
+
 			{showNavbar ? (
 				<nav className="fixed top-4 flex mx-4">
 					<motion.img
@@ -138,17 +131,28 @@ const Navbar: React.FC = () => {
 						style={{ rotate }}
 					/>
 
-					<a
-						className="fixed right-6 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2"
-						onClick={toggleNav}
-					>
-						{nav ? "Close" : "Menu"}
-					</a>
+					{modal.modalType !== "NAV_BAR_MODAL" ? (
+						<a
+							className="fixed right-6 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2"
+							onClick={() =>
+								dispatch({ type: "SHOW_MODAL", payload: "NAV_BAR_MODAL" })
+							}
+						>
+							Menu
+						</a>
+					) : (
+						<a
+							className="fixed right-6 top-4 hover:cursor-pointer hover:underline z-50 mt-2 mx-2"
+							onClick={() => dispatch({ type: "HIDE_MODAL" })}
+						>
+							Close
+						</a>
+					)}
 				</nav>
 			) : (
 				<></>
 			)}
-			{nav ? navbar() : <></>}
+			{modal.modalType === "NAV_BAR_MODAL" ? navbarModal() : <></>}
 		</div>
 	);
 };

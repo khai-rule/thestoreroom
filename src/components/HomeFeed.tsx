@@ -4,6 +4,7 @@ import _ from "lodash";
 import { Image } from "../utilities/interface";
 import { allImage } from "../utilities/interface";
 import LazyLoad from "react-lazy-load";
+import Post from "../pages/Post";
 
 const HomeFeed: React.FC<HomeFeedProps> = ({
 	posts,
@@ -14,11 +15,12 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 	const navigate = useNavigate();
 
 	const allImages = posts
-		.flatMap((post: any) => post.fields.images)
+		?.flatMap((post: any) => post.fields.images)
 		.sort(() => Math.random() - 0.5);
 
 	const viewPost = (id: string) => {
 		navigate(`/post/${id}`);
+		// window.history.pushState(null, null, `/post/${id}`);
 	};
 
 	const viewProfile = (id: string) => {
@@ -29,50 +31,56 @@ const HomeFeed: React.FC<HomeFeedProps> = ({
 		navigate(`/profile/${artistName}`);
 	};
 
-	const displayImages = allImages.map((image: allImage, i: number) => {
+	const displayImages = allImages?.map((image: allImage, i: number) => {
 		const id = image?.sys.id;
-		const matchingPost = posts.find((post) =>
-		post.fields.images?.find((image: Image) => image.sys.id === id)
+		const matchingPost = posts?.find((post) =>
+			post.fields.images?.find((image: Image) => image.sys.id === id)
 		);
 
-		
-		const firstName = matchingPost?.fields?.creator?.fields?.firstName !== undefined ? matchingPost?.fields?.creator?.fields?.firstName : ""
-		const artistName = matchingPost?.fields?.creator?.fields?.artistName !== undefined ? matchingPost?.fields?.creator?.fields?.artistName : ""
-		const lastName = matchingPost?.fields?.creator?.fields?.lastName !== undefined ? matchingPost?.fields?.creator?.fields?.lastName : ""
+		const firstName =
+			matchingPost?.fields?.creator?.fields?.firstName !== undefined
+				? matchingPost?.fields?.creator?.fields?.firstName
+				: "";
+		const artistName =
+			matchingPost?.fields?.creator?.fields?.artistName !== undefined
+				? matchingPost?.fields?.creator?.fields?.artistName
+				: "";
+		const lastName =
+			matchingPost?.fields?.creator?.fields?.lastName !== undefined
+				? matchingPost?.fields?.creator?.fields?.lastName
+				: "";
 		const name = `${firstName} "${artistName}" ${lastName}`;
-		
-			const url = image?.fields?.file?.url;
-			return (
-				<div
+
+		const url = image?.fields?.file?.url;
+		return (
+			<div
 				key={url}
-					className={` ${grid ? "my-4" : "my-12"}  ${
-						i % 3 === 0 ? "w-11/12" : "w-9/12"
-					}`}
-				>
-					<LazyLoad>
-						<>
-							<img
-								className="cursor-pointer"
-								onClick={() => viewPost(id)}
-								src={url}
-								alt={"image"}
-								
-							/>
-							{grid ? (
-								<></>
-							) : (
-								<p
-									className="mx-auto my-2 hover:underline cursor-pointer"
-									onClick={() => viewProfile(id)}
-								>
-									{name}
-								</p>
-							)}
-						</>
-					</LazyLoad>
-				</div>
-			);
-		
+				className={` ${grid ? "my-4" : "my-12"}  ${
+					i % 3 === 0 ? "w-11/12" : "w-9/12"
+				}`}
+			>
+				<LazyLoad>
+					<>
+						<img
+							className="cursor-pointer"
+							onClick={() => viewPost(id)}
+							src={url}
+							alt={"image"}
+						/>
+						{grid ? (
+							<></>
+						) : (
+							<p
+								className="mx-auto my-2 hover:underline cursor-pointer"
+								onClick={() => viewProfile(id)}
+							>
+								{name}
+							</p>
+						)}
+					</>
+				</LazyLoad>
+			</div>
+		);
 	});
 
 	return (

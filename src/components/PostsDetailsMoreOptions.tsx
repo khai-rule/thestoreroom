@@ -1,37 +1,23 @@
 import React from "react";
 import { MoreOptionsProps } from "../utilities/interface";
-import { CreatorsContext } from "../utilities/context";
-import { useContext } from "react";
 import _ from "lodash";
 import { useStytchUser } from "@stytch/react";
-import { useEffect } from "react";
-import { useDispatch,useSelector } from "react-redux";
-import { Action } from "../utilities/interface";
-import { fetchContentfulData } from "../actions/fetchContentfulData";
+import { useDispatch, useSelector } from "react-redux";
 import Loading from "./Loading";
+import { CreatorsContext } from "../utilities/context";
+import { useContext } from "react";
 
 const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 	linkCopiedToastify,
 	matchingPost,
 }) => {
 	const dispatch = useDispatch();
-	const { user } = useStytchUser();
 
-	const contentfulAPI = useSelector((state: any) => state.contentfulData);
-	
-	if (contentfulAPI.loading === true) return <Loading />;
-
-	const loggedInEmailFromStytch = user?.emails?.[0].email;
-
-	const loggedInCreatorContentful = contentfulAPI?.data?.creator?.find(
-					(creator: any) =>
-						_.lowerCase(creator.fields.email) ===
-						_.lowerCase(loggedInEmailFromStytch)
-				);
+	const { loggedInCreatorContentful } = useContext(CreatorsContext);
 
 	const copyURL = () => {
 		navigator.clipboard.writeText(window.location.href);
-		dispatch({ type: "HIDE_MODAL" })
+		dispatch({ type: "HIDE_MODAL" });
 		linkCopiedToastify();
 	};
 
@@ -52,11 +38,21 @@ const PostsDetailsMoreOptions: React.FC<MoreOptionsProps> = ({
 						<>
 							<button
 								className="block px-4 py-3 text-red font-semibold"
-								onClick={() => dispatch({ type: "SHOW_MODAL", payload: "CONFIRM_DELETE_MODAL" })}
+								onClick={() =>
+									dispatch({
+										type: "SHOW_MODAL",
+										payload: "CONFIRM_DELETE_MODAL",
+									})
+								}
 							>
 								Delete
 							</button>
-							<button className="block px-4 py-3" onClick={() => dispatch({ type: "SHOW_MODAL", payload: "EDIT_POST_MODAL" })}>
+							<button
+								className="block px-4 py-3"
+								onClick={() =>
+									dispatch({ type: "SHOW_MODAL", payload: "EDIT_POST_MODAL" })
+								}
+							>
 								Edit
 							</button>
 						</>

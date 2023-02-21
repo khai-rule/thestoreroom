@@ -10,8 +10,8 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ matchingCreator }) => {
 	const navigate = useNavigate();
 	const postsRef = useRef<{ [key: string]: React.RefObject<any> }>({});
 
-	const reversePosts = Array.isArray(matchingCreator?.creator?.posts)
-		? [...matchingCreator.creator.posts].reverse()
+	const reversePosts = Array.isArray(matchingCreator?.fields?.posts)
+		? [...matchingCreator.fields.posts].reverse()
 		: [];
 
 	const [activePost, setActivePost] = useState<string>("");

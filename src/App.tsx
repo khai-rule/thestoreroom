@@ -6,10 +6,7 @@ import Homepage from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { useState } from "react";
 import Register from "./pages/Register";
-import useContentful from "./utilities/useContentful";
-import { useEffect } from "react";
 import { useStytchUser } from "@stytch/react";
-import Loading from "./components/Loading";
 import Post from "./pages/Post";
 import Profile from "./pages/Profile";
 import _ from "lodash";
@@ -18,11 +15,8 @@ import { useStytchSession } from "@stytch/react";
 import About from "./pages/About";
 import Invite from "./pages/Invite";
 import Footer from "./components/Footer";
-import { useDispatch, useSelector } from "react-redux";
-import { setLoadingStatus } from "./actions/setLoadingStatus";
-import { UseSelectorState } from "./utilities/interface";
-import { fetchContentfulData } from "./actions/fetchContentfulData";
-import { Action } from "./utilities/interface";
+import useContentful from "./utilities/useContentful";
+import { useEffect } from "react";
 
 function App() {
 	const { user } = useStytchUser();
@@ -34,40 +28,29 @@ function App() {
 		{} as any
 	);
 
-	// const { getCreators } = useContentful();
+	const { getCreators } = useContentful();
 
-	// const dispatch = useDispatch();
 
-	// useEffect(() => {
-	// 	dispatch<Action | any>(fetchContentfulData("creator"));
-	// }, []);
+	useEffect(() => {
+		getCreators().then((response) => {
+			setCreators(response);
+			setLoggedInCreator(user);
+			const loggedInEmailFromStytch = loggedInCreator?.emails?.[0].email;
 
-	// const creatorsAPI = useSelector((state: any) => state.contentfulData);
+			const matchingCreator = creators.find(
+				(creator: any) =>
+					_.lowerCase(creator.creator.email) ===
+					_.lowerCase(loggedInEmailFromStytch)
+			);
 
-	// console.log(creatorsAPI)
-
-	// useEffect(() => {
-	// 	getCreators().then((response) => {
-	// 		setCreators(response);
-	// 		setLoggedInCreator(user);
-	// 		const loggedInEmailFromStytch = loggedInCreator?.emails?.[0].email;
-
-	// 		const matchingCreator = creators.find(
-	// 			(creator: any) =>
-	// 				_.lowerCase(creator.creator.email) ===
-	// 				_.lowerCase(loggedInEmailFromStytch)
-	// 		);
-
-	// 		setLoggedInCreatorContentful(matchingCreator);
-	// 		dispatch(setLoadingStatus("done"));
-	// 	});
-	// 	dispatch(setLoadingStatus("loading"));
-	// }, [session, loggedInCreator]);
+			setLoggedInCreatorContentful(matchingCreator);
+		});
+	}, [session, loggedInCreator]);
 
 	return (
 		<>
 			<CreatorsContext.Provider
-				value={{ creators, loggedInCreator, loggedInCreatorContentful }}
+				value={{ loggedInCreatorContentful }}
 			>
 				<BrowserRouter>
 					<Navbar />

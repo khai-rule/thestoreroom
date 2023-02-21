@@ -33,25 +33,25 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ matchingCreator }) => {
 		loggedInCreatorContentful?.creator?.artistName;
 
 	const firstName =
-		matchingCreator?.creator?.firstName !== undefined
-			? matchingCreator?.creator?.firstName
+		matchingCreator?.fields?.firstName !== undefined
+			? matchingCreator?.fields?.firstName
 			: "";
-	const artistName = matchingCreator?.creator?.artistName;
+	const artistName = matchingCreator?.fields?.artistName;
 	const lastName =
-		matchingCreator?.creator?.lastName !== undefined
-			? matchingCreator?.creator?.lastName
+		matchingCreator?.fields?.lastName !== undefined
+			? matchingCreator?.fields?.lastName
 			: "";
 	const name = `${firstName} "${artistName}" ${lastName}`;
-	const title = matchingCreator?.creator?.title;
-	const bio = matchingCreator?.creator?.bio;
-	const website = matchingCreator?.creator?.website;
-	const email = matchingCreator?.creator?.email;
+	const title = matchingCreator?.fields?.title;
+	const bio = matchingCreator?.fields?.bio;
+	const website = matchingCreator?.fields?.website;
+	const email = matchingCreator?.fields?.email;
 
 	// const formatWebsite = website
 	// 	?.replace(/^https?:\/\//, "")
 	// 	?.replace(/^www./, "");
 
-	const instagram = matchingCreator?.creator?.instagram;
+	const instagram = matchingCreator?.fields?.instagram;
 	const instagramLink = `https://www.instagram.com/${instagram}/?hl=en`;
 
 	return (
